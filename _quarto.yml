@@ -4,6 +4,7 @@ project:
 
 book:
   title: "Laurelin"
+  site-url: https://pbenavidesh.github.io/laurelin/
   subtitle: "From Optimization to Percentage-Error SVR"
   author: "Pablo Benavides-Herrera"
   date: today
