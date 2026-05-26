@@ -23,11 +23,11 @@ jobs:
           r-version: '4.4.0'
 
       - name: Install R packages
-        uses: r-lib/actions/setup-r-packages@v2
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
-            knitr
-            rmarkdown
+            any::knitr
+            any::rmarkdown
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
