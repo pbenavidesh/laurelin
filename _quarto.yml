@@ -1,0 +1,78 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Laurelin"
+  subtitle: "From Optimization to Percentage-Error SVR"
+  author: "Pablo Benavides-Herrera"
+  date: today
+  date-format: "MMMM YYYY"
+  repo-url: https://github.com/pbenavidesh/laurelin
+  repo-actions: [edit, issue]
+  search: true
+  navbar:
+    pinned: true
+  sidebar:
+    style: docked
+  chapters:
+    - index.qmd
+    - part: "Part I: The Language of Optimization"
+      chapters:
+        - chapters/01-motivation.qmd
+        - chapters/02-unconstrained.qmd
+        - chapters/03-constrained.qmd
+        - chapters/04-lagrangian-duality.qmd
+        - chapters/05-kkt.qmd
+        - chapters/06-numerical-methods.qmd
+    - part: "Part II: The Kernel Trick"
+      chapters:
+        - chapters/07-representation.qmd
+        - chapters/08-kernel-trick.qmd
+        - chapters/09-common-kernels.qmd
+        - chapters/10-representer-theorem.qmd
+    - part: "Part III: Support Vector Machines"
+      chapters:
+        - chapters/11-svm-classification.qmd
+        - chapters/12-svr.qmd
+        - chapters/13-ls-svr.qmd
+        - chapters/14-gaussian-processes.qmd
+        - chapters/15-svr-in-perspective.qmd
+    - part: "Part IV: Percentage-Error SVR"
+      chapters:
+        - chapters/16-percentage-error.qmd
+        - chapters/17-eps-svr-mape.qmd
+        - chapters/18-ls-svr-rmspe.qmd
+        - chapters/19-symmetric-variants.qmd
+        - chapters/20-unified-framework.qmd
+    - part: "Part V: Optimization at Scale"
+      chapters:
+        - chapters/21-scale-problem.qmd
+        - chapters/22-smo-classical.qmd
+        - chapters/23-smo-mape.qmd
+        - chapters/24-empirical-comparison.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    code-fold: true
+    code-tools: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    math: mathjax
+    fig-align: center
+    callout-appearance: simple
+    smooth-scroll: true
+    highlight-style: github
+
+execute:
+  freeze: auto
+  echo: true
+  warning: false
+  message: false

@@ -1,0 +1,49 @@
+# Preface {.unnumbered}
+
+I wanted to describe the world with equations.
+
+That was not a sophisticated ambition — it came from undergraduate
+calculus, from the moment I realized that a derivative was not just a
+symbol but a rate of change, something real. I wanted to apply that to
+business, to forecasting, to the kind of problems that actually matter
+in practice. It took longer than I expected to find the right
+vocabulary.
+
+That vocabulary turned out to be optimization.
+
+And optimization, pursued far enough, leads to machine learning — to
+the realization that learning from data is, at its core, a problem of
+minimizing a loss function subject to constraints. This book is my
+attempt to build that path explicitly, starting from the first
+principles of calculus and optimization and arriving at the
+contributions of my PhD thesis: a unified family of Support Vector
+Regression models that optimize percentage-error loss functions
+directly.
+
+## Who this book is for
+
+This book is written for students who are comfortable with calculus and
+linear algebra but have not yet seen optimization or machine learning
+framed as a unified mathematical discipline. The early chapters require
+nothing beyond multivariable calculus. The later chapters develop
+graduate-level material, but the goal throughout is the same: to
+motivate before formalizing, and to show the derivation rather than
+just the result.
+
+## How to use this book
+
+Each chapter opens with a practical question or problem. The
+mathematics are developed in response to that question. Advanced
+derivations appear in collapsible callout blocks — they are there for
+completeness and for the reader who wants every step, but skipping them
+does not break the narrative. Code examples appear in paired R and
+Python tabs.
+
+## A note on notation
+
+All notation is introduced when first used. A reference table appears
+in the appendix.
+
+## Acknowledgements
+
+*To be written.*

@@ -1,0 +1,26 @@
+# Quarto
+_site/
+_book/
+.quarto/
+
+# R
+*.rdb
+*.rdx
+.Rhistory
+.RData
+.Rproj.user/
+
+# renv
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/staging/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*~
+.vscode/
+.idea/

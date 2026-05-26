@@ -1,0 +1,44 @@
+# Common Kernels {#sec-ch-kernels}
+
+## Motivation
+
+*[Opening question or real-world problem that motivates this chapter.
+1-2 sentences placeholder.]*
+
+## SECTION_1_TITLE
+
+*[Content placeholder.]*
+
+::: {.callout-note collapse="true"}
+## Derivation: DERIVATION_TITLE
+
+*[Full derivation placeholder — collapsible for advanced readers.]*
+:::
+
+::: {.panel-tabset}
+## R
+
+```r
+# R code placeholder
+```
+
+## Python
+
+```python
+# Python code placeholder
+```
+
+:::
+
+## SECTION_2_TITLE
+
+*[Content placeholder.]*
+
+## Summary
+
+*[Key takeaways from this chapter — 3-5 bullet points placeholder.]*
+
+## Exercises
+
+1. *[Exercise placeholder.]*
+2. *[Exercise placeholder.]*
