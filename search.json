@@ -1,0 +1,1372 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Laurelin",
+    "section": "",
+    "text": "Preface\nI wanted to describe the world with equations.\nThat was not a sophisticated ambition — it came from undergraduate calculus, from the moment I realized that a derivative was not just a symbol but a rate of change, something real. I wanted to apply that to business, to forecasting, to the kind of problems that actually matter in practice. It took longer than I expected to find the right vocabulary.\nThat vocabulary turned out to be optimization.\nAnd optimization, pursued far enough, leads to machine learning — to the realization that learning from data is, at its core, a problem of minimizing a loss function subject to constraints. This book is my attempt to build that path explicitly, starting from the first principles of calculus and optimization and arriving at the contributions of my PhD thesis: a unified family of Support Vector Regression models that optimize percentage-error loss functions directly.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#who-this-book-is-for",
+    "href": "index.html#who-this-book-is-for",
+    "title": "Laurelin",
+    "section": "Who this book is for",
+    "text": "Who this book is for\nThis book is written for students who are comfortable with calculus and linear algebra but have not yet seen optimization or machine learning framed as a unified mathematical discipline. The early chapters require nothing beyond multivariable calculus. The later chapters develop graduate-level material, but the goal throughout is the same: to motivate before formalizing, and to show the derivation rather than just the result.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use-this-book",
+    "href": "index.html#how-to-use-this-book",
+    "title": "Laurelin",
+    "section": "How to use this book",
+    "text": "How to use this book\nEach chapter opens with a practical question or problem. The mathematics are developed in response to that question. Advanced derivations appear in collapsible callout blocks — they are there for completeness and for the reader who wants every step, but skipping them does not break the narrative. Code examples appear in paired R and Python tabs.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#a-note-on-notation",
+    "href": "index.html#a-note-on-notation",
+    "title": "Laurelin",
+    "section": "A note on notation",
+    "text": "A note on notation\nAll notation is introduced when first used. A reference table appears in the appendix.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#acknowledgements",
+    "href": "index.html#acknowledgements",
+    "title": "Laurelin",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\nTo be written.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "chapters/01-motivation.html",
+    "href": "chapters/01-motivation.html",
+    "title": "1  A Problem Worth Solving",
+    "section": "",
+    "text": "1.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>A Problem Worth Solving</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/01-motivation.html#section_1_title",
+    "href": "chapters/01-motivation.html#section_1_title",
+    "title": "1  A Problem Worth Solving",
+    "section": "1.2 SECTION_1_TITLE",
+    "text": "1.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>A Problem Worth Solving</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/01-motivation.html#section_2_title",
+    "href": "chapters/01-motivation.html#section_2_title",
+    "title": "1  A Problem Worth Solving",
+    "section": "1.3 SECTION_2_TITLE",
+    "text": "1.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>A Problem Worth Solving</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/01-motivation.html#summary",
+    "href": "chapters/01-motivation.html#summary",
+    "title": "1  A Problem Worth Solving",
+    "section": "1.4 Summary",
+    "text": "1.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>A Problem Worth Solving</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/01-motivation.html#exercises",
+    "href": "chapters/01-motivation.html#exercises",
+    "title": "1  A Problem Worth Solving",
+    "section": "1.5 Exercises",
+    "text": "1.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>A Problem Worth Solving</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/02-unconstrained.html",
+    "href": "chapters/02-unconstrained.html",
+    "title": "2  Unconstrained Optimization",
+    "section": "",
+    "text": "2.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Unconstrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/02-unconstrained.html#section_1_title",
+    "href": "chapters/02-unconstrained.html#section_1_title",
+    "title": "2  Unconstrained Optimization",
+    "section": "2.2 SECTION_1_TITLE",
+    "text": "2.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Unconstrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/02-unconstrained.html#section_2_title",
+    "href": "chapters/02-unconstrained.html#section_2_title",
+    "title": "2  Unconstrained Optimization",
+    "section": "2.3 SECTION_2_TITLE",
+    "text": "2.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Unconstrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/02-unconstrained.html#summary",
+    "href": "chapters/02-unconstrained.html#summary",
+    "title": "2  Unconstrained Optimization",
+    "section": "2.4 Summary",
+    "text": "2.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Unconstrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/02-unconstrained.html#exercises",
+    "href": "chapters/02-unconstrained.html#exercises",
+    "title": "2  Unconstrained Optimization",
+    "section": "2.5 Exercises",
+    "text": "2.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Unconstrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-constrained.html",
+    "href": "chapters/03-constrained.html",
+    "title": "3  Constrained Optimization",
+    "section": "",
+    "text": "3.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Constrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-constrained.html#section_1_title",
+    "href": "chapters/03-constrained.html#section_1_title",
+    "title": "3  Constrained Optimization",
+    "section": "3.2 SECTION_1_TITLE",
+    "text": "3.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Constrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-constrained.html#section_2_title",
+    "href": "chapters/03-constrained.html#section_2_title",
+    "title": "3  Constrained Optimization",
+    "section": "3.3 SECTION_2_TITLE",
+    "text": "3.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Constrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-constrained.html#summary",
+    "href": "chapters/03-constrained.html#summary",
+    "title": "3  Constrained Optimization",
+    "section": "3.4 Summary",
+    "text": "3.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Constrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-constrained.html#exercises",
+    "href": "chapters/03-constrained.html#exercises",
+    "title": "3  Constrained Optimization",
+    "section": "3.5 Exercises",
+    "text": "3.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Constrained Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/04-lagrangian-duality.html",
+    "href": "chapters/04-lagrangian-duality.html",
+    "title": "4  The Lagrangian and Duality",
+    "section": "",
+    "text": "4.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Lagrangian and Duality</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/04-lagrangian-duality.html#section_1_title",
+    "href": "chapters/04-lagrangian-duality.html#section_1_title",
+    "title": "4  The Lagrangian and Duality",
+    "section": "4.2 SECTION_1_TITLE",
+    "text": "4.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Lagrangian and Duality</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/04-lagrangian-duality.html#section_2_title",
+    "href": "chapters/04-lagrangian-duality.html#section_2_title",
+    "title": "4  The Lagrangian and Duality",
+    "section": "4.3 SECTION_2_TITLE",
+    "text": "4.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Lagrangian and Duality</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/04-lagrangian-duality.html#summary",
+    "href": "chapters/04-lagrangian-duality.html#summary",
+    "title": "4  The Lagrangian and Duality",
+    "section": "4.4 Summary",
+    "text": "4.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Lagrangian and Duality</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/04-lagrangian-duality.html#exercises",
+    "href": "chapters/04-lagrangian-duality.html#exercises",
+    "title": "4  The Lagrangian and Duality",
+    "section": "4.5 Exercises",
+    "text": "4.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Lagrangian and Duality</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/05-kkt.html",
+    "href": "chapters/05-kkt.html",
+    "title": "5  KKT Conditions",
+    "section": "",
+    "text": "5.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>KKT Conditions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/05-kkt.html#section_1_title",
+    "href": "chapters/05-kkt.html#section_1_title",
+    "title": "5  KKT Conditions",
+    "section": "5.2 SECTION_1_TITLE",
+    "text": "5.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>KKT Conditions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/05-kkt.html#section_2_title",
+    "href": "chapters/05-kkt.html#section_2_title",
+    "title": "5  KKT Conditions",
+    "section": "5.3 SECTION_2_TITLE",
+    "text": "5.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>KKT Conditions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/05-kkt.html#summary",
+    "href": "chapters/05-kkt.html#summary",
+    "title": "5  KKT Conditions",
+    "section": "5.4 Summary",
+    "text": "5.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>KKT Conditions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/05-kkt.html#exercises",
+    "href": "chapters/05-kkt.html#exercises",
+    "title": "5  KKT Conditions",
+    "section": "5.5 Exercises",
+    "text": "5.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>KKT Conditions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/06-numerical-methods.html",
+    "href": "chapters/06-numerical-methods.html",
+    "title": "6  A Map of Numerical Methods",
+    "section": "",
+    "text": "6.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>A Map of Numerical Methods</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/06-numerical-methods.html#section_1_title",
+    "href": "chapters/06-numerical-methods.html#section_1_title",
+    "title": "6  A Map of Numerical Methods",
+    "section": "6.2 SECTION_1_TITLE",
+    "text": "6.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>A Map of Numerical Methods</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/06-numerical-methods.html#section_2_title",
+    "href": "chapters/06-numerical-methods.html#section_2_title",
+    "title": "6  A Map of Numerical Methods",
+    "section": "6.3 SECTION_2_TITLE",
+    "text": "6.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>A Map of Numerical Methods</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/06-numerical-methods.html#summary",
+    "href": "chapters/06-numerical-methods.html#summary",
+    "title": "6  A Map of Numerical Methods",
+    "section": "6.4 Summary",
+    "text": "6.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>A Map of Numerical Methods</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/06-numerical-methods.html#exercises",
+    "href": "chapters/06-numerical-methods.html#exercises",
+    "title": "6  A Map of Numerical Methods",
+    "section": "6.5 Exercises",
+    "text": "6.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part I: The Language of Optimization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>A Map of Numerical Methods</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-representation.html",
+    "href": "chapters/07-representation.html",
+    "title": "7  The Representation Problem",
+    "section": "",
+    "text": "7.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>The Representation Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-representation.html#section_1_title",
+    "href": "chapters/07-representation.html#section_1_title",
+    "title": "7  The Representation Problem",
+    "section": "7.2 SECTION_1_TITLE",
+    "text": "7.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>The Representation Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-representation.html#section_2_title",
+    "href": "chapters/07-representation.html#section_2_title",
+    "title": "7  The Representation Problem",
+    "section": "7.3 SECTION_2_TITLE",
+    "text": "7.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>The Representation Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-representation.html#summary",
+    "href": "chapters/07-representation.html#summary",
+    "title": "7  The Representation Problem",
+    "section": "7.4 Summary",
+    "text": "7.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>The Representation Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/07-representation.html#exercises",
+    "href": "chapters/07-representation.html#exercises",
+    "title": "7  The Representation Problem",
+    "section": "7.5 Exercises",
+    "text": "7.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>The Representation Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/08-kernel-trick.html",
+    "href": "chapters/08-kernel-trick.html",
+    "title": "8  The Kernel Trick",
+    "section": "",
+    "text": "8.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Kernel Trick</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/08-kernel-trick.html#section_1_title",
+    "href": "chapters/08-kernel-trick.html#section_1_title",
+    "title": "8  The Kernel Trick",
+    "section": "8.2 SECTION_1_TITLE",
+    "text": "8.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Kernel Trick</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/08-kernel-trick.html#section_2_title",
+    "href": "chapters/08-kernel-trick.html#section_2_title",
+    "title": "8  The Kernel Trick",
+    "section": "8.3 SECTION_2_TITLE",
+    "text": "8.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Kernel Trick</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/08-kernel-trick.html#summary",
+    "href": "chapters/08-kernel-trick.html#summary",
+    "title": "8  The Kernel Trick",
+    "section": "8.4 Summary",
+    "text": "8.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Kernel Trick</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/08-kernel-trick.html#exercises",
+    "href": "chapters/08-kernel-trick.html#exercises",
+    "title": "8  The Kernel Trick",
+    "section": "8.5 Exercises",
+    "text": "8.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>The Kernel Trick</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/09-common-kernels.html",
+    "href": "chapters/09-common-kernels.html",
+    "title": "9  Common Kernels",
+    "section": "",
+    "text": "9.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Common Kernels</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/09-common-kernels.html#section_1_title",
+    "href": "chapters/09-common-kernels.html#section_1_title",
+    "title": "9  Common Kernels",
+    "section": "9.2 SECTION_1_TITLE",
+    "text": "9.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Common Kernels</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/09-common-kernels.html#section_2_title",
+    "href": "chapters/09-common-kernels.html#section_2_title",
+    "title": "9  Common Kernels",
+    "section": "9.3 SECTION_2_TITLE",
+    "text": "9.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Common Kernels</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/09-common-kernels.html#summary",
+    "href": "chapters/09-common-kernels.html#summary",
+    "title": "9  Common Kernels",
+    "section": "9.4 Summary",
+    "text": "9.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Common Kernels</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/09-common-kernels.html#exercises",
+    "href": "chapters/09-common-kernels.html#exercises",
+    "title": "9  Common Kernels",
+    "section": "9.5 Exercises",
+    "text": "9.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Common Kernels</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/10-representer-theorem.html",
+    "href": "chapters/10-representer-theorem.html",
+    "title": "10  The Representer Theorem",
+    "section": "",
+    "text": "10.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Representer Theorem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/10-representer-theorem.html#section_1_title",
+    "href": "chapters/10-representer-theorem.html#section_1_title",
+    "title": "10  The Representer Theorem",
+    "section": "10.2 SECTION_1_TITLE",
+    "text": "10.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Representer Theorem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/10-representer-theorem.html#section_2_title",
+    "href": "chapters/10-representer-theorem.html#section_2_title",
+    "title": "10  The Representer Theorem",
+    "section": "10.3 SECTION_2_TITLE",
+    "text": "10.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Representer Theorem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/10-representer-theorem.html#summary",
+    "href": "chapters/10-representer-theorem.html#summary",
+    "title": "10  The Representer Theorem",
+    "section": "10.4 Summary",
+    "text": "10.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Representer Theorem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/10-representer-theorem.html#exercises",
+    "href": "chapters/10-representer-theorem.html#exercises",
+    "title": "10  The Representer Theorem",
+    "section": "10.5 Exercises",
+    "text": "10.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part II: The Kernel Trick",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Representer Theorem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/11-svm-classification.html",
+    "href": "chapters/11-svm-classification.html",
+    "title": "11  SVM: Learning a Margin",
+    "section": "",
+    "text": "11.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>SVM: Learning a Margin</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/11-svm-classification.html#section_1_title",
+    "href": "chapters/11-svm-classification.html#section_1_title",
+    "title": "11  SVM: Learning a Margin",
+    "section": "11.2 SECTION_1_TITLE",
+    "text": "11.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>SVM: Learning a Margin</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/11-svm-classification.html#section_2_title",
+    "href": "chapters/11-svm-classification.html#section_2_title",
+    "title": "11  SVM: Learning a Margin",
+    "section": "11.3 SECTION_2_TITLE",
+    "text": "11.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>SVM: Learning a Margin</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/11-svm-classification.html#summary",
+    "href": "chapters/11-svm-classification.html#summary",
+    "title": "11  SVM: Learning a Margin",
+    "section": "11.4 Summary",
+    "text": "11.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>SVM: Learning a Margin</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/11-svm-classification.html#exercises",
+    "href": "chapters/11-svm-classification.html#exercises",
+    "title": "11  SVM: Learning a Margin",
+    "section": "11.5 Exercises",
+    "text": "11.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>SVM: Learning a Margin</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/12-svr.html",
+    "href": "chapters/12-svr.html",
+    "title": "12  Support Vector Regression",
+    "section": "",
+    "text": "12.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Support Vector Regression</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/12-svr.html#section_1_title",
+    "href": "chapters/12-svr.html#section_1_title",
+    "title": "12  Support Vector Regression",
+    "section": "12.2 SECTION_1_TITLE",
+    "text": "12.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Support Vector Regression</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/12-svr.html#section_2_title",
+    "href": "chapters/12-svr.html#section_2_title",
+    "title": "12  Support Vector Regression",
+    "section": "12.3 SECTION_2_TITLE",
+    "text": "12.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Support Vector Regression</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/12-svr.html#summary",
+    "href": "chapters/12-svr.html#summary",
+    "title": "12  Support Vector Regression",
+    "section": "12.4 Summary",
+    "text": "12.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Support Vector Regression</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/12-svr.html#exercises",
+    "href": "chapters/12-svr.html#exercises",
+    "title": "12  Support Vector Regression",
+    "section": "12.5 Exercises",
+    "text": "12.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Support Vector Regression</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/13-ls-svr.html",
+    "href": "chapters/13-ls-svr.html",
+    "title": "13  Least Squares SVR",
+    "section": "",
+    "text": "13.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Least Squares SVR</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/13-ls-svr.html#section_1_title",
+    "href": "chapters/13-ls-svr.html#section_1_title",
+    "title": "13  Least Squares SVR",
+    "section": "13.2 SECTION_1_TITLE",
+    "text": "13.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Least Squares SVR</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/13-ls-svr.html#section_2_title",
+    "href": "chapters/13-ls-svr.html#section_2_title",
+    "title": "13  Least Squares SVR",
+    "section": "13.3 SECTION_2_TITLE",
+    "text": "13.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Least Squares SVR</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/13-ls-svr.html#summary",
+    "href": "chapters/13-ls-svr.html#summary",
+    "title": "13  Least Squares SVR",
+    "section": "13.4 Summary",
+    "text": "13.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Least Squares SVR</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/13-ls-svr.html#exercises",
+    "href": "chapters/13-ls-svr.html#exercises",
+    "title": "13  Least Squares SVR",
+    "section": "13.5 Exercises",
+    "text": "13.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Least Squares SVR</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/14-gaussian-processes.html",
+    "href": "chapters/14-gaussian-processes.html",
+    "title": "14  Gaussian Processes",
+    "section": "",
+    "text": "14.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Gaussian Processes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/14-gaussian-processes.html#section_1_title",
+    "href": "chapters/14-gaussian-processes.html#section_1_title",
+    "title": "14  Gaussian Processes",
+    "section": "14.2 SECTION_1_TITLE",
+    "text": "14.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Gaussian Processes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/14-gaussian-processes.html#section_2_title",
+    "href": "chapters/14-gaussian-processes.html#section_2_title",
+    "title": "14  Gaussian Processes",
+    "section": "14.3 SECTION_2_TITLE",
+    "text": "14.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Gaussian Processes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/14-gaussian-processes.html#summary",
+    "href": "chapters/14-gaussian-processes.html#summary",
+    "title": "14  Gaussian Processes",
+    "section": "14.4 Summary",
+    "text": "14.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Gaussian Processes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/14-gaussian-processes.html#exercises",
+    "href": "chapters/14-gaussian-processes.html#exercises",
+    "title": "14  Gaussian Processes",
+    "section": "14.5 Exercises",
+    "text": "14.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Gaussian Processes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/15-svr-in-perspective.html",
+    "href": "chapters/15-svr-in-perspective.html",
+    "title": "15  SVR in Perspective",
+    "section": "",
+    "text": "15.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>SVR in Perspective</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/15-svr-in-perspective.html#section_1_title",
+    "href": "chapters/15-svr-in-perspective.html#section_1_title",
+    "title": "15  SVR in Perspective",
+    "section": "15.2 SECTION_1_TITLE",
+    "text": "15.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>SVR in Perspective</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/15-svr-in-perspective.html#section_2_title",
+    "href": "chapters/15-svr-in-perspective.html#section_2_title",
+    "title": "15  SVR in Perspective",
+    "section": "15.3 SECTION_2_TITLE",
+    "text": "15.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>SVR in Perspective</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/15-svr-in-perspective.html#summary",
+    "href": "chapters/15-svr-in-perspective.html#summary",
+    "title": "15  SVR in Perspective",
+    "section": "15.4 Summary",
+    "text": "15.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>SVR in Perspective</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/15-svr-in-perspective.html#exercises",
+    "href": "chapters/15-svr-in-perspective.html#exercises",
+    "title": "15  SVR in Perspective",
+    "section": "15.5 Exercises",
+    "text": "15.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part III: Support Vector Machines",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>SVR in Perspective</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/16-percentage-error.html",
+    "href": "chapters/16-percentage-error.html",
+    "title": "16  Why Percentage Error Matters",
+    "section": "",
+    "text": "16.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Why Percentage Error Matters</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/16-percentage-error.html#section_1_title",
+    "href": "chapters/16-percentage-error.html#section_1_title",
+    "title": "16  Why Percentage Error Matters",
+    "section": "16.2 SECTION_1_TITLE",
+    "text": "16.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Why Percentage Error Matters</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/16-percentage-error.html#section_2_title",
+    "href": "chapters/16-percentage-error.html#section_2_title",
+    "title": "16  Why Percentage Error Matters",
+    "section": "16.3 SECTION_2_TITLE",
+    "text": "16.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Why Percentage Error Matters</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/16-percentage-error.html#summary",
+    "href": "chapters/16-percentage-error.html#summary",
+    "title": "16  Why Percentage Error Matters",
+    "section": "16.4 Summary",
+    "text": "16.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Why Percentage Error Matters</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/16-percentage-error.html#exercises",
+    "href": "chapters/16-percentage-error.html#exercises",
+    "title": "16  Why Percentage Error Matters",
+    "section": "16.5 Exercises",
+    "text": "16.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Why Percentage Error Matters</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/17-eps-svr-mape.html",
+    "href": "chapters/17-eps-svr-mape.html",
+    "title": "17  ε-SVR with MAPE Loss",
+    "section": "",
+    "text": "17.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>ε-SVR with MAPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/17-eps-svr-mape.html#section_1_title",
+    "href": "chapters/17-eps-svr-mape.html#section_1_title",
+    "title": "17  ε-SVR with MAPE Loss",
+    "section": "17.2 SECTION_1_TITLE",
+    "text": "17.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>ε-SVR with MAPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/17-eps-svr-mape.html#section_2_title",
+    "href": "chapters/17-eps-svr-mape.html#section_2_title",
+    "title": "17  ε-SVR with MAPE Loss",
+    "section": "17.3 SECTION_2_TITLE",
+    "text": "17.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>ε-SVR with MAPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/17-eps-svr-mape.html#summary",
+    "href": "chapters/17-eps-svr-mape.html#summary",
+    "title": "17  ε-SVR with MAPE Loss",
+    "section": "17.4 Summary",
+    "text": "17.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>ε-SVR with MAPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/17-eps-svr-mape.html#exercises",
+    "href": "chapters/17-eps-svr-mape.html#exercises",
+    "title": "17  ε-SVR with MAPE Loss",
+    "section": "17.5 Exercises",
+    "text": "17.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>ε-SVR with MAPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/18-ls-svr-rmspe.html",
+    "href": "chapters/18-ls-svr-rmspe.html",
+    "title": "18  LS-SVR with RMSPE Loss",
+    "section": "",
+    "text": "18.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LS-SVR with RMSPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/18-ls-svr-rmspe.html#section_1_title",
+    "href": "chapters/18-ls-svr-rmspe.html#section_1_title",
+    "title": "18  LS-SVR with RMSPE Loss",
+    "section": "18.2 SECTION_1_TITLE",
+    "text": "18.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LS-SVR with RMSPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/18-ls-svr-rmspe.html#section_2_title",
+    "href": "chapters/18-ls-svr-rmspe.html#section_2_title",
+    "title": "18  LS-SVR with RMSPE Loss",
+    "section": "18.3 SECTION_2_TITLE",
+    "text": "18.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LS-SVR with RMSPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/18-ls-svr-rmspe.html#summary",
+    "href": "chapters/18-ls-svr-rmspe.html#summary",
+    "title": "18  LS-SVR with RMSPE Loss",
+    "section": "18.4 Summary",
+    "text": "18.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LS-SVR with RMSPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/18-ls-svr-rmspe.html#exercises",
+    "href": "chapters/18-ls-svr-rmspe.html#exercises",
+    "title": "18  LS-SVR with RMSPE Loss",
+    "section": "18.5 Exercises",
+    "text": "18.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LS-SVR with RMSPE Loss</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/19-symmetric-variants.html",
+    "href": "chapters/19-symmetric-variants.html",
+    "title": "19  Symmetric Kernel Variants",
+    "section": "",
+    "text": "19.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Symmetric Kernel Variants</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/19-symmetric-variants.html#section_1_title",
+    "href": "chapters/19-symmetric-variants.html#section_1_title",
+    "title": "19  Symmetric Kernel Variants",
+    "section": "19.2 SECTION_1_TITLE",
+    "text": "19.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Symmetric Kernel Variants</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/19-symmetric-variants.html#section_2_title",
+    "href": "chapters/19-symmetric-variants.html#section_2_title",
+    "title": "19  Symmetric Kernel Variants",
+    "section": "19.3 SECTION_2_TITLE",
+    "text": "19.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Symmetric Kernel Variants</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/19-symmetric-variants.html#summary",
+    "href": "chapters/19-symmetric-variants.html#summary",
+    "title": "19  Symmetric Kernel Variants",
+    "section": "19.4 Summary",
+    "text": "19.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Symmetric Kernel Variants</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/19-symmetric-variants.html#exercises",
+    "href": "chapters/19-symmetric-variants.html#exercises",
+    "title": "19  Symmetric Kernel Variants",
+    "section": "19.5 Exercises",
+    "text": "19.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Symmetric Kernel Variants</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/20-unified-framework.html",
+    "href": "chapters/20-unified-framework.html",
+    "title": "20  A Unified Framework",
+    "section": "",
+    "text": "20.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>A Unified Framework</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/20-unified-framework.html#section_1_title",
+    "href": "chapters/20-unified-framework.html#section_1_title",
+    "title": "20  A Unified Framework",
+    "section": "20.2 SECTION_1_TITLE",
+    "text": "20.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>A Unified Framework</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/20-unified-framework.html#section_2_title",
+    "href": "chapters/20-unified-framework.html#section_2_title",
+    "title": "20  A Unified Framework",
+    "section": "20.3 SECTION_2_TITLE",
+    "text": "20.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>A Unified Framework</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/20-unified-framework.html#summary",
+    "href": "chapters/20-unified-framework.html#summary",
+    "title": "20  A Unified Framework",
+    "section": "20.4 Summary",
+    "text": "20.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>A Unified Framework</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/20-unified-framework.html#exercises",
+    "href": "chapters/20-unified-framework.html#exercises",
+    "title": "20  A Unified Framework",
+    "section": "20.5 Exercises",
+    "text": "20.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part IV: Percentage-Error SVR",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>A Unified Framework</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/21-scale-problem.html",
+    "href": "chapters/21-scale-problem.html",
+    "title": "21  The Scale Problem",
+    "section": "",
+    "text": "21.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>The Scale Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/21-scale-problem.html#section_1_title",
+    "href": "chapters/21-scale-problem.html#section_1_title",
+    "title": "21  The Scale Problem",
+    "section": "21.2 SECTION_1_TITLE",
+    "text": "21.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>The Scale Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/21-scale-problem.html#section_2_title",
+    "href": "chapters/21-scale-problem.html#section_2_title",
+    "title": "21  The Scale Problem",
+    "section": "21.3 SECTION_2_TITLE",
+    "text": "21.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>The Scale Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/21-scale-problem.html#summary",
+    "href": "chapters/21-scale-problem.html#summary",
+    "title": "21  The Scale Problem",
+    "section": "21.4 Summary",
+    "text": "21.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>The Scale Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/21-scale-problem.html#exercises",
+    "href": "chapters/21-scale-problem.html#exercises",
+    "title": "21  The Scale Problem",
+    "section": "21.5 Exercises",
+    "text": "21.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>The Scale Problem</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/22-smo-classical.html",
+    "href": "chapters/22-smo-classical.html",
+    "title": "22  Sequential Minimal Optimization",
+    "section": "",
+    "text": "22.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Sequential Minimal Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/22-smo-classical.html#section_1_title",
+    "href": "chapters/22-smo-classical.html#section_1_title",
+    "title": "22  Sequential Minimal Optimization",
+    "section": "22.2 SECTION_1_TITLE",
+    "text": "22.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Sequential Minimal Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/22-smo-classical.html#section_2_title",
+    "href": "chapters/22-smo-classical.html#section_2_title",
+    "title": "22  Sequential Minimal Optimization",
+    "section": "22.3 SECTION_2_TITLE",
+    "text": "22.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Sequential Minimal Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/22-smo-classical.html#summary",
+    "href": "chapters/22-smo-classical.html#summary",
+    "title": "22  Sequential Minimal Optimization",
+    "section": "22.4 Summary",
+    "text": "22.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Sequential Minimal Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/22-smo-classical.html#exercises",
+    "href": "chapters/22-smo-classical.html#exercises",
+    "title": "22  Sequential Minimal Optimization",
+    "section": "22.5 Exercises",
+    "text": "22.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Sequential Minimal Optimization</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/23-smo-mape.html",
+    "href": "chapters/23-smo-mape.html",
+    "title": "23  SMO with Sample-Dependent Constraints",
+    "section": "",
+    "text": "23.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>SMO with Sample-Dependent Constraints</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/23-smo-mape.html#section_1_title",
+    "href": "chapters/23-smo-mape.html#section_1_title",
+    "title": "23  SMO with Sample-Dependent Constraints",
+    "section": "23.2 SECTION_1_TITLE",
+    "text": "23.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>SMO with Sample-Dependent Constraints</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/23-smo-mape.html#section_2_title",
+    "href": "chapters/23-smo-mape.html#section_2_title",
+    "title": "23  SMO with Sample-Dependent Constraints",
+    "section": "23.3 SECTION_2_TITLE",
+    "text": "23.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>SMO with Sample-Dependent Constraints</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/23-smo-mape.html#summary",
+    "href": "chapters/23-smo-mape.html#summary",
+    "title": "23  SMO with Sample-Dependent Constraints",
+    "section": "23.4 Summary",
+    "text": "23.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>SMO with Sample-Dependent Constraints</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/23-smo-mape.html#exercises",
+    "href": "chapters/23-smo-mape.html#exercises",
+    "title": "23  SMO with Sample-Dependent Constraints",
+    "section": "23.5 Exercises",
+    "text": "23.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>SMO with Sample-Dependent Constraints</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/24-empirical-comparison.html",
+    "href": "chapters/24-empirical-comparison.html",
+    "title": "24  Solvers in Practice",
+    "section": "",
+    "text": "24.1 Motivation\n[Opening question or real-world problem that motivates this chapter. 1-2 sentences placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Solvers in Practice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/24-empirical-comparison.html#section_1_title",
+    "href": "chapters/24-empirical-comparison.html#section_1_title",
+    "title": "24  Solvers in Practice",
+    "section": "24.2 SECTION_1_TITLE",
+    "text": "24.2 SECTION_1_TITLE\n[Content placeholder.]\n\n\n\n\n\n\nNoteDerivation: DERIVATION_TITLE\n\n\n\n\n\n[Full derivation placeholder — collapsible for advanced readers.]\n\n\n\n\nRPython\n\n\n# R code placeholder\n\n\n# Python code placeholder",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Solvers in Practice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/24-empirical-comparison.html#section_2_title",
+    "href": "chapters/24-empirical-comparison.html#section_2_title",
+    "title": "24  Solvers in Practice",
+    "section": "24.3 SECTION_2_TITLE",
+    "text": "24.3 SECTION_2_TITLE\n[Content placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Solvers in Practice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/24-empirical-comparison.html#summary",
+    "href": "chapters/24-empirical-comparison.html#summary",
+    "title": "24  Solvers in Practice",
+    "section": "24.4 Summary",
+    "text": "24.4 Summary\n[Key takeaways from this chapter — 3-5 bullet points placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Solvers in Practice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/24-empirical-comparison.html#exercises",
+    "href": "chapters/24-empirical-comparison.html#exercises",
+    "title": "24  Solvers in Practice",
+    "section": "24.5 Exercises",
+    "text": "24.5 Exercises\n\n[Exercise placeholder.]\n[Exercise placeholder.]",
+    "crumbs": [
+      "Part V: Optimization at Scale",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Solvers in Practice</span>"
+    ]
+  }
+]
