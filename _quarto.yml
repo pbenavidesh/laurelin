@@ -71,6 +71,8 @@ format:
     callout-appearance: simple
     smooth-scroll: true
     highlight-style: github
+    reference-location: margin
+    citation-location: margin
 
 execute:
   freeze: auto
