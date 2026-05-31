@@ -98,7 +98,15 @@ vic_elec |>
 #| message: false
 
 import pandas as pd
-vic_elec = pd.read_csv("data/vic_elec.csv")  # <1>
+from pathlib import Path
+
+def _project_root(markers=("_quarto.yml", "renv.lock")):
+    for d in (Path.cwd(), *Path.cwd().parents):
+        if any((d / m).exists() for m in markers):
+            return d
+    return Path.cwd()
+
+vic_elec = pd.read_csv(_project_root() / "data" / "vic_elec.csv")  # <1>
 
 (
   vic_elec[["Time", "Demand", "Temperature", "Holiday"]]
