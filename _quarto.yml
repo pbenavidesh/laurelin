@@ -73,6 +73,7 @@ format:
     highlight-style: github
     reference-location: margin
     citation-location: margin
+    css: assets/styles.css
 
 execute:
   freeze: auto
