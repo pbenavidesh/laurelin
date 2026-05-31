@@ -1,49 +1,60 @@
 # Preface {.unnumbered}
 
-I wanted to describe the world with equations.
+Calculus made sense to me in a way that most mathematics did not.
+Not because it was easy — it was not — but because it described
+things that changed. Velocity and acceleration. The area under a
+curve. The box dimensions that maximize volume while minimizing
+material. I remember thinking: if I can write an equation for a
+falling object, I should be able to write one for sales figures,
+or service orders, or inventory levels at my family's company.
 
-That was not a sophisticated ambition — it came from undergraduate
-calculus, from the moment I realized that a derivative was not just a
-symbol but a rate of change, something real. I wanted to apply that to
-business, to forecasting, to the kind of problems that actually matter
-in practice. It took longer than I expected to find the right
-vocabulary.
+I could not. I did not know where to start.
 
-That vocabulary turned out to be optimization.
+The equations we worked with in calculus had tidy, well-behaved
+variables. The variables I cared about — orders, failures, costs —
+did not come pre-packaged as functions. I did not know how to turn
+a spreadsheet into mathematics. I took a course that covered
+regression and did not recognize it as the tool I had been looking
+for. I finished my undergraduate degree in financial engineering
+with the vague sense that the mathematics I had learned was somehow
+adjacent to the problems I wanted to solve, but not quite touching
+them.
 
-And optimization, pursued far enough, leads to machine learning — to
-the realization that learning from data is, at its core, a problem of
-minimizing a loss function subject to constraints. This book is my
-attempt to build that path explicitly, starting from the first
-principles of calculus and optimization and arriving at the
-contributions of my PhD thesis: a unified family of Support Vector
+That gap stayed with me for a long time.
+
+I went to graduate school in economics knowing almost nothing about
+the field. What drew me in was the mathematics — more of it, and
+different from what I had seen in financial engineering. I had
+always found it easy to develop an interest in new areas when the
+underlying structure was rigorous, and economics turned out to have
+plenty of that. I started working seriously with data — analysis,
+visualization, pattern recognition. The original question, the one
+about describing real business variables with equations, receded
+into the background. It felt like a different project.
+
+It was not until my PhD that I realized I had been circling the
+same problem the entire time. Optimization, it turns out, is
+precisely the discipline of writing equations that describe what we
+want and finding the inputs that satisfy them. Machine learning is,
+at its core, the application of that idea to data. The regression
+I had not recognized as useful in my undergraduate years was the
+same regression I was now extending, formalizing, and building new
+variants of for my dissertation.
+
+This book is my attempt to build that connection explicitly — to
+draw the straight line between calculus and ML that took me twenty
+years to see.
+
+---
+
+*The mathematics here start from first principles and build toward
+the contributions of my PhD thesis: a family of Support Vector
 Regression models that optimize percentage-error loss functions
-directly.
+directly. The early chapters require nothing beyond multivariable
+calculus. The later chapters are graduate-level, but the goal
+throughout is the same: to show where the equations come from and
+why they take the form they do.*
 
-## Who this book is for
-
-This book is written for students who are comfortable with calculus and
-linear algebra but have not yet seen optimization or machine learning
-framed as a unified mathematical discipline. The early chapters require
-nothing beyond multivariable calculus. The later chapters develop
-graduate-level material, but the goal throughout is the same: to
-motivate before formalizing, and to show the derivation rather than
-just the result.
-
-## How to use this book
-
-Each chapter opens with a practical question or problem. The
-mathematics are developed in response to that question. Advanced
-derivations appear in collapsible callout blocks — they are there for
-completeness and for the reader who wants every step, but skipping them
-does not break the narrative. Code examples appear in paired R and
-Python tabs.
-
-## A note on notation
-
-All notation is introduced when first used. A reference table appears
-in the appendix.
-
-## Acknowledgements
-
-*To be written.*
+*Code examples appear in paired R and Python tabs. Advanced
+derivations are in collapsible sections — they are there for
+completeness, but skipping them does not break the argument.*
