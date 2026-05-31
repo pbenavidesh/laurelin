@@ -717,8 +717,82 @@ When asked to generate a CC prompt for a chapter:
    git commit -m "docs: write chapter N — [title]"
    git push
    ```
-4. Note any renv dependencies the chapter introduces that need
-   `renv::snapshot()` after installing
+4. Note any renv dependencies the chapter introduces. Add them with
+   `renv::record("packagename")` — never `renv::snapshot()` (see
+   Data and environment conventions below).
+
+---
+
+## Data and environment conventions
+
+### Loading data files
+
+All dataset reads — in both R and Python chunks — must use
+project-root-relative paths, never bare relative paths like
+`"data/file.csv"`. Bare paths break in CI because Quarto renders
+chapters from the `chapters/` subdirectory, not the project root.
+
+**R:** always use `here::here()`:
+
+```r
+df <- readr::read_csv(here::here("data", "myfile.csv"))
+```
+
+`here` is already in `renv.lock`. Never use `read_csv("data/myfile.csv")`.
+
+**Python:** `__file__` is not defined under reticulate (the knitr
+engine used by this book). Use this helper instead:
+
+```python
+from pathlib import Path
+import pandas as pd
+
+def _project_root(markers=("_quarto.yml", "renv.lock")):
+    for d in (Path.cwd(), *Path.cwd().parents):
+        if any((d / m).exists() for m in markers):
+            return d
+    return Path.cwd()
+
+df = pd.read_csv(_project_root() / "data" / "myfile.csv")  # <1>
+```
+1. Walks up from the current working directory until it finds
+   `_quarto.yml` or `renv.lock` — the project root markers.
+
+### renv: adding packages
+
+Never run `renv::snapshot()` to add individual packages. The project
+uses `snapshot.type: implicit`, which prunes the lockfile to only
+packages referenced in current files — this silently removes packages
+used by chapters not yet written.
+
+Always add packages additively:
+
+```r
+renv::install("packagename")
+renv::record("packagename")
+```
+
+`renv::record()` adds the package to `renv.lock` without touching
+anything else.
+
+### Python environment in CI
+
+The CI workflow (`.github/workflows/publish.yml`) installs Python 3.11
+via `actions/setup-python` and runs `pip install -r requirements.txt`
+before rendering. Python dependencies must be listed in
+`requirements.txt` at the project root. When adding a new Python
+package used in any chunk, add it to `requirements.txt` — not just
+as a pip install in the workflow directly.
+
+`reticulate` is pinned to the system Python in CI via `.Rprofile`:
+
+```r
+if (Sys.getenv("GITHUB_ACTIONS") == "true") {
+  Sys.setenv(RETICULATE_PYTHON = Sys.which("python3"))
+}
+```
+
+Do not remove or modify this guard.
 
 ---
 
