@@ -80,9 +80,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c8a30f5b296d4d69eefdef00fe4d479d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c935dd98fd291a8f1f69464e332e739a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-c8a30f5b296d4d69eefdef00fe4d479d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-8bda42980e283b31c3638063bd312146.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2afb44db1fa6dbb89865d097bf6929f9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-8bda42980e283b31c3638063bd312146.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -562,13 +562,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
-  <ul class="collapse">
-  <li><a href="#who-this-book-is-for" id="toc-who-this-book-is-for" class="nav-link" data-scroll-target="#who-this-book-is-for">Who this book is for</a></li>
-  <li><a href="#how-to-use-this-book" id="toc-how-to-use-this-book" class="nav-link" data-scroll-target="#how-to-use-this-book">How to use this book</a></li>
-  <li><a href="#a-note-on-notation" id="toc-a-note-on-notation" class="nav-link" data-scroll-target="#a-note-on-notation">A note on notation</a></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  </ul></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/pbenavidesh/laurelin/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/pbenavidesh/laurelin/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -610,31 +604,21 @@ window.Quarto = {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
-<p>I wanted to describe the world with equations.</p>
-<p>That was not a sophisticated ambition — it came from undergraduate calculus, from the moment I realized that a derivative was not just a symbol but a rate of change, something real. I wanted to apply that to business, to forecasting, to the kind of problems that actually matter in practice. It took longer than I expected to find the right vocabulary.</p>
-<p>That vocabulary turned out to be optimization.</p>
-<p>And optimization, pursued far enough, leads to machine learning — to the realization that learning from data is, at its core, a problem of minimizing a loss function subject to constraints. This book is my attempt to build that path explicitly, starting from the first principles of calculus and optimization and arriving at the contributions of my PhD thesis: a unified family of Support Vector Regression models that optimize percentage-error loss functions directly.</p>
-<section id="who-this-book-is-for" class="level2">
-<h2 class="anchored" data-anchor-id="who-this-book-is-for">Who this book is for</h2>
-<p>This book is written for students who are comfortable with calculus and linear algebra but have not yet seen optimization or machine learning framed as a unified mathematical discipline. The early chapters require nothing beyond multivariable calculus. The later chapters develop graduate-level material, but the goal throughout is the same: to motivate before formalizing, and to show the derivation rather than just the result.</p>
-</section>
-<section id="how-to-use-this-book" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-use-this-book">How to use this book</h2>
-<p>Each chapter opens with a practical question or problem. The mathematics are developed in response to that question. Advanced derivations appear in collapsible callout blocks — they are there for completeness and for the reader who wants every step, but skipping them does not break the narrative. Code examples appear in paired R and Python tabs.</p>
-</section>
-<section id="a-note-on-notation" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-notation">A note on notation</h2>
-<p>All notation is introduced when first used. A reference table appears in the appendix.</p>
-</section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p><em>To be written.</em></p>
+<p>Calculus made sense to me in a way that most mathematics did not. Not because it was easy — it was not — but because it described things that changed. Velocity and acceleration. The area under a curve. The box dimensions that maximize volume while minimizing material. I remember thinking: if I can write an equation for a falling object, I should be able to write one for sales figures, or service orders, or inventory levels at my family’s company.</p>
+<p>I could not. I did not know where to start.</p>
+<p>The equations we worked with in calculus had tidy, well-behaved variables. The variables I cared about — orders, failures, costs — did not come pre-packaged as functions. I did not know how to turn a spreadsheet into mathematics. I took a course that covered regression and did not recognize it as the tool I had been looking for. I finished my undergraduate degree in financial engineering with the vague sense that the mathematics I had learned was somehow adjacent to the problems I wanted to solve, but not quite touching them.</p>
+<p>That gap stayed with me for a long time.</p>
+<p>I went to graduate school in economics knowing almost nothing about the field. What drew me in was the mathematics — more of it, and different from what I had seen in financial engineering. I had always found it easy to develop an interest in new areas when the underlying structure was rigorous, and economics turned out to have plenty of that. I started working seriously with data — analysis, visualization, pattern recognition. The original question, the one about describing real business variables with equations, receded into the background. It felt like a different project.</p>
+<p>It was not until my PhD that I realized I had been circling the same problem the entire time. Optimization, it turns out, is precisely the discipline of writing equations that describe what we want and finding the inputs that satisfy them. Machine learning is, at its core, the application of that idea to data. The regression I had not recognized as useful in my undergraduate years was the same regression I was now extending, formalizing, and building new variants of for my dissertation.</p>
+<p>This book is my attempt to build that connection explicitly — to draw the straight line between calculus and ML that took me twenty years to see.</p>
+<hr>
+<p><em>The mathematics here start from first principles and build toward the contributions of my PhD thesis: a family of Support Vector Regression models that optimize percentage-error loss functions directly. The early chapters require nothing beyond multivariable calculus. The later chapters are graduate-level, but the goal throughout is the same: to show where the equations come from and why they take the form they do.</em></p>
+<p><em>Code examples appear in paired R and Python tabs. Advanced derivations are in collapsible sections — they are there for completeness, but skipping them does not break the argument.</em></p>
 
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1113,53 +1097,64 @@ window.Quarto = {
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Preface {.unnumbered}</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>I wanted to describe the world with equations.</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>That was not a sophisticated ambition — it came from undergraduate</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>calculus, from the moment I realized that a derivative was not just a</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>symbol but a rate of change, something real. I wanted to apply that to</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>business, to forecasting, to the kind of problems that actually matter</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>in practice. It took longer than I expected to find the right</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>vocabulary.</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>That vocabulary turned out to be optimization.</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>And optimization, pursued far enough, leads to machine learning — to</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>the realization that learning from data is, at its core, a problem of</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>minimizing a loss function subject to constraints. This book is my</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>attempt to build that path explicitly, starting from the first</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>principles of calculus and optimization and arriving at the</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>contributions of my PhD thesis: a unified family of Support Vector</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>Regression models that optimize percentage-error loss functions</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>directly.</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Calculus made sense to me in a way that most mathematics did not.</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Not because it was easy — it was not — but because it described</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>things that changed. Velocity and acceleration. The area under a</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>curve. The box dimensions that maximize volume while minimizing</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>material. I remember thinking: if I can write an equation for a</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>falling object, I should be able to write one for sales figures,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>or service orders, or inventory levels at my family's company.</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>I could not. I did not know where to start.</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>The equations we worked with in calculus had tidy, well-behaved</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>variables. The variables I cared about — orders, failures, costs —</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>did not come pre-packaged as functions. I did not know how to turn</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>a spreadsheet into mathematics. I took a course that covered</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>regression and did not recognize it as the tool I had been looking</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>for. I finished my undergraduate degree in financial engineering</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>with the vague sense that the mathematics I had learned was somehow</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>adjacent to the problems I wanted to solve, but not quite touching</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>them.</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Who this book is for</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>That gap stayed with me for a long time.</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>This book is written for students who are comfortable with calculus and</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>linear algebra but have not yet seen optimization or machine learning</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>framed as a unified mathematical discipline. The early chapters require</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>nothing beyond multivariable calculus. The later chapters develop</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>graduate-level material, but the goal throughout is the same: to</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>motivate before formalizing, and to show the derivation rather than</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>just the result.</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to use this book</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>I went to graduate school in economics knowing almost nothing about</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>the field. What drew me in was the mathematics — more of it, and</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>different from what I had seen in financial engineering. I had</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>always found it easy to develop an interest in new areas when the</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>underlying structure was rigorous, and economics turned out to have</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>plenty of that. I started working seriously with data — analysis,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>visualization, pattern recognition. The original question, the one</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>about describing real business variables with equations, receded</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>into the background. It felt like a different project.</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>Each chapter opens with a practical question or problem. The</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>mathematics are developed in response to that question. Advanced</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>derivations appear in collapsible callout blocks — they are there for</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>completeness and for the reader who wants every step, but skipping them</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>does not break the narrative. Code examples appear in paired R and</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>Python tabs.</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## A note on notation</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>It was not until my PhD that I realized I had been circling the</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>same problem the entire time. Optimization, it turns out, is</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>precisely the discipline of writing equations that describe what we</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>want and finding the inputs that satisfy them. Machine learning is,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>at its core, the application of that idea to data. The regression</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>I had not recognized as useful in my undergraduate years was the</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>same regression I was now extending, formalizing, and building new</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>variants of for my dissertation.</span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>All notation is introduced when first used. A reference table appears</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>in the appendix.</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Acknowledgements</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>*To be written.*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>This book is my attempt to build that connection explicitly — to</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>draw the straight line between calculus and ML that took me twenty</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>years to see.</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>*The mathematics here start from first principles and build toward</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>the contributions of my PhD thesis: a family of Support Vector</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>Regression models that optimize percentage-error loss functions</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>directly. The early chapters require nothing beyond multivariable</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>calculus. The later chapters are graduate-level, but the goal</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>throughout is the same: to show where the equations come from and</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>why they take the form they do.*</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>*Code examples appear in paired R and Python tabs. Advanced</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>derivations are in collapsible sections — they are there for</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>completeness, but skipping them does not break the argument.*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
