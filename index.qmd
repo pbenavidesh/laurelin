@@ -6,7 +6,8 @@ things that changed. Velocity and acceleration. The area under a
 curve. The box dimensions that maximize volume while minimizing
 material. I remember thinking: if I can write an equation for a
 falling object, I should be able to write one for sales figures,
-or service orders, or inventory levels at my family's company.
+service orders, or the demand forecasts that actually drive
+business decisions.
 
 I could not. I did not know where to start.
 
