@@ -36,9 +36,12 @@ and reacting is expensive.
 #| message: false
 #| warning: false
 
-library(tsibbledata)  # <1>
+library(here)
+library(readr)
 library(dplyr)
 library(ggplot2)
+
+vic_elec <- read_csv(here::here("data", "vic_elec.csv"))  # <1>
 
 vic_sample <- vic_elec |>  # <2>
   filter(Time >= as.POSIXct("2014-01-01"),
@@ -57,7 +60,7 @@ ggplot(vic_sample, aes(x = Time)) +
   theme_minimal(base_size = 12) +
   theme(legend.position = "bottom")
 ```
-1. `vic_elec` is a half-hourly tsibble with `Demand`, `Temperature`, and a `Holiday` flag.
+1. Loaded from the book's `data/` folder; original source is the `tsibbledata` R package (half-hourly Victorian electricity demand, 2012–2014).
 2. We filter to January 2014 — peak summer in Australia — where demand is highest and most variable.
 
 The pattern is visible but imprecise. Temperature drives demand — air
@@ -77,7 +80,9 @@ hour, day type) and returns a prediction we can act on.
 #| label: tbl-vicelec-glimpse
 #| message: false
 
-library(tibble)
+library(readr)
+
+vic_elec <- read_csv(here::here("data", "vic_elec.csv"))
 
 vic_elec |>
   select(Time, Demand, Temperature, Holiday) |>
@@ -93,14 +98,14 @@ vic_elec |>
 #| message: false
 
 import pandas as pd
-from tsibbledata import vic_elec  # <1>
+vic_elec = pd.read_csv("data/vic_elec.csv")  # <1>
 
 (
   vic_elec[["Time", "Demand", "Temperature", "Holiday"]]
   .head(8)
 )
 ```
-1. `tsibbledata` has a Python companion; if unavailable, load the CSV directly from the book's data folder.
+1. Loaded from the book's data folder; original source is the tsibbledata R package (half-hourly Victorian electricity demand, 2012–2014).
 
 :::
 
@@ -165,13 +170,23 @@ California |>
 ```{python}
 #| label: tbl-calhousing-glimpse-py
 
-from sklearn.datasets import fetch_california_housing  # <1>
 import pandas as pd
+from sklearn.datasets import fetch_california_housing  # <1>
 
-cal = fetch_california_housing(as_frame=True)
-cal.frame.head(8)
+cal = fetch_california_housing(as_frame=True).frame
+cal = cal.rename(columns={  # <2>
+    "MedInc": "median_income", "HouseAge": "house_age",
+    "AveRooms": "average_rooms", "AveBedrms": "average_bedrooms",
+    "Population": "population", "AveOccup": "average_occupancy",
+    "Latitude": "latitude", "Longitude": "longitude",
+    "MedHouseVal": "median_house_value",
+})
+cal["median_house_value"] = cal["median_house_value"] * 100_000  # <3>
+cal.head(8)
 ```
-1. `fetch_california_housing()` returns an identical dataset from scikit-learn.
+1. `fetch_california_housing()` returns the same data scikit-learn ships.
+2. We rename to the book's snake_case columns so the table matches the R tab.
+3. scikit-learn reports `MedHouseVal` in units of \$100,000; we rescale to raw dollars to match `data/california_housing.csv`.
 
 :::
 

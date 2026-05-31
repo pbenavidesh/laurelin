@@ -15,11 +15,19 @@ Repo: https://github.com/pbenavidesh/laurelin
 
 ## Chapter status
 
-All 24 chapters: stub only (placeholder structure)
+- Ch. 1: From Spreadsheet to Function — ✅ complete
+- Chapters 2–24: stub only (placeholder structure)
+
+### Chapter 1
+
+- Status: ✅ Written and published (commit 9cd8c47, cleanup commit TBD)
+- Both datasets loaded from CSV (data/vic_elec.csv, data/california_housing.csv)
+- Python tabs fixed: vic_elec from CSV, California units documented
+- Pending: verify render after data source change
 
 ## Active next steps
 
-- [ ] Ch. 1: A Problem Worth Solving — rename title, write content
+- [x] Ch. 1: From Spreadsheet to Function — title renamed, content written
 - [ ] Ch. 12: SVR classical — write after Ch. 1 to calibrate
       depth of Part I chapters
 
