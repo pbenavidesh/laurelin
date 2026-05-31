@@ -23,7 +23,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install Python dependencies
-        run: pip install pandas scikit-learn
+        run: pip install -r requirements.txt
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2
