@@ -151,7 +151,7 @@ and whether it introduces the primary running examples.
 ### Part I — The Language of Optimization
 
 **Ch. 1 — `01-motivation.qmd`**
-Title: TBD (rename from "A Problem Worth Solving")
+Title: From Spreadsheet to Function
 Scope: Motivation only — no formal mathematics. What is prediction?
 Why do we need equations? What tools exist and why are they not enough?
 Anchor: Cloud server demand forecasting — a company's infrastructure

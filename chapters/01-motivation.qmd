@@ -1,4 +1,4 @@
-# A Problem Worth Solving {#sec-ch-motivation}
+# From Spreadsheet to Function {#sec-motivation}
 
 ## Motivation
 
