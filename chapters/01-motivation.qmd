@@ -141,7 +141,7 @@ house value.
 library(readr)  # <1>
 library(ggplot2)
 
-California <- read_csv("data/california_housing.csv")  # <2>
+California <- read_csv(here::here("data", "california_housing.csv"))  # <2>
 
 ggplot(California, aes(x = longitude, y = latitude,
                        colour = log(median_house_value))) +
@@ -165,7 +165,7 @@ ggplot(California, aes(x = longitude, y = latitude,
 
 library(readr)
 
-California <- read_csv("data/california_housing.csv")
+California <- read_csv(here::here("data", "california_housing.csv"))
 
 California |>
   slice_head(n = 8) |>
