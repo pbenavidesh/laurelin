@@ -1,76 +1,93 @@
 ---
-title: "From Spreadsheet to Function"
+title: "The Art of Being Systematically Less Wrong"
 ---
 
-# From Spreadsheet to Function {#sec-motivation}
+# The Art of Being Systematically Less Wrong {#sec-motivation}
 
-What do you do when a spreadsheet is no longer enough?
+There are two kinds of forecasters: those who can't predict the future,
+and those who don't know they can't predict the future.
 
-Not because the data is too large. Not because the formulas are too slow.
-Because the question you are asking cannot be answered with a formula you
-can write by hand — and you know it.
-
-This is where most data work actually starts. Not with a model, not with an
-algorithm. With a question that a pivot table cannot answer, and the
-uncomfortable realization that something more systematic is needed.
-
-This book is about building that something from scratch.
+The first group has an advantage. They stop trying to be right and start
+trying to be *less wrong* — and that turns out to be a problem you can
+actually solve.
 
 ---
 
-## A company's electricity bill, by the half-hour {#sec-motivation-vicelec}
+## A decision you make every day {#sec-motivation-decision}
 
-Consider a company that operates in Victoria, Australia. Its infrastructure
-runs on electricity — servers, cooling systems, office equipment. Every
-half-hour, the grid records how much power the company draws. Every
-half-hour, the wholesale price of that electricity changes based on how
-much everyone else is drawing at the same time.
+You are running out of coffee at home. You need to decide how many bags
+to buy. Buy too few and you run out before the week ends. Buy too many
+and they go stale before you finish them. Neither is catastrophic, but
+both have a cost.
 
-If you can predict demand before it happens, you can act: pre-scale
-servers, shift workloads, negotiate contracts. If you cannot, you react —
-and reacting is expensive.
+Without thinking about it, you are solving an optimization problem. You
+have a loss — the combined cost of under-buying and over-buying — and you
+are trying to minimize it given what you know: your consumption rate, how
+long bags last, how often you go to the store.
+
+Now scale that up. You are not buying coffee for one person. You are
+managing the electricity grid for an entire region. Every thirty minutes,
+you need to decide how much power to procure for the next interval. Buy
+too little and you impose rolling blackouts. Buy too much and you pay for
+energy that goes nowhere. The cost of being wrong is not stale coffee —
+it is millions of dollars and compromised infrastructure.
+
+The structure of the problem is the same. The stakes are not.
+
+---
+
+## Two datasets, one question {#sec-motivation-datasets}
+
+This book uses two datasets as its main thread. They come from different
+domains and have different structures, but they share the same underlying
+question: *given what you can observe, what is your best prediction of
+what you cannot?*
+
+### Victorian electricity demand {#sec-motivation-vicelec}
+
+`vic_elec` records half-hourly electricity demand and temperature across
+the state of Victoria, Australia, from 2012 to 2014. Every row is a
+moment. Every moment is a decision someone had to make about how much
+power to have available.
 
 ```{r}
 #| label: fig-vicelec-overview
-#| fig-cap: "Victorian electricity demand and temperature over a two-week window. Demand tracks temperature, but not perfectly — and the gap between them is where the forecasting problem lives."
+#| fig-cap: "Half-hourly electricity demand (top) and temperature (bottom) in Victoria, Australia, January 2014. The relationship is clear but imprecise — temperature alone does not determine demand."
 #| message: false
 #| warning: false
 
-library(here)
-library(readr)
+library(tsibbledata)
 library(dplyr)
 library(ggplot2)
+library(patchwork)
+library(here)
 
-vic_elec <- read_csv(here::here("data", "vic_elec.csv"))  # <1>
+vic_elec <- readr::read_csv(here("data", "vic_elec.csv"),
+                             show_col_types = FALSE) |>
+  mutate(Time = as.POSIXct(Time))
 
-vic_sample <- vic_elec |>  # <2>
+vic_sample <- vic_elec |>
   filter(Time >= as.POSIXct("2014-01-01"),
          Time <  as.POSIXct("2014-01-15"))
 
-ggplot(vic_sample, aes(x = Time)) +
-  geom_line(aes(y = Demand, colour = "Demand (MW)"),
-            linewidth = 0.5) +
-  geom_line(aes(y = Temperature * 30, colour = "Temperature (°C × 30)"),
-            linewidth = 0.5, linetype = "dashed") +
-  scale_colour_manual(
-    values = c("Demand (MW)" = "#2166ac",
-               "Temperature (°C × 30)" = "#d6604d")
-  ) +
-  labs(x = NULL, y = "Demand (MW)", colour = NULL) +
-  theme_minimal(base_size = 12) +
-  theme(legend.position = "bottom")
+p_demand <- ggplot(vic_sample, aes(x = Time, y = Demand)) +
+  geom_line(colour = "#2166ac", linewidth = 0.5) +
+  labs(x = NULL, y = "Demand (MW)") +
+  theme_minimal(base_size = 11)
+
+p_temp <- ggplot(vic_sample, aes(x = Time, y = Temperature)) +
+  geom_line(colour = "#d6604d", linewidth = 0.5) +
+  labs(x = NULL, y = "Temperature (°C)") +
+  theme_minimal(base_size = 11)
+
+p_demand / p_temp
 ```
-1. Loaded from the book's `data/` folder; original source is the `tsibbledata` R package (half-hourly Victorian electricity demand, 2012–2014).
-2. We filter to January 2014 — peak summer in Australia — where demand is highest and most variable.
 
-The pattern is visible but imprecise. Temperature drives demand — air
-conditioning is the dominant load — but the relationship shifts with the
-day of the week, with holidays, with whether it was already hot the day
-before. A line through a scatter plot will not capture that. A lookup
-table will not generalize to next week.
-
-What we need is a *function* — one that takes what we know now (temperature,
-hour, day type) and returns a prediction we can act on.
+Temperature drives demand — air conditioning is the dominant load in an
+Australian summer. But the relationship shifts. A hot Tuesday looks
+different from a hot Saturday. A heat wave on the third consecutive day
+draws more than a heat wave on the first. The signal is real; it is just
+not simple enough to write down by hand.
 
 ::: {.panel-tabset}
 
@@ -79,10 +96,6 @@ hour, day type) and returns a prediction we can act on.
 ```{r}
 #| label: tbl-vicelec-glimpse
 #| message: false
-
-library(readr)
-
-vic_elec <- read_csv(here::here("data", "vic_elec.csv"))
 
 vic_elec |>
   select(Time, Demand, Temperature, Holiday) |>
@@ -95,10 +108,9 @@ vic_elec |>
 
 ```{python}
 #| label: tbl-vicelec-glimpse-py
-#| message: false
 
-import pandas as pd
 from pathlib import Path
+import pandas as pd
 
 def _project_root(markers=("_quarto.yml", "renv.lock")):
     for d in (Path.cwd(), *Path.cwd().parents):
@@ -107,53 +119,49 @@ def _project_root(markers=("_quarto.yml", "renv.lock")):
     return Path.cwd()
 
 vic_elec = pd.read_csv(_project_root() / "data" / "vic_elec.csv")  # <1>
-
-(
-  vic_elec[["Time", "Demand", "Temperature", "Holiday"]]
-  .head(8)
-)
+vic_elec[["Time", "Demand", "Temperature", "Holiday"]].head(8)
 ```
-1. Loaded from the book's data folder; original source is the tsibbledata R package (half-hourly Victorian electricity demand, 2012–2014).
+1. Loaded from the book's `data/` folder; original source is the
+   `tsibbledata` R package (half-hourly Victorian electricity demand,
+   2012–2014).
 
 :::
 
-The dataset has `r nrow(vic_elec)` rows — one per half-hour from 2012 to
-2014. Every row is a moment when someone, somewhere, made a decision about
-how much electricity to use. Together, they describe a system with memory,
-seasonality, and noise.
+### California housing prices {#sec-motivation-calhousing}
 
----
-
-## House prices across California {#sec-motivation-calhousing}
-
-The second running example is quieter. No time index, no recurring pattern.
-Just 20,640 census blocks from California in the early 1990s, each described
-by eight numbers: median income, house age, average rooms, average bedrooms,
-population, average occupancy, latitude, longitude. The target is median
-house value.
+The second dataset is 20,640 California census blocks from the early
+1990s. Each block is described by eight numbers: median income, house
+age, average rooms, average bedrooms, population, average occupancy,
+latitude, longitude. The target is median house value.
 
 ```{r}
 #| label: fig-calhousing-overview
-#| fig-cap: "Median house value across California census blocks, plotted by geographic location. Values are compressed at the upper end — a pattern that makes percentage error a more natural metric than raw dollar error."
+#| fig-cap: "Median house value across California census blocks. Coastal proximity matters, but income, density, and other variables all play a role. No single feature explains the target."
 #| message: false
 #| warning: false
 
-library(readr)  # <1>
 library(ggplot2)
+library(here)
 
-California <- read_csv(here::here("data", "california_housing.csv"))  # <2>
+California <- readr::read_csv(here("data", "california_housing.csv"),
+                               show_col_types = FALSE)
 
 ggplot(California, aes(x = longitude, y = latitude,
                        colour = log(median_house_value))) +
-  geom_point(size = 0.4, alpha = 0.6) +
-  scale_colour_viridis_c(option = "plasma",
-                         name = "log(value)") +
+  geom_point(size = 0.3, alpha = 0.5) +
+  scale_colour_viridis_c(option = "plasma", name = "log(value)") +
   coord_fixed(ratio = 1.3) +
   labs(x = "Longitude", y = "Latitude") +
-  theme_minimal(base_size = 12)
+  theme_minimal(base_size = 11)
 ```
-1. The California Housing data ships as a CSV in the book's `data/` folder; it is the same dataset scikit-learn exposes via `fetch_california_housing()`.
-2. The full dataset has 20,640 rows. We use it as-is here; experiments later use a stratified subsample for speed.
+
+There is no time axis here. Census blocks do not arrive in sequence —
+each one is independent. What matters is not what happened before, but
+which other blocks are *similar* and whether similar blocks tend to have
+similar prices. The coastal premium is visible in the plot. So is the
+concentration of high-value blocks in the Bay Area and Los Angeles. But
+the relationship between the eight features and the target is not
+something you can read off a map.
 
 ::: {.panel-tabset}
 
@@ -162,10 +170,6 @@ ggplot(California, aes(x = longitude, y = latitude,
 ```{r}
 #| label: tbl-calhousing-glimpse
 #| message: false
-
-library(readr)
-
-California <- read_csv(here::here("data", "california_housing.csv"))
 
 California |>
   slice_head(n = 8) |>
@@ -178,86 +182,54 @@ California |>
 ```{python}
 #| label: tbl-calhousing-glimpse-py
 
-import pandas as pd
 from sklearn.datasets import fetch_california_housing  # <1>
+import pandas as pd
 
-cal = fetch_california_housing(as_frame=True).frame
-cal = cal.rename(columns={  # <2>
-    "MedInc": "median_income", "HouseAge": "house_age",
-    "AveRooms": "average_rooms", "AveBedrms": "average_bedrooms",
-    "Population": "population", "AveOccup": "average_occupancy",
-    "Latitude": "latitude", "Longitude": "longitude",
-    "MedHouseVal": "median_house_value",
-})
-cal["median_house_value"] = cal["median_house_value"] * 100_000  # <3>
-cal.head(8)
+cal = fetch_california_housing(as_frame=True)
+cal.frame.head(8)
 ```
-1. `fetch_california_housing()` returns the same data scikit-learn ships.
-2. We rename to the book's snake_case columns so the table matches the R tab.
-3. scikit-learn reports `MedHouseVal` in units of \$100,000; we rescale to raw dollars to match `data/california_housing.csv`.
+1. `fetch_california_housing()` returns the same dataset from
+   scikit-learn. Note: `MedHouseVal` is in units of \$100,000.
 
 :::
 
-The prediction problem here is different in character from the electricity
-problem. There is no time axis. Each observation is independent — knowing
-the house value in Sacramento tells you nothing about the next row. What
-matters is the *relationship* between the eight features and the target.
-And that relationship is not linear. Census blocks near the coast behave
-differently from inland blocks even when income is held fixed. The geography
-matters in ways that do not reduce to a single variable.
+---
 
-Again: a formula you can write by hand will not capture this. You need a
-function that learns the pattern from the data.
+## Why a formula is not enough {#sec-motivation-formula}
+
+When you write `=0.3 * B2 + 85000` in a spreadsheet, you have already
+made the decision. You chose the slope. You chose the intercept. The
+formula does what you told it to do, nothing more.
+
+For the electricity problem, you do not know the slope in advance. You do
+not even know that the relationship is linear. The only honest starting
+point is the data itself — and the question of what it means for a
+prediction to be good.
+
+That question has a precise answer. You choose a way to measure how wrong
+a prediction is. Then you find the function that is least wrong, on
+average, over all the data you have. That search is optimization. Every
+model in this book is the result of that search, with different choices
+about what "wrong" means and what functions are allowed.
 
 ---
 
-## What functions do that equations do not {#sec-motivation-functions}
+## What comes next {#sec-motivation-next}
 
-When you write a formula in a spreadsheet — say, `=0.5 * B2 + 1200` — you
-are making a decision. You chose the slope. You chose the intercept. The
-formula does exactly what you told it to do, no more.
+Part I builds the optimization machinery from scratch. You will see how
+to find the minimum of a function when there are no constraints, then
+when there are. You will learn to read the conditions that tell you
+whether a solution is optimal. By the end, you will have the tools to
+derive models from first principles — not just use them.
 
-That is fine when the relationship is simple and known in advance. It fails
-when the relationship is complex, nonlinear, and discovered only by looking
-at the data.
+Parts II and III introduce the models themselves: how to measure
+similarity between observations, and how to use that similarity to build
+predictions that generalize beyond the training data.
 
-This book is about the transition from formulas you write to functions that
-are *fitted* — determined by an optimization problem rather than by hand.
-The core idea is simple, even if the machinery is not: you describe what
-a good prediction looks like (a loss function), and you search for the
-function that makes predictions as good as possible (optimization).
-
-Everything else — kernels, dual problems, support vectors — is in service
-of this idea.
-
----
-
-## Two problems, one framework {#sec-motivation-oneframework}
-
-These two datasets are not chosen at random. They represent the two main
-structural types of prediction problem that appear in practice.
-
-The electricity data is a *time series*: observations are ordered in time,
-and the recent past matters. Predicting tomorrow's demand depends on what
-happened yesterday. Patterns repeat weekly and annually. The right model
-must respect time.
-
-The California data is *cross-sectional*: observations are exchangeable,
-and there is no natural ordering. What matters is the geometry of the
-feature space — which inputs are similar, and whether similar inputs produce
-similar outputs.
-
-The models developed in this book handle both. The optimization framework
-is the same. The loss function adapts to the measurement scale. The kernel
-decides what "similar" means.
-
-By Part IV, you will have the tools to fit these datasets with SVR models
-that optimize percentage error directly — a choice that matters when the
-target varies over several orders of magnitude, as house prices and
-electricity demand both do.
-
-For now, look at the data. Ask what it would mean to predict it well. The
-answer to that question will motivate every chapter that follows.
+The final chapters return to these two datasets with models that optimize
+percentage error directly — a choice that matters when a \$50,000
+prediction error means something very different for a \$100,000 house
+than for a \$600,000 house.
 
 ---
 
@@ -266,61 +238,50 @@ answer to that question will motivate every chapter that follows.
 ::: {.callout-note collapse="true"}
 ### Exercise 1.1 — Reading the time series
 
-Load `vic_elec` and compute the average half-hourly demand separately for
-weekdays and weekends. Plot both on the same axis. At what time of day is
-the gap between weekday and weekend demand largest?
-
-*What you need:* `dplyr`, `lubridate`, `ggplot2`.
+Load `vic_elec` and compute the average half-hourly demand separately
+for weekdays and weekends. Plot both on the same axis. At what hour of
+the day is the gap between weekday and weekend demand largest?
 :::
 
 ::: {.callout-note collapse="true"}
-### Exercise 1.2 — The price of a bad prediction
+### Exercise 1.2 — The cost of being wrong
 
-Suppose electricity costs \$150 per MWh during peak hours (5–9 PM weekdays)
-and \$40 per MWh otherwise. Using the `vic_elec` data:
+Suppose electricity costs \$150 per MWh during peak hours (5–9 PM on
+weekdays) and \$40 per MWh at all other times. Using `vic_elec`:
 
-1. Compute the total cost if you always procure exactly what was demanded.
-2. Compute the cost if your forecast is systematically 10% high during peak
-   hours (you over-procure and the excess is wasted at zero value).
-3. Compute the cost if your forecast is 10% low during peak hours (you
-   under-procure and must buy the deficit at a spot premium of \$500/MWh).
+1. Compute the total procurement cost if you always buy exactly what
+   was demanded.
+2. Compute the cost if your forecast is 10% high during peak hours
+   (you over-procure; the excess is wasted).
+3. Compute the cost if your forecast is 10% low during peak hours
+   (you under-procure; you must buy the deficit at a spot premium of
+   \$500 per MWh).
 
-Which direction of error is more expensive? Does this change how you would
-define "a good prediction"?
+Which direction of error is more expensive? Does your answer change
+how you would define a good prediction?
 :::
 
 ::: {.callout-note collapse="true"}
-### Exercise 1.3 — Scale and error metrics
+### Exercise 1.3 — What does "wrong" mean?
 
-For the California Housing data, compute three prediction errors for a
-naive model that predicts the training mean for every observation:
+For the California Housing data, compute prediction errors for two
+naive models: one that always predicts the training mean, and one that
+always predicts \$200,000.
 
-- **MAE** — mean absolute error (in dollars)
-- **RMSE** — root mean square error (in dollars)
-- **MAPE** — mean absolute percentage error (unitless)
-
-Now repeat for a model that always predicts $200,000.
-
-Which error metric is most informative? Does a \$50,000 error mean the
-same thing for a \$100,000 house as for a \$600,000 house?
-
-*This question motivates Chapter 16.*
+Compute MAE, RMSE, and MAPE for each. Which metric best captures
+whether the model is useful? Does a \$50,000 error mean the same thing
+for a \$100,000 house and a \$600,000 house?
 :::
 
 ::: {.callout-note collapse="true"}
-### Exercise 1.4 — Graduate level: loss functions as design choices
+### Exercise 1.4
 
-The choice of loss function is a statement about what errors matter.
+A loss function $\ell(\hat{y}, y)$ is *scale-free* if multiplying both
+the prediction and the target by the same positive constant leaves the
+loss unchanged: $\ell(c\hat{y}, cy) = \ell(\hat{y}, y)$ for all
+$c > 0$.
 
-Consider a delivery company predicting package transit times. A 2-hour
-error on a 4-hour delivery is qualitatively different from a 2-hour error
-on a 48-hour delivery — yet mean squared error treats them identically.
-
-Formalize this argument. Define a loss function $\ell(\hat{y}, y)$ that
-satisfies: (a) it is zero when prediction is perfect, (b) it is scale-free
-(invariant to multiplying both $\hat{y}$ and $y$ by a positive constant),
-and (c) it penalizes over-prediction and under-prediction symmetrically.
-
-Is there more than one such function? What structural property do they
-share?
+Show that squared error $(\hat{y} - y)^2$ is not scale-free. Then
+construct a loss function that is. Is it unique? What structural
+property do all scale-free loss functions share?
 :::
