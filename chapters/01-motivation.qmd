@@ -2,8 +2,6 @@
 title: "The Art of Being Systematically Less Wrong"
 ---
 
-# The Art of Being Systematically Less Wrong {#sec-motivation}
-
 There are two kinds of forecasters: those who can't predict the future,
 and those who don't know they can't predict the future.
 
@@ -11,7 +9,6 @@ The first group has an advantage. They stop trying to be right and start
 trying to be *less wrong* — and that turns out to be a problem you can
 actually solve.
 
----
 
 ## A decision you make every day {#sec-motivation-decision}
 
@@ -34,7 +31,7 @@ it is millions of dollars and compromised infrastructure.
 
 The structure of the problem is the same. The stakes are not.
 
----
+
 
 ## Two datasets, one question {#sec-motivation-datasets}
 
@@ -193,7 +190,6 @@ cal.frame.head(8)
 
 :::
 
----
 
 ## Why a formula is not enough {#sec-motivation-formula}
 
@@ -212,7 +208,6 @@ average, over all the data you have. That search is optimization. Every
 model in this book is the result of that search, with different choices
 about what "wrong" means and what functions are allowed.
 
----
 
 ## What comes next {#sec-motivation-next}
 
@@ -231,7 +226,7 @@ percentage error directly — a choice that matters when a \$50,000
 prediction error means something very different for a \$100,000 house
 than for a \$600,000 house.
 
----
+
 
 ## Exercises {#sec-motivation-exercises}
 
