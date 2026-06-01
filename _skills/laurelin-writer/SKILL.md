@@ -355,6 +355,19 @@ Each chapter follows this pattern:
 4. **Code** — executable R and Python in `{.panel-tabset}` blocks
 5. **Exercises** — 2–4 problems, mix of computational and conceptual
 
+**Two non-negotiable structural rules learned from Ch. 1:**
+
+- **Never repeat the chapter title as a heading.** The YAML `title:`
+  field already renders the title. Do not add `# Title {#sec-...}` as
+  the first line of the body — it produces a duplicate heading.
+  The first line of body content should be the opening sentence or the
+  first `##` section heading.
+
+- **Never use `---` horizontal rules between sections.** Quarto renders
+  `##` headings with their own visual separation. A `---` above or below
+  a section heading produces two consecutive horizontal lines. Use `##`
+  headings alone to separate sections.
+
 ### Callout taxonomy
 
 Five callout types, each with a specific role. Never use a type
