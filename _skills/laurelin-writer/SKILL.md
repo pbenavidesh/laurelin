@@ -699,21 +699,70 @@ Follows the thesis notation exactly:
 
 ## Chapter title conventions
 
-Titles should be specific and concrete, not generic:
+### The rule: descriptive everywhere, narrative nowhere in headings
 
-✓ Good titles:
+All headings — chapter `title:` in YAML, `##` section headers,
+`###` subsection headers — must be descriptive and navigable.
+A reader scanning the TOC or skimming section headers should find
+any concept immediately, without opening the chapter.
+
+The narrative voice lives in the body text, not in any heading.
+
+### Chapter titles (YAML `title:` field)
+
+The `title:` appears in the sidebar, TOC, and browser tab.
+It answers: "what will I learn in this chapter?"
+
+✓ Correct:
+- "Unconstrained Optimization"
+- "The Lagrangian and Duality"
+- "KKT Conditions"
+- "Kernel Functions"
+- "ε-SVR with MAPE"
+
+✗ Avoid — these are narrative hooks, not titles:
 - "A Forecast That Costs More Than It Saves"
 - "When the Gradient Points Uphill"
 - "The Box That Knows Its Own Constraints"
 - "Kernels Without Coordinates"
 
-✗ Avoid:
-- "Introduction to Optimization"
-- "Why Kernels Matter"
-- "Understanding the Dual Problem"
-- "A Powerful Framework"
+### Section and subsection headers (`##`, `###`)
 
-Section headers follow the same rule — specific over generic.
+Same rule. Descriptive, direct, unambiguous.
+
+✓ Correct:
+- "First-order optimality conditions"
+- "Convexity and global minima"
+- "Gradient descent: geometric intuition"
+- "The dual problem"
+- "Sample-dependent box constraints"
+
+✗ Avoid — these belong in prose, not headings:
+- "The cost of a bad inventory decision"
+- "Following the gradient downhill"
+- "Not every zero gradient is a minimum"
+- "Why convexity matters"
+
+### Opening hook
+
+Every chapter opens with 2–4 sentences of narrative prose
+**before the first `##` section heading**. This is where the
+concrete anchor lives — a real problem, a question, an observation.
+It earns the reader's attention before the formalism starts.
+
+The hook does not repeat the title. It does not say
+"In this chapter we will cover...". It drops the reader into
+a situation.
+
+Example for "Unconstrained Optimization":
+> Every warehouse manager knows the feeling. Order too little
+> and you run out. Order too much and you pay to store inventory
+> nobody needs. Somewhere between those two failures is the right
+> number — and finding it does not require guessing.
+
+Section openings follow the same principle: the first sentence
+of a section's body is concrete and situational, not a restatement
+of the header.
 
 ---
 
