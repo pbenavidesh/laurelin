@@ -2,6 +2,7 @@
 _site/
 _book/
 .quarto/
+chapters/*_files/
 
 # R
 *.rdb
