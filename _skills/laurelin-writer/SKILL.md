@@ -357,11 +357,13 @@ Each chapter follows this pattern:
 
 **Two non-negotiable structural rules learned from Ch. 1:**
 
-- **Never repeat the chapter title as a heading.** The YAML `title:`
-  field already renders the title. Do not add `# Title {#sec-...}` as
-  the first line of the body — it produces a duplicate heading.
-  The first line of body content should be the opening sentence or the
-  first `##` section heading.
+- **Never add a `# H1` heading in the body.** The YAML `title:` field
+  already renders the chapter title. Adding `# Title {#sec-...}` as
+  the first body line produces a duplicate heading and renumbers all
+  subsequent sections. To cross-reference the full chapter from another
+  chapter, Quarto books derive the label automatically from the title —
+  no explicit H1 label is needed. Cross-reference labels belong on
+  `##` section headings only, for referencing specific sections.
 
 - **Never use `---` horizontal rules between sections.** Quarto renders
   `##` headings with their own visual separation. A `---` above or below
