@@ -626,18 +626,60 @@ plt.tight_layout(); plt.show(); plt.close()
 
 ---
 
-### Figure cross-references with renderings
+### Two types of figures
 
-Quarto does not support a cross-reference div (`{#fig-xxx}`) wrapping
-an entire tabset — it produces a "No tabs found" warning and breaks
-the tabset. The working pattern is:
+Laurelin has two distinct figure types. Choose the right pattern before
+writing any plot code.
 
-**R tab:** wrap only the R render chunk in the `{#fig-xxx}` div. This
-gives the figure its number, caption, and cross-reference anchor.
+#### Type 1 — Illustrative figures (geometry, regions, concept diagrams)
 
-**Python tab:** add `#| fig-cap:` directly to the Python render chunk.
-This shows the caption text without a figure number. The cross-ref
-`@fig-xxx` resolves via the R div.
+Plots that visualise a mathematical concept (feasible regions, contour
+maps, gradient arrows, kernel geometry). The reader is not meant to
+study or replicate the plotting code — the code is an implementation
+detail. Rules:
+
+- **R only** — no Python tab, no tabset.
+- All chunks `#| echo: false` and `#| output: false` as appropriate.
+- The `{#fig-xxx}` div wraps the render chunk directly.
+- No empty placeholder chunks inside the div.
+
+````markdown
+```{r}
+#| label: FIGURENAME_base
+#| output: false
+
+p <- ggplot(...) + geom_...() + labs(...)
+
+add_labels <- function(pl, dark = FALSE) { ... }
+```
+
+::: {#fig-FIGURENAME}
+
+```{r}
+#| label: FIGURENAME_render
+#| renderings: [light, dark]
+#| echo: false
+
+add_labels(p, FALSE) + scale_laurelin()
+add_labels(p, TRUE)  + scale_laurelin_dark()
+```
+
+Caption text here.
+:::
+````
+
+#### Type 2 — Pedagogical figures (code the reader should learn)
+
+Plots that demonstrate R and Python skills the reader is expected to
+acquire: fitting models, calling optimisers, plotting results from real
+data. Rules:
+
+- **R and Python tabs** — full tabset with `group="language"`.
+- Base chunk visible (`#| output: false`, no `#| echo: false`).
+- Render chunk hidden (`#| echo: false`).
+- The `{#fig-xxx}` div wraps only the R render chunk (not the tabset).
+- Python render chunk uses `#| fig-cap:` for its caption.
+- No empty placeholder chunks.
 
 ````markdown
 ::: {.panel-tabset group="language"}
@@ -647,10 +689,11 @@ This shows the caption text without a figure number. The cross-ref
 ```{r}
 #| label: FIGURENAME_base
 #| output: false
-# base plot code
+
+p <- ggplot(...) + ...   # <1>
 ```
 
-1. Annotation text...
+1. Annotation explaining the code.
 
 ::: {#fig-FIGURENAME}
 
@@ -658,6 +701,7 @@ This shows the caption text without a figure number. The cross-ref
 #| label: FIGURENAME_render
 #| renderings: [light, dark]
 #| echo: false
+
 p + scale_laurelin()
 p + scale_laurelin_dark()
 ```
@@ -670,27 +714,30 @@ Caption text here.
 ```{python}
 #| label: FIGURENAME_py_base
 #| output: false
-# base plot code
+
+# plot code   # <1>
 ```
 
-1. Annotation text...
+1. Annotation explaining the code.
 
 ```{python}
 #| label: FIGURENAME_py_render
 #| renderings: [light, dark]
 #| echo: false
 #| fig-cap: "Caption text here."
-# render code
+
+# light and dark renders
 ```
 
 :::
 ````
 
-**Chunk label rules:**
+**Chunk label rules (both types):**
 - Base chunks: plain `snake_case`, `#| output: false`
 - Render chunks: plain `snake_case` (no `fig-` prefix), `#| echo: false`
 - The `{#fig-xxx}` div label uses the `fig-` prefix for cross-references
 - Cross-references in prose: `@fig-FIGURENAME` resolves via the R div
+- **Never insert an empty placeholder chunk** inside a div or tabset
 
 ---
 
@@ -718,63 +765,30 @@ option, not a knitr option — it works identically for `{r}` and `{python}`.
 
 #### Pattern: two-chunk split per figure
 
-Split every figure into a **base chunk** (builds the plot object, hidden
-output) and a **render chunk** (emits light then dark, hidden code):
+Split every illustrative figure into a **base chunk** (builds the plot
+object, hidden output) and a **render chunk** (emits light then dark,
+hidden code). For pedagogical figures that show code, see the Type 2
+pattern in "Two types of figures" above.
 
 ```markdown
-::: {#fig-FIGURENAME}
-
-::: {.panel-tabset group="language"}
-
-## R
-
 ```{r}
 #| label: FIGURENAME_base
 #| output: false
 
 p <- ggplot(...) + geom_...() + labs(...)
+add_labels <- function(pl, dark = FALSE) { ... }
 ```
+
+::: {#fig-FIGURENAME}
 
 ```{r}
 #| label: FIGURENAME_render
 #| renderings: [light, dark]
 #| echo: false
 
-p + scale_laurelin()
-p + scale_laurelin_dark()
+add_labels(p, FALSE) + scale_laurelin()
+add_labels(p, TRUE)  + scale_laurelin_dark()
 ```
-
-## Python
-
-```{python}
-#| label: FIGURENAME_py_base
-#| output: false
-
-# full plot code with light palette
-# ends with plt.close()
-```
-
-```{python}
-#| label: FIGURENAME_py_render
-#| renderings: [light, dark]
-#| echo: false
-
-# --- light rendering ---
-# full plot code; fig.patch.set_facecolor("#ffffff"); plt.show(); plt.close()
-
-# --- dark rendering ---
-# full plot code with dark palette
-# fig.patch.set_facecolor("#222222")
-# ax.set_facecolor("#222222")
-# ax.tick_params(colors="white")
-# ax.xaxis.label.set_color("white"); ax.yaxis.label.set_color("white")
-# for spine in ax.spines.values(): spine.set_edgecolor("#555555")
-# ax.title.set_color("white")
-# plt.rcParams.update({"text.color": "white"})
-# plt.show(); plt.close()
-```
-
-:::
 
 Caption text.
 :::
