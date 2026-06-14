@@ -89,28 +89,31 @@ gx1 <- gx0 + 0.55 * (2.5 - gx0) / sqrt((2.5-gx0)^2 + (2-gy0)^2)
 gy1 <- gy0 + 0.55 * (2 - gy0) / sqrt((2.5-gx0)^2 + (2-gy0)^2)
 
 p_limits <- ggplot() +
-  geom_polygon(data = feasible_df, aes(x, y),
-               fill = "#2D6A4F", alpha = 0.12) +
-  geom_contour(data = grid_df, aes(x, y, z = z),
-               breaks = c(0.3, 0.8, 1.5, 2.5, 4),
-               color = "gray60", linewidth = 0.4) +
-  # Constraint boundary
-  geom_segment(aes(x = 0, y = 3, xend = 3, yend = 0),
-               linewidth = 0.8) +
-  # Unconstrained minimum
-  geom_point(aes(x = 2.5, y = 2), size = 3) +
-  # Constrained minimum
-  geom_point(aes(x = 1.75, y = 1.25), size = 3, shape = 17) +
-  # Gradient arrow
-  geom_segment(aes(x = gx0, y = gy0, xend = gx1, yend = gy1),
-               arrow = arrow(length = unit(0.18, "cm"), type = "closed"),
-               linewidth = 0.7) +
   coord_fixed(xlim = c(-0.3, 3.3), ylim = c(-0.3, 3.1)) +
   labs(x = expression(x[1]), y = expression(x[2]))
 
 add_labels_limits <- function(pl, dark = FALSE) {
   ref_col <- lc("ref_text", dark = dark)
   pl +
+    geom_polygon(data = feasible_df, aes(x, y),
+                 fill = lc("green", dark = dark), alpha = 0.15) +
+    geom_contour(data = grid_df, aes(x, y, z = z),
+                 breaks = c(0.3, 0.8, 1.5, 2.5, 4),
+                 color = if (dark) "#888888" else "gray60",
+                 linewidth = 0.4) +
+    # Constraint boundary
+    geom_segment(aes(x = 0, y = 3, xend = 3, yend = 0),
+                 color = lc("ref_line", dark = dark), linewidth = 0.8) +
+    # Unconstrained minimum
+    geom_point(aes(x = 2.5, y = 2), size = 3,
+               color = lc("ref_line", dark = dark)) +
+    # Constrained minimum
+    geom_point(aes(x = 1.75, y = 1.25), size = 3, shape = 17,
+               color = lc("ref_line", dark = dark)) +
+    # Gradient arrow
+    geom_segment(aes(x = gx0, y = gy0, xend = gx1, yend = gy1),
+                 arrow = arrow(length = unit(0.18, "cm"), type = "closed"),
+                 color = lc("ref_line", dark = dark), linewidth = 0.7) +
     annotate("text", x = 2.55, y = 1.75, label = "Unconstrained\nminimum",
              hjust = 0, size = 3.2, color = ref_col) +
     annotate("text", x = 1.85, y = 1.0, label = "Constrained\nminimum",
@@ -198,18 +201,22 @@ grid_eq <- expand.grid(
   mutate(z = (x - 0.8)^2 + (y - 1.5)^2)
 
 p_equality <- ggplot() +
-  geom_contour(data = grid_eq, aes(x, y, z = z),
-               breaks = c(0.25, 0.507, 0.845, 1.35, 2.1),
-               color = "gray60", linewidth = 0.4) +
-  geom_abline(slope = -1, intercept = 1, linewidth = 0.9) +
-  geom_point(aes(x = 0.8, y = 1.5), size = 3) +
-  geom_point(aes(x = 0.15, y = 0.85), size = 3, shape = 17) +
   coord_fixed(xlim = c(-0.2, 2.1), ylim = c(-0.2, 2.1)) +
   labs(x = expression(x[1]), y = expression(x[2]))
 
 add_labels_equality <- function(pl, dark = FALSE) {
   ref_col <- lc("ref_text", dark = dark)
   pl +
+    geom_contour(data = grid_eq, aes(x, y, z = z),
+                 breaks = c(0.25, 0.507, 0.845, 1.35, 2.1),
+                 color = if (dark) "#888888" else "gray60",
+                 linewidth = 0.4) +
+    geom_abline(slope = -1, intercept = 1,
+                color = lc("ref_line", dark = dark), linewidth = 0.9) +
+    geom_point(aes(x = 0.8, y = 1.5), size = 3,
+               color = lc("ref_line", dark = dark)) +
+    geom_point(aes(x = 0.15, y = 0.85), size = 3, shape = 17,
+               color = lc("ref_line", dark = dark)) +
     annotate("text", x = 0.9, y = 1.62, label = "Unconstrained\nminimum",
              hjust = 0, size = 3.2, color = ref_col) +
     annotate("text", x = 0.18, y = 0.68, label = "Constrained\nminimum",
@@ -286,22 +293,25 @@ grid_prod <- expand.grid(
 corners <- data.frame(x = c(0, 40, x_int, 0), y = c(0, 0, y_int, 150/4))
 
 p_ineq <- ggplot() +
-  geom_raster(data = filter(grid_prod, feasible),
-              aes(x, y), fill = "#2D6A4F", alpha = 0.15) +
-  geom_contour(data = grid_prod, aes(x, y, z = obj),
-               breaks = c(500, 1000, 1500, 2000, 2500, 2900),
-               color = "gray60", linewidth = 0.4) +
-  geom_segment(aes(x = 0, y = 100, xend = 40, yend = 0),
-               linewidth = 0.8) +
-  geom_segment(aes(x = 0, y = 150/4, xend = 50, yend = 0),
-               linewidth = 0.8, linetype = "dashed") +
-  geom_point(aes(x = x_int, y = y_int), size = 3, shape = 17) +
   coord_cartesian(xlim = c(-1, 44), ylim = c(-1, 42)) +
   labs(x = expression(x[1]~~(tables)), y = expression(x[2]~~(chairs)))
 
 add_labels_ineq <- function(pl, dark = FALSE) {
   ref_col <- lc("ref_text", dark = dark)
   pl +
+    geom_raster(data = filter(grid_prod, feasible),
+                aes(x, y), fill = lc("green", dark = dark), alpha = 0.15) +
+    geom_contour(data = grid_prod, aes(x, y, z = obj),
+                 breaks = c(500, 1000, 1500, 2000, 2500, 2900),
+                 color = if (dark) "#888888" else "gray60",
+                 linewidth = 0.4) +
+    geom_segment(aes(x = 0, y = 100, xend = 40, yend = 0),
+                 color = lc("ref_line", dark = dark), linewidth = 0.8) +
+    geom_segment(aes(x = 0, y = 150/4, xend = 50, yend = 0),
+                 color = lc("ref_line", dark = dark),
+                 linewidth = 0.8, linetype = "dashed") +
+    geom_point(aes(x = x_int, y = y_int), size = 3, shape = 17,
+               color = lc("ref_line", dark = dark)) +
     annotate("text", x = 5, y = 20, label = "Feasible\nregion",
              size = 3.2, color = ref_col) +
     annotate("text", x = 22, y = 36, label = "Machine-hours",
@@ -366,25 +376,31 @@ grid_act <- expand.grid(
   )
 
 p_active <- ggplot() +
-  geom_raster(data = filter(grid_act, feasible),
-              aes(x, y), fill = "#2D6A4F", alpha = 0.15) +
-  geom_contour(data = grid_act, aes(x, y, z = z),
-               breaks = c(0.5, 1.5, 3, 5, 8),
-               color = "gray60", linewidth = 0.4) +
-  # g1: active (solid)
-  geom_abline(slope = -1, intercept = 5, linewidth = 1.0) +
-  # g2: inactive (dashed)
-  geom_vline(xintercept = 4.5, linewidth = 0.8, linetype = "dashed") +
-  # g3: inactive (dotted)
-  geom_hline(yintercept = 0.5, linewidth = 0.8, linetype = "dotted") +
-  geom_point(aes(x = 4, y = 3), size = 3) +
-  geom_point(aes(x = 3, y = 2), size = 3, shape = 17) +
   coord_fixed(xlim = c(-0.2, 5.3), ylim = c(-0.2, 5.3)) +
   labs(x = expression(x[1]), y = expression(x[2]))
 
 add_labels_active <- function(pl, dark = FALSE) {
   ref_col <- lc("ref_text", dark = dark)
   pl +
+    geom_raster(data = filter(grid_act, feasible),
+                aes(x, y), fill = lc("green", dark = dark), alpha = 0.15) +
+    geom_contour(data = grid_act, aes(x, y, z = z),
+                 breaks = c(0.5, 1.5, 3, 5, 8),
+                 color = if (dark) "#888888" else "gray60",
+                 linewidth = 0.4) +
+    # g1: active (solid)
+    geom_abline(slope = -1, intercept = 5,
+                color = lc("ref_line", dark = dark), linewidth = 1.0) +
+    # g2: inactive (dashed)
+    geom_vline(xintercept = 4.5, color = lc("ref_line", dark = dark),
+               linewidth = 0.8, linetype = "dashed") +
+    # g3: inactive (dotted)
+    geom_hline(yintercept = 0.5, color = lc("ref_line", dark = dark),
+               linewidth = 0.8, linetype = "dotted") +
+    geom_point(aes(x = 4, y = 3), size = 3,
+               color = lc("ref_line", dark = dark)) +
+    geom_point(aes(x = 3, y = 2), size = 3, shape = 17,
+               color = lc("ref_line", dark = dark)) +
     annotate("text", x = 4.1, y = 3.15, label = "Unconstrained\nminimum",
              hjust = 0, size = 3.2, color = ref_col) +
     annotate("text", x = 3.1, y = 1.8, label = "Constrained\nminimum",
