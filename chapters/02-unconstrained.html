@@ -1695,446 +1695,452 @@ L(n) = \frac{a}{n} + b \cdot n^2, \qquad n &gt; 0,
 <span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: eoq_curve_render</span></span>
 <span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
 <span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="fu">add_refs</span>(p_base, <span class="at">dark =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a><span class="fu">add_refs</span>(p_base, <span class="at">dark =</span> <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a>EOQ total cost as a function of order quantity. The holding and ordering cost components are shown separately. The minimum occurs where the two components intersect.</span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a><span class="co">#| dev: "png"</span></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="co">#| dev-args: !expr list(bg = "transparent")</span></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a><span class="fu">add_refs</span>(p_base, <span class="at">dark =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="fu">add_refs</span>(p_base, <span class="at">dark =</span> <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a>EOQ total cost as a function of order quantity. The holding and ordering cost components are shown separately. The minimum occurs where the two components intersect.</span>
 <span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a><span class="fu">## First-order optimality conditions {#sec-unconstrained-first-order}</span></span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a>The U-shape of $C(q)$ in @fig-eoq-curve-render reveals the key idea: at the</span>
-<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a>minimum, the curve has zero slope. The holding cost is rising at exactly</span>
-<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a>the rate the ordering cost is falling. Neither term dominates — they</span>
-<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>balance.</span>
-<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>This balance is not a coincidence. It is a consequence of the</span>
-<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>**first-order optimality condition**: at a local minimum $q^*$ of a</span>
-<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a>differentiable function, the derivative must vanish.</span>
-<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
-<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## First-order necessary condition</span></span>
-<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a>Let $f : \mathbb{R}^p \to \mathbb{R}$ be differentiable. If $\mathbf{x}^*$</span>
-<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a>is a local minimum of $f$, then</span>
-<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a>\nabla f(\mathbf{x}^*) = \mathbf{0}.</span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="fu">## First-order optimality conditions {#sec-unconstrained-first-order}</span></span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a>The U-shape of $C(q)$ in @fig-eoq-curve-render reveals the key idea: at the</span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>minimum, the curve has zero slope. The holding cost is rising at exactly</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>the rate the ordering cost is falling. Neither term dominates — they</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>balance.</span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a>This balance is not a coincidence. It is a consequence of the</span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a>**first-order optimality condition**: at a local minimum $q^*$ of a</span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>differentiable function, the derivative must vanish.</span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a><span class="fu">## First-order necessary condition</span></span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a>Let $f : \mathbb{R}^p \to \mathbb{R}$ be differentiable. If $\mathbf{x}^*$</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>is a local minimum of $f$, then</span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>In one dimension: $f'(x^*) = 0$.</span>
-<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a>This condition is **necessary** but not sufficient on its own — a zero</span>
-<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a>gradient identifies a candidate, not a confirmed minimum. A maximum and a</span>
-<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a>saddle point also satisfy $\nabla f = 0$.</span>
-<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a>For the EOQ cost, setting $C'(q) = 0$:</span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>\nabla f(\mathbf{x}^*) = \mathbf{0}.</span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a>In one dimension: $f'(x^*) = 0$.</span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a>This condition is **necessary** but not sufficient on its own — a zero</span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a>gradient identifies a candidate, not a confirmed minimum. A maximum and a</span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a>saddle point also satisfy $\nabla f = 0$.</span>
 <span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a>\frac{h}{2} - \frac{Ds}{q^2} = 0</span>
-<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a>\implies</span>
-<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a>q^* = \sqrt{\frac{2Ds}{h}}.</span>
-<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a>$$ {#eq-eoq-optimal}</span>
-<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a>With $D = 10{,}000$, $s = 200$, and $h = 2.5$, this gives</span>
-<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a>$q^* = \sqrt{1{,}600{,}000} = 1{,}265$ units — the vertical line in</span>
-<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a>@fig-eoq-curve-render.</span>
-<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a><span class="fu">## Common confusion: necessary ≠ sufficient</span></span>
-<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a>The condition $\nabla f(\mathbf{x}^*) = \mathbf{0}$ is necessary for a</span>
-<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a>local minimum — but a zero gradient alone does not confirm that you have</span>
-<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a>found one. The function $f(x) = x^3$ satisfies $f'(0) = 0$, yet $x = 0$</span>
-<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a>is an inflection point, not a minimum. Always verify second-order</span>
-<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a>conditions or use structural properties (such as convexity) to confirm.</span>
-<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a><span class="fu">## Critical points and second-order conditions {#sec-unconstrained-second-order}</span></span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a>For the EOQ cost, setting $C'(q) = 0$:</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a>\frac{h}{2} - \frac{Ds}{q^2} = 0</span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a>\implies</span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a>q^* = \sqrt{\frac{2Ds}{h}}.</span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a>$$ {#eq-eoq-optimal}</span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a>With $D = 10{,}000$, $s = 200$, and $h = 2.5$, this gives</span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a>$q^* = \sqrt{1{,}600{,}000} = 1{,}265$ units — the vertical line in</span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>@fig-eoq-curve-render.</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a><span class="fu">## Common confusion: necessary ≠ sufficient</span></span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a>The condition $\nabla f(\mathbf{x}^*) = \mathbf{0}$ is necessary for a</span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a>local minimum — but a zero gradient alone does not confirm that you have</span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a>found one. The function $f(x) = x^3$ satisfies $f'(0) = 0$, yet $x = 0$</span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a>is an inflection point, not a minimum. Always verify second-order</span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a>conditions or use structural properties (such as convexity) to confirm.</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a>A point where $\nabla f = \mathbf{0}$ is called a **critical point**.</span>
-<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a>Three geometric possibilities exist: a minimum, a maximum, or a saddle</span>
-<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a>point. The second derivative determines which.</span>
-<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a>In one dimension, the second derivative $f''(x^*)$ measures how quickly</span>
-<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a>the slope is changing at the critical point:</span>
-<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$f''(x^*) &gt; 0$: the slope is increasing — the curve is concave up.</span>
-<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a>  The critical point is a **local minimum**.</span>
-<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$f''(x^*) &lt; 0$: the slope is decreasing — the curve is concave down.</span>
-<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a>  The critical point is a **local maximum**.</span>
-<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$f''(x^*) = 0$: the test is inconclusive. Higher derivatives must</span>
-<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a>  be examined.</span>
-<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a>For the EOQ cost, $C''(q) = 2Ds/q^3 &gt; 0$ for all $q &gt; 0$. The</span>
-<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a>critical point at $q^*$ is confirmed as a minimum.</span>
-<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a>In multiple variables, the second-order information is encoded in the</span>
-<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a>**Hessian matrix** $H_f(\mathbf{x})$, whose $(i,j)$-th entry is the</span>
-<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a>mixed partial derivative:</span>
-<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">H_f(\mathbf{x})</span><span class="co">]</span>_{i,j} = \frac{\partial^2 f}{\partial x_i\, \partial x_j}.</span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a><span class="fu">## Critical points and second-order conditions {#sec-unconstrained-second-order}</span></span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a>A point where $\nabla f = \mathbf{0}$ is called a **critical point**.</span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a>Three geometric possibilities exist: a minimum, a maximum, or a saddle</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a>point. The second derivative determines which.</span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a>In one dimension, the second derivative $f''(x^*)$ measures how quickly</span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a>the slope is changing at the critical point:</span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$f''(x^*) &gt; 0$: the slope is increasing — the curve is concave up.</span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a>  The critical point is a **local minimum**.</span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$f''(x^*) &lt; 0$: the slope is decreasing — the curve is concave down.</span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a>  The critical point is a **local maximum**.</span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$f''(x^*) = 0$: the test is inconclusive. Higher derivatives must</span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a>  be examined.</span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a>For the EOQ cost, $C''(q) = 2Ds/q^3 &gt; 0$ for all $q &gt; 0$. The</span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a>critical point at $q^*$ is confirmed as a minimum.</span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a>In multiple variables, the second-order information is encoded in the</span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a>**Hessian matrix** $H_f(\mathbf{x})$, whose $(i,j)$-th entry is the</span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a>mixed partial derivative:</span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a>The Hessian plays the role of the second derivative: it captures the</span>
-<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a>curvature of $f$ in every direction simultaneously.</span>
-<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
-<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a><span class="fu">## Second-order optimality conditions</span></span>
-<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a>Let $\mathbf{x}^*$ satisfy $\nabla f(\mathbf{x}^*) = \mathbf{0}$.</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">H_f(\mathbf{x})</span><span class="co">]</span>_{i,j} = \frac{\partial^2 f}{\partial x_i\, \partial x_j}.</span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a>The Hessian plays the role of the second derivative: it captures the</span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a>curvature of $f$ in every direction simultaneously.</span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a><span class="fu">## Second-order optimality conditions</span></span>
 <span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sufficient for local minimum:** $H_f(\mathbf{x}^*)$ is</span>
-<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a>  **positive definite** — that is, $\mathbf{v}^\top H_f(\mathbf{x}^*)</span>
-<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a>  \mathbf{v} &gt; 0$ for all $\mathbf{v} \neq \mathbf{0}$.</span>
-<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sufficient for local maximum:** $H_f(\mathbf{x}^*)$ is</span>
-<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>  **negative definite**.</span>
-<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Saddle point:** $H_f(\mathbf{x}^*)$ is **indefinite** — positive</span>
-<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>  in some directions, negative in others.</span>
-<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a>Positive definiteness of the Hessian is the multivariable generalization</span>
-<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a>of $f'' &gt; 0$. Checking it amounts to verifying that all eigenvalues of</span>
-<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a>$H_f(\mathbf{x}^*)$ are positive — or equivalently, that all leading</span>
-<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>principal minors of $H_f(\mathbf{x}^*)$ are positive (Sylvester's</span>
-<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>criterion).</span>
-<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
-<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a><span class="fu">## Derivation: classifying critical points via the Hessian</span></span>
-<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a>A quadratic Taylor expansion of $f$ around a critical point $\mathbf{x}^*$</span>
-<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a>gives:</span>
-<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a>f(\mathbf{x}^* + \mathbf{v}) \approx f(\mathbf{x}^*) + \underbrace{</span>
-<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a>\nabla f(\mathbf{x}^*)^\top \mathbf{v}}_{=\,0} +</span>
-<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a>\frac{1}{2}\, \mathbf{v}^\top H_f(\mathbf{x}^*) \mathbf{v}.</span>
-<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>The first-order term vanishes at a critical point. The sign of the</span>
-<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a>remainder depends entirely on $\mathbf{v}^\top H_f(\mathbf{x}^*)</span>
-<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a>\mathbf{v}$:</span>
-<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Positive for every nonzero $\mathbf{v}$ (positive definite Hessian)</span>
-<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a>  $\Rightarrow$ $f(\mathbf{x}^* + \mathbf{v}) &gt; f(\mathbf{x}^*)$ in</span>
-<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a>  every direction $\Rightarrow$ local minimum.</span>
-<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Negative for every nonzero $\mathbf{v}$ (negative definite Hessian)</span>
-<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a>  $\Rightarrow$ local maximum.</span>
-<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mixed sign (indefinite Hessian) $\Rightarrow$ the function increases</span>
-<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a>  in some directions and decreases in others from $\mathbf{x}^*$</span>
-<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a>  $\Rightarrow$ saddle point.</span>
-<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convexity and global minima {#sec-unconstrained-convexity}</span></span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a>Let $\mathbf{x}^*$ satisfy $\nabla f(\mathbf{x}^*) = \mathbf{0}$.</span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sufficient for local minimum:** $H_f(\mathbf{x}^*)$ is</span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a>  **positive definite** — that is, $\mathbf{v}^\top H_f(\mathbf{x}^*)</span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>  \mathbf{v} &gt; 0$ for all $\mathbf{v} \neq \mathbf{0}$.</span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sufficient for local maximum:** $H_f(\mathbf{x}^*)$ is</span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>  **negative definite**.</span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Saddle point:** $H_f(\mathbf{x}^*)$ is **indefinite** — positive</span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>  in some directions, negative in others.</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a>Positive definiteness of the Hessian is the multivariable generalization</span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>of $f'' &gt; 0$. Checking it amounts to verifying that all eigenvalues of</span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>$H_f(\mathbf{x}^*)$ are positive — or equivalently, that all leading</span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a>principal minors of $H_f(\mathbf{x}^*)$ are positive (Sylvester's</span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>criterion).</span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a><span class="fu">## Derivation: classifying critical points via the Hessian</span></span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a>A quadratic Taylor expansion of $f$ around a critical point $\mathbf{x}^*$</span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a>gives:</span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a>f(\mathbf{x}^* + \mathbf{v}) \approx f(\mathbf{x}^*) + \underbrace{</span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a>\nabla f(\mathbf{x}^*)^\top \mathbf{v}}_{=\,0} +</span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a>\frac{1}{2}\, \mathbf{v}^\top H_f(\mathbf{x}^*) \mathbf{v}.</span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a>The first-order term vanishes at a critical point. The sign of the</span>
+<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a>remainder depends entirely on $\mathbf{v}^\top H_f(\mathbf{x}^*)</span>
+<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a>\mathbf{v}$:</span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Positive for every nonzero $\mathbf{v}$ (positive definite Hessian)</span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a>  $\Rightarrow$ $f(\mathbf{x}^* + \mathbf{v}) &gt; f(\mathbf{x}^*)$ in</span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a>  every direction $\Rightarrow$ local minimum.</span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Negative for every nonzero $\mathbf{v}$ (negative definite Hessian)</span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a>  $\Rightarrow$ local maximum.</span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mixed sign (indefinite Hessian) $\Rightarrow$ the function increases</span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a>  in some directions and decreases in others from $\mathbf{x}^*$</span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a>  $\Rightarrow$ saddle point.</span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a>The second-order conditions guarantee a *local* minimum — a point</span>
-<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a>better than its immediate neighbors. For optimization in practice, we</span>
-<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a>usually want a *global* minimum. And local methods, including gradient</span>
-<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a>descent, can get stuck in local minima if the function has the wrong</span>
-<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a>shape.</span>
-<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a>Convexity is what prevents this.</span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convexity and global minima {#sec-unconstrained-convexity}</span></span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a>The second-order conditions guarantee a *local* minimum — a point</span>
+<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a>better than its immediate neighbors. For optimization in practice, we</span>
+<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a>usually want a *global* minimum. And local methods, including gradient</span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a>descent, can get stuck in local minima if the function has the wrong</span>
+<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a>shape.</span>
 <span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
-<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convexity</span></span>
-<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a>A function $f : \mathbb{R}^p \to \mathbb{R}$ is **convex** if for any</span>
-<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a>two points $\mathbf{x}, \mathbf{y}$ and any $\lambda \in <span class="co">[</span><span class="ot">0, 1</span><span class="co">]</span>$:</span>
-<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a>f<span class="sc">\!</span>\left(\lambda \mathbf{x} + (1-\lambda)\mathbf{y}\right)</span>
-<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a>\leq \lambda f(\mathbf{x}) + (1-\lambda) f(\mathbf{y}).</span>
-<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a>$$ {#eq-convexity-def}</span>
-<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a>Geometrically: the function lies below or on the chord connecting any</span>
-<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a>two points on its graph.</span>
-<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a>This definition has a powerful consequence: a convex function has no</span>
-<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a>local minima that are not also global. If you find a point where</span>
-<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a>$\nabla f = \mathbf{0}$ and $f$ is convex, you have found *the* global</span>
-<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a>minimum — there is nothing better anywhere.</span>
-<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a><span class="fu">## Geometric picture: the bowl</span></span>
-<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a>A strictly convex function looks like a bowl. Any ball you place inside</span>
-<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a>rolls to the bottom — the unique global minimum. A non-convex function</span>
-<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a>has bumps and valleys; the ball may settle in a local depression without</span>
-<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a>ever reaching the lowest point.</span>
-<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a>For convex functions, the first-order condition $\nabla f(\mathbf{x}^*)</span>
-<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a>= \mathbf{0}$ is not just necessary — it is also **sufficient** for a</span>
-<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a>global minimum.</span>
-<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a>The EOQ cost $C(q) = hq/2 + Ds/q$ is convex on $q &gt; 0$: its second</span>
-<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a>derivative $C''(q) = 2Ds/q^3$ is strictly positive everywhere on the</span>
-<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a>domain. The critical point at $q^*$ is therefore the unique global</span>
-<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a>minimum. No other order quantity can do better.</span>
-<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a>Several equivalent conditions characterize convexity:</span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a>Convexity is what prevents this.</span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convexity</span></span>
+<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a>A function $f : \mathbb{R}^p \to \mathbb{R}$ is **convex** if for any</span>
+<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a>two points $\mathbf{x}, \mathbf{y}$ and any $\lambda \in <span class="co">[</span><span class="ot">0, 1</span><span class="co">]</span>$:</span>
+<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a>f<span class="sc">\!</span>\left(\lambda \mathbf{x} + (1-\lambda)\mathbf{y}\right)</span>
+<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a>\leq \lambda f(\mathbf{x}) + (1-\lambda) f(\mathbf{y}).</span>
+<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a>$$ {#eq-convexity-def}</span>
+<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a>Geometrically: the function lies below or on the chord connecting any</span>
+<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a>two points on its graph.</span>
+<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a>This definition has a powerful consequence: a convex function has no</span>
+<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a>local minima that are not also global. If you find a point where</span>
+<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a>$\nabla f = \mathbf{0}$ and $f$ is convex, you have found *the* global</span>
+<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a>minimum — there is nothing better anywhere.</span>
+<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a><span class="fu">## Geometric picture: the bowl</span></span>
+<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a>A strictly convex function looks like a bowl. Any ball you place inside</span>
+<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a>rolls to the bottom — the unique global minimum. A non-convex function</span>
+<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a>has bumps and valleys; the ball may settle in a local depression without</span>
+<span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a>ever reaching the lowest point.</span>
+<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a>For convex functions, the first-order condition $\nabla f(\mathbf{x}^*)</span>
+<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a>= \mathbf{0}$ is not just necessary — it is also **sufficient** for a</span>
+<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a>global minimum.</span>
+<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a>The EOQ cost $C(q) = hq/2 + Ds/q$ is convex on $q &gt; 0$: its second</span>
+<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a>derivative $C''(q) = 2Ds/q^3$ is strictly positive everywhere on the</span>
+<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a>domain. The critical point at $q^*$ is therefore the unique global</span>
+<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a>minimum. No other order quantity can do better.</span>
 <span id="cb3-387"><a href="#cb3-387" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Via second derivative (one dimension):** $f$ is convex if and only</span>
-<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a>  if $f''(x) \geq 0$ for all $x$ in the domain.</span>
-<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Via Hessian (multiple dimensions):** $f$ is convex if and only if</span>
-<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a>  $H_f(\mathbf{x})$ is positive semidefinite for all $\mathbf{x}$ in</span>
-<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a>  the domain.</span>
-<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Strict convexity:** replace $\leq$ with $&lt;$ in</span>
-<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a>  @eq-convexity-def (for $\mathbf{x} \neq \mathbf{y}$) — this</span>
-<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a>  guarantees uniqueness of the minimum.</span>
-<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why convexity matters for optimization</span></span>
-<span id="cb3-399"><a href="#cb3-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-400"><a href="#cb3-400" aria-hidden="true" tabindex="-1"></a>Most objectives we will encounter in this book are convex by construction.</span>
-<span id="cb3-401"><a href="#cb3-401" aria-hidden="true" tabindex="-1"></a>This is not accidental — the models are designed that way deliberately.</span>
-<span id="cb3-402"><a href="#cb3-402" aria-hidden="true" tabindex="-1"></a>Convexity guarantees that any point satisfying the first-order conditions</span>
-<span id="cb3-403"><a href="#cb3-403" aria-hidden="true" tabindex="-1"></a>is a global minimum, not merely a local one. There is no risk of a solver</span>
-<span id="cb3-404"><a href="#cb3-404" aria-hidden="true" tabindex="-1"></a>finding a bad solution that happens to satisfy $\nabla f = \mathbf{0}$.</span>
-<span id="cb3-405"><a href="#cb3-405" aria-hidden="true" tabindex="-1"></a>When we arrive at the optimization problems in Part III, this property</span>
-<span id="cb3-406"><a href="#cb3-406" aria-hidden="true" tabindex="-1"></a>will be the reason we can trust the solutions we compute.</span>
-<span id="cb3-407"><a href="#cb3-407" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-408"><a href="#cb3-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-409"><a href="#cb3-409" aria-hidden="true" tabindex="-1"></a>The sum of two convex functions is convex, and a nonnegative scalar</span>
-<span id="cb3-410"><a href="#cb3-410" aria-hidden="true" tabindex="-1"></a>multiple of a convex function is convex. These preservation rules allow</span>
-<span id="cb3-411"><a href="#cb3-411" aria-hidden="true" tabindex="-1"></a>us to certify convexity for complex objectives by decomposing them into</span>
-<span id="cb3-412"><a href="#cb3-412" aria-hidden="true" tabindex="-1"></a>simpler pieces.</span>
-<span id="cb3-413"><a href="#cb3-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-416"><a href="#cb3-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-417"><a href="#cb3-417" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: convexity_base</span></span>
-<span id="cb3-418"><a href="#cb3-418" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb3-419"><a href="#cb3-419" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-420"><a href="#cb3-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-421"><a href="#cb3-421" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="dv">10000</span>; h <span class="ot">&lt;-</span> <span class="fl">2.5</span>; s <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a>Several equivalent conditions characterize convexity:</span>
+<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Via second derivative (one dimension):** $f$ is convex if and only</span>
+<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a>  if $f''(x) \geq 0$ for all $x$ in the domain.</span>
+<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Via Hessian (multiple dimensions):** $f$ is convex if and only if</span>
+<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a>  $H_f(\mathbf{x})$ is positive semidefinite for all $\mathbf{x}$ in</span>
+<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a>  the domain.</span>
+<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Strict convexity:** replace $\leq$ with $&lt;$ in</span>
+<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a>  @eq-convexity-def (for $\mathbf{x} \neq \mathbf{y}$) — this</span>
+<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a>  guarantees uniqueness of the minimum.</span>
+<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-399"><a href="#cb3-399" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb3-400"><a href="#cb3-400" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why convexity matters for optimization</span></span>
+<span id="cb3-401"><a href="#cb3-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-402"><a href="#cb3-402" aria-hidden="true" tabindex="-1"></a>Most objectives we will encounter in this book are convex by construction.</span>
+<span id="cb3-403"><a href="#cb3-403" aria-hidden="true" tabindex="-1"></a>This is not accidental — the models are designed that way deliberately.</span>
+<span id="cb3-404"><a href="#cb3-404" aria-hidden="true" tabindex="-1"></a>Convexity guarantees that any point satisfying the first-order conditions</span>
+<span id="cb3-405"><a href="#cb3-405" aria-hidden="true" tabindex="-1"></a>is a global minimum, not merely a local one. There is no risk of a solver</span>
+<span id="cb3-406"><a href="#cb3-406" aria-hidden="true" tabindex="-1"></a>finding a bad solution that happens to satisfy $\nabla f = \mathbf{0}$.</span>
+<span id="cb3-407"><a href="#cb3-407" aria-hidden="true" tabindex="-1"></a>When we arrive at the optimization problems in Part III, this property</span>
+<span id="cb3-408"><a href="#cb3-408" aria-hidden="true" tabindex="-1"></a>will be the reason we can trust the solutions we compute.</span>
+<span id="cb3-409"><a href="#cb3-409" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-410"><a href="#cb3-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-411"><a href="#cb3-411" aria-hidden="true" tabindex="-1"></a>The sum of two convex functions is convex, and a nonnegative scalar</span>
+<span id="cb3-412"><a href="#cb3-412" aria-hidden="true" tabindex="-1"></a>multiple of a convex function is convex. These preservation rules allow</span>
+<span id="cb3-413"><a href="#cb3-413" aria-hidden="true" tabindex="-1"></a>us to certify convexity for complex objectives by decomposing them into</span>
+<span id="cb3-414"><a href="#cb3-414" aria-hidden="true" tabindex="-1"></a>simpler pieces.</span>
+<span id="cb3-415"><a href="#cb3-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-418"><a href="#cb3-418" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-419"><a href="#cb3-419" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: convexity_base</span></span>
+<span id="cb3-420"><a href="#cb3-420" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb3-421"><a href="#cb3-421" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
 <span id="cb3-422"><a href="#cb3-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-423"><a href="#cb3-423" aria-hidden="true" tabindex="-1"></a>q_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">200</span>, <span class="dv">3000</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
-<span id="cb3-424"><a href="#cb3-424" aria-hidden="true" tabindex="-1"></a>cost   <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb3-425"><a href="#cb3-425" aria-hidden="true" tabindex="-1"></a>  <span class="at">q    =</span> q_vals,</span>
-<span id="cb3-426"><a href="#cb3-426" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost =</span> h <span class="sc">*</span> q <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> D <span class="sc">*</span> s <span class="sc">/</span> q</span>
-<span id="cb3-427"><a href="#cb3-427" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-428"><a href="#cb3-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-429"><a href="#cb3-429" aria-hidden="true" tabindex="-1"></a><span class="co"># Two demonstration points</span></span>
-<span id="cb3-430"><a href="#cb3-430" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="dv">500</span>;  q2 <span class="ot">&lt;-</span> <span class="dv">2200</span></span>
-<span id="cb3-431"><a href="#cb3-431" aria-hidden="true" tabindex="-1"></a>c1 <span class="ot">&lt;-</span> h <span class="sc">*</span> q1 <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> D <span class="sc">*</span> s <span class="sc">/</span> q1</span>
-<span id="cb3-432"><a href="#cb3-432" aria-hidden="true" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> h <span class="sc">*</span> q2 <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> D <span class="sc">*</span> s <span class="sc">/</span> q2</span>
-<span id="cb3-433"><a href="#cb3-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-434"><a href="#cb3-434" aria-hidden="true" tabindex="-1"></a><span class="co"># Chord between the two points</span></span>
-<span id="cb3-435"><a href="#cb3-435" aria-hidden="true" tabindex="-1"></a>chord <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">q =</span> <span class="fu">c</span>(q1, q2), <span class="at">cost =</span> <span class="fu">c</span>(c1, c2))</span>
-<span id="cb3-436"><a href="#cb3-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-437"><a href="#cb3-437" aria-hidden="true" tabindex="-1"></a>p_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cost, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> cost)) <span class="sc">+</span></span>
-<span id="cb3-438"><a href="#cb3-438" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"green"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb3-439"><a href="#cb3-439" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> chord, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> cost),   <span class="co"># &lt;1&gt;</span></span>
-<span id="cb3-440"><a href="#cb3-440" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"red"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb3-441"><a href="#cb3-441" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> chord, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> cost),</span>
-<span id="cb3-442"><a href="#cb3-442" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"red"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb3-443"><a href="#cb3-443" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-444"><a href="#cb3-444" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Order quantity (units)"</span>,</span>
-<span id="cb3-445"><a href="#cb3-445" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Annual cost ($)"</span></span>
-<span id="cb3-446"><a href="#cb3-446" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-447"><a href="#cb3-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-448"><a href="#cb3-448" aria-hidden="true" tabindex="-1"></a><span class="co"># Point labels added per render so text colour adapts to mode</span></span>
-<span id="cb3-449"><a href="#cb3-449" aria-hidden="true" tabindex="-1"></a>add_labels <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb3-450"><a href="#cb3-450" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
-<span id="cb3-451"><a href="#cb3-451" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> q1 <span class="sc">-</span> <span class="dv">80</span>, <span class="at">y =</span> c1 <span class="sc">+</span> <span class="dv">150</span>,</span>
-<span id="cb3-452"><a href="#cb3-452" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="st">"(q₁, C(q₁))"</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>,</span>
-<span id="cb3-453"><a href="#cb3-453" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
-<span id="cb3-454"><a href="#cb3-454" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> q2 <span class="sc">+</span> <span class="dv">80</span>, <span class="at">y =</span> c2 <span class="sc">+</span> <span class="dv">150</span>,</span>
-<span id="cb3-455"><a href="#cb3-455" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="st">"(q₂, C(q₂))"</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">hjust =</span> <span class="dv">0</span>,</span>
-<span id="cb3-456"><a href="#cb3-456" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark))</span>
-<span id="cb3-457"><a href="#cb3-457" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-458"><a href="#cb3-458" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-460"><a href="#cb3-460" aria-hidden="true" tabindex="-1"></a>::: {#fig-convexity}</span>
+<span id="cb3-423"><a href="#cb3-423" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="dv">10000</span>; h <span class="ot">&lt;-</span> <span class="fl">2.5</span>; s <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb3-424"><a href="#cb3-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-425"><a href="#cb3-425" aria-hidden="true" tabindex="-1"></a>q_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">200</span>, <span class="dv">3000</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
+<span id="cb3-426"><a href="#cb3-426" aria-hidden="true" tabindex="-1"></a>cost   <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb3-427"><a href="#cb3-427" aria-hidden="true" tabindex="-1"></a>  <span class="at">q    =</span> q_vals,</span>
+<span id="cb3-428"><a href="#cb3-428" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost =</span> h <span class="sc">*</span> q <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> D <span class="sc">*</span> s <span class="sc">/</span> q</span>
+<span id="cb3-429"><a href="#cb3-429" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-430"><a href="#cb3-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-431"><a href="#cb3-431" aria-hidden="true" tabindex="-1"></a><span class="co"># Two demonstration points</span></span>
+<span id="cb3-432"><a href="#cb3-432" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="dv">500</span>;  q2 <span class="ot">&lt;-</span> <span class="dv">2200</span></span>
+<span id="cb3-433"><a href="#cb3-433" aria-hidden="true" tabindex="-1"></a>c1 <span class="ot">&lt;-</span> h <span class="sc">*</span> q1 <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> D <span class="sc">*</span> s <span class="sc">/</span> q1</span>
+<span id="cb3-434"><a href="#cb3-434" aria-hidden="true" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> h <span class="sc">*</span> q2 <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> D <span class="sc">*</span> s <span class="sc">/</span> q2</span>
+<span id="cb3-435"><a href="#cb3-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-436"><a href="#cb3-436" aria-hidden="true" tabindex="-1"></a><span class="co"># Chord between the two points</span></span>
+<span id="cb3-437"><a href="#cb3-437" aria-hidden="true" tabindex="-1"></a>chord <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">q =</span> <span class="fu">c</span>(q1, q2), <span class="at">cost =</span> <span class="fu">c</span>(c1, c2))</span>
+<span id="cb3-438"><a href="#cb3-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-439"><a href="#cb3-439" aria-hidden="true" tabindex="-1"></a>p_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cost, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> cost)) <span class="sc">+</span></span>
+<span id="cb3-440"><a href="#cb3-440" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"green"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-441"><a href="#cb3-441" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> chord, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> cost),   <span class="co"># &lt;1&gt;</span></span>
+<span id="cb3-442"><a href="#cb3-442" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"red"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-443"><a href="#cb3-443" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> chord, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> cost),</span>
+<span id="cb3-444"><a href="#cb3-444" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"red"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb3-445"><a href="#cb3-445" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-446"><a href="#cb3-446" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Order quantity (units)"</span>,</span>
+<span id="cb3-447"><a href="#cb3-447" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Annual cost ($)"</span></span>
+<span id="cb3-448"><a href="#cb3-448" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-449"><a href="#cb3-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-450"><a href="#cb3-450" aria-hidden="true" tabindex="-1"></a><span class="co"># Point labels added per render so text colour adapts to mode</span></span>
+<span id="cb3-451"><a href="#cb3-451" aria-hidden="true" tabindex="-1"></a>add_labels <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb3-452"><a href="#cb3-452" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
+<span id="cb3-453"><a href="#cb3-453" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> q1 <span class="sc">-</span> <span class="dv">80</span>, <span class="at">y =</span> c1 <span class="sc">+</span> <span class="dv">150</span>,</span>
+<span id="cb3-454"><a href="#cb3-454" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="st">"(q₁, C(q₁))"</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb3-455"><a href="#cb3-455" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-456"><a href="#cb3-456" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> q2 <span class="sc">+</span> <span class="dv">80</span>, <span class="at">y =</span> c2 <span class="sc">+</span> <span class="dv">150</span>,</span>
+<span id="cb3-457"><a href="#cb3-457" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="st">"(q₂, C(q₂))"</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">hjust =</span> <span class="dv">0</span>,</span>
+<span id="cb3-458"><a href="#cb3-458" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark))</span>
+<span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-460"><a href="#cb3-460" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb3-461"><a href="#cb3-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-464"><a href="#cb3-464" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-465"><a href="#cb3-465" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: convexity_render</span></span>
-<span id="cb3-466"><a href="#cb3-466" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
-<span id="cb3-467"><a href="#cb3-467" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-468"><a href="#cb3-468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-469"><a href="#cb3-469" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels</span>(p_base, <span class="at">dark =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
-<span id="cb3-470"><a href="#cb3-470" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels</span>(p_base, <span class="at">dark =</span> <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
-<span id="cb3-471"><a href="#cb3-471" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-462"><a href="#cb3-462" aria-hidden="true" tabindex="-1"></a>::: {#fig-convexity}</span>
+<span id="cb3-463"><a href="#cb3-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-466"><a href="#cb3-466" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-467"><a href="#cb3-467" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: convexity_render</span></span>
+<span id="cb3-468"><a href="#cb3-468" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
+<span id="cb3-469"><a href="#cb3-469" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-470"><a href="#cb3-470" aria-hidden="true" tabindex="-1"></a><span class="co">#| dev: "png"</span></span>
+<span id="cb3-471"><a href="#cb3-471" aria-hidden="true" tabindex="-1"></a><span class="co">#| dev-args: !expr list(bg = "transparent")</span></span>
 <span id="cb3-472"><a href="#cb3-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-473"><a href="#cb3-473" aria-hidden="true" tabindex="-1"></a>Geometric interpretation of convexity. For any two points on the EOQ</span>
-<span id="cb3-474"><a href="#cb3-474" aria-hidden="true" tabindex="-1"></a>cost curve, the chord (dashed) lies entirely above the curve — the</span>
-<span id="cb3-475"><a href="#cb3-475" aria-hidden="true" tabindex="-1"></a>defining property of a convex function.</span>
-<span id="cb3-476"><a href="#cb3-476" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-477"><a href="#cb3-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-478"><a href="#cb3-478" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gradient descent: geometric intuition {#sec-unconstrained-gd}</span></span>
-<span id="cb3-479"><a href="#cb3-479" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-480"><a href="#cb3-480" aria-hidden="true" tabindex="-1"></a>When a closed-form solution to $\nabla f = \mathbf{0}$ exists — as it</span>
-<span id="cb3-481"><a href="#cb3-481" aria-hidden="true" tabindex="-1"></a>does for the EOQ — calculus gives us the answer directly. The derivative</span>
-<span id="cb3-482"><a href="#cb3-482" aria-hidden="true" tabindex="-1"></a>equation is solved in closed form, and we are done. But most objective</span>
-<span id="cb3-483"><a href="#cb3-483" aria-hidden="true" tabindex="-1"></a>functions encountered in machine learning have no closed-form</span>
-<span id="cb3-484"><a href="#cb3-484" aria-hidden="true" tabindex="-1"></a>minimizer. The equation $\nabla f(\mathbf{x}) = \mathbf{0}$ may be</span>
-<span id="cb3-485"><a href="#cb3-485" aria-hidden="true" tabindex="-1"></a>nonlinear or involve thousands of unknowns that must be solved</span>
-<span id="cb3-486"><a href="#cb3-486" aria-hidden="true" tabindex="-1"></a>numerically.</span>
-<span id="cb3-487"><a href="#cb3-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-488"><a href="#cb3-488" aria-hidden="true" tabindex="-1"></a>Gradient descent is the simplest numerical strategy. Its logic is purely</span>
-<span id="cb3-489"><a href="#cb3-489" aria-hidden="true" tabindex="-1"></a>geometric: the gradient $\nabla f(\mathbf{x})$ points uphill. Moving in</span>
-<span id="cb3-490"><a href="#cb3-490" aria-hidden="true" tabindex="-1"></a>the direction $-\nabla f(\mathbf{x})$ — the negative gradient — takes</span>
-<span id="cb3-491"><a href="#cb3-491" aria-hidden="true" tabindex="-1"></a>us downhill.</span>
-<span id="cb3-492"><a href="#cb3-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-493"><a href="#cb3-493" aria-hidden="true" tabindex="-1"></a>Starting from an initial point $\mathbf{x}_0$, one gradient descent</span>
-<span id="cb3-494"><a href="#cb3-494" aria-hidden="true" tabindex="-1"></a>step produces:</span>
-<span id="cb3-495"><a href="#cb3-495" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-496"><a href="#cb3-496" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-497"><a href="#cb3-497" aria-hidden="true" tabindex="-1"></a>\mathbf{x}_1 = \mathbf{x}_0 - \eta\, \nabla f(\mathbf{x}_0),</span>
-<span id="cb3-498"><a href="#cb3-498" aria-hidden="true" tabindex="-1"></a>$$ {#eq-gd-step}</span>
+<span id="cb3-473"><a href="#cb3-473" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels</span>(p_base, <span class="at">dark =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
+<span id="cb3-474"><a href="#cb3-474" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels</span>(p_base, <span class="at">dark =</span> <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
+<span id="cb3-475"><a href="#cb3-475" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-476"><a href="#cb3-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-477"><a href="#cb3-477" aria-hidden="true" tabindex="-1"></a>Geometric interpretation of convexity. For any two points on the EOQ</span>
+<span id="cb3-478"><a href="#cb3-478" aria-hidden="true" tabindex="-1"></a>cost curve, the chord (dashed) lies entirely above the curve — the</span>
+<span id="cb3-479"><a href="#cb3-479" aria-hidden="true" tabindex="-1"></a>defining property of a convex function.</span>
+<span id="cb3-480"><a href="#cb3-480" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-481"><a href="#cb3-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-482"><a href="#cb3-482" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gradient descent: geometric intuition {#sec-unconstrained-gd}</span></span>
+<span id="cb3-483"><a href="#cb3-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-484"><a href="#cb3-484" aria-hidden="true" tabindex="-1"></a>When a closed-form solution to $\nabla f = \mathbf{0}$ exists — as it</span>
+<span id="cb3-485"><a href="#cb3-485" aria-hidden="true" tabindex="-1"></a>does for the EOQ — calculus gives us the answer directly. The derivative</span>
+<span id="cb3-486"><a href="#cb3-486" aria-hidden="true" tabindex="-1"></a>equation is solved in closed form, and we are done. But most objective</span>
+<span id="cb3-487"><a href="#cb3-487" aria-hidden="true" tabindex="-1"></a>functions encountered in machine learning have no closed-form</span>
+<span id="cb3-488"><a href="#cb3-488" aria-hidden="true" tabindex="-1"></a>minimizer. The equation $\nabla f(\mathbf{x}) = \mathbf{0}$ may be</span>
+<span id="cb3-489"><a href="#cb3-489" aria-hidden="true" tabindex="-1"></a>nonlinear or involve thousands of unknowns that must be solved</span>
+<span id="cb3-490"><a href="#cb3-490" aria-hidden="true" tabindex="-1"></a>numerically.</span>
+<span id="cb3-491"><a href="#cb3-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-492"><a href="#cb3-492" aria-hidden="true" tabindex="-1"></a>Gradient descent is the simplest numerical strategy. Its logic is purely</span>
+<span id="cb3-493"><a href="#cb3-493" aria-hidden="true" tabindex="-1"></a>geometric: the gradient $\nabla f(\mathbf{x})$ points uphill. Moving in</span>
+<span id="cb3-494"><a href="#cb3-494" aria-hidden="true" tabindex="-1"></a>the direction $-\nabla f(\mathbf{x})$ — the negative gradient — takes</span>
+<span id="cb3-495"><a href="#cb3-495" aria-hidden="true" tabindex="-1"></a>us downhill.</span>
+<span id="cb3-496"><a href="#cb3-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-497"><a href="#cb3-497" aria-hidden="true" tabindex="-1"></a>Starting from an initial point $\mathbf{x}_0$, one gradient descent</span>
+<span id="cb3-498"><a href="#cb3-498" aria-hidden="true" tabindex="-1"></a>step produces:</span>
 <span id="cb3-499"><a href="#cb3-499" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-500"><a href="#cb3-500" aria-hidden="true" tabindex="-1"></a>where $\eta &gt; 0$ is the **step size** (also called the learning rate).</span>
-<span id="cb3-501"><a href="#cb3-501" aria-hidden="true" tabindex="-1"></a>The step size controls how far we move along the downhill direction.</span>
-<span id="cb3-502"><a href="#cb3-502" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-503"><a href="#cb3-503" aria-hidden="true" tabindex="-1"></a>On the EOQ cost, one step from $q_0 = 2{,}000$ with $\eta = 0.05$:</span>
-<span id="cb3-504"><a href="#cb3-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-505"><a href="#cb3-505" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-506"><a href="#cb3-506" aria-hidden="true" tabindex="-1"></a>C'(2000) = \frac{2.5}{2} - \frac{10000 \times 200}{2000^2} = 1.25 - 0.5 = 0.75.</span>
-<span id="cb3-507"><a href="#cb3-507" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-500"><a href="#cb3-500" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-501"><a href="#cb3-501" aria-hidden="true" tabindex="-1"></a>\mathbf{x}_1 = \mathbf{x}_0 - \eta\, \nabla f(\mathbf{x}_0),</span>
+<span id="cb3-502"><a href="#cb3-502" aria-hidden="true" tabindex="-1"></a>$$ {#eq-gd-step}</span>
+<span id="cb3-503"><a href="#cb3-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-504"><a href="#cb3-504" aria-hidden="true" tabindex="-1"></a>where $\eta &gt; 0$ is the **step size** (also called the learning rate).</span>
+<span id="cb3-505"><a href="#cb3-505" aria-hidden="true" tabindex="-1"></a>The step size controls how far we move along the downhill direction.</span>
+<span id="cb3-506"><a href="#cb3-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-507"><a href="#cb3-507" aria-hidden="true" tabindex="-1"></a>On the EOQ cost, one step from $q_0 = 2{,}000$ with $\eta = 0.05$:</span>
 <span id="cb3-508"><a href="#cb3-508" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-509"><a href="#cb3-509" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-510"><a href="#cb3-510" aria-hidden="true" tabindex="-1"></a>q_1 = 2000 - 0.05 \times 0.75 = 1999.96.</span>
+<span id="cb3-510"><a href="#cb3-510" aria-hidden="true" tabindex="-1"></a>C'(2000) = \frac{2.5}{2} - \frac{10000 \times 200}{2000^2} = 1.25 - 0.5 = 0.75.</span>
 <span id="cb3-511"><a href="#cb3-511" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb3-512"><a href="#cb3-512" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-513"><a href="#cb3-513" aria-hidden="true" tabindex="-1"></a>That is a small step — the derivative has units of dollars per unit,</span>
-<span id="cb3-514"><a href="#cb3-514" aria-hidden="true" tabindex="-1"></a>and $\eta$ must be calibrated accordingly. The point is not the</span>
-<span id="cb3-515"><a href="#cb3-515" aria-hidden="true" tabindex="-1"></a>arithmetic; it is the direction. The gradient told us we were too far</span>
-<span id="cb3-516"><a href="#cb3-516" aria-hidden="true" tabindex="-1"></a>right (positive derivative means we should decrease $q$), and the step</span>
-<span id="cb3-517"><a href="#cb3-517" aria-hidden="true" tabindex="-1"></a>corrects course.</span>
-<span id="cb3-518"><a href="#cb3-518" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-519"><a href="#cb3-519" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb3-520"><a href="#cb3-520" aria-hidden="true" tabindex="-1"></a><span class="fu">## What gradient descent does and does not do</span></span>
-<span id="cb3-521"><a href="#cb3-521" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-522"><a href="#cb3-522" aria-hidden="true" tabindex="-1"></a>Gradient descent, as described here, is a geometric idea — not a</span>
-<span id="cb3-523"><a href="#cb3-523" aria-hidden="true" tabindex="-1"></a>complete algorithm. The one-step picture in @eq-gd-step captures the</span>
-<span id="cb3-524"><a href="#cb3-524" aria-hidden="true" tabindex="-1"></a>logic. Repeated application moves steadily toward the minimum.</span>
+<span id="cb3-513"><a href="#cb3-513" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-514"><a href="#cb3-514" aria-hidden="true" tabindex="-1"></a>q_1 = 2000 - 0.05 \times 0.75 = 1999.96.</span>
+<span id="cb3-515"><a href="#cb3-515" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-516"><a href="#cb3-516" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-517"><a href="#cb3-517" aria-hidden="true" tabindex="-1"></a>That is a small step — the derivative has units of dollars per unit,</span>
+<span id="cb3-518"><a href="#cb3-518" aria-hidden="true" tabindex="-1"></a>and $\eta$ must be calibrated accordingly. The point is not the</span>
+<span id="cb3-519"><a href="#cb3-519" aria-hidden="true" tabindex="-1"></a>arithmetic; it is the direction. The gradient told us we were too far</span>
+<span id="cb3-520"><a href="#cb3-520" aria-hidden="true" tabindex="-1"></a>right (positive derivative means we should decrease $q$), and the step</span>
+<span id="cb3-521"><a href="#cb3-521" aria-hidden="true" tabindex="-1"></a>corrects course.</span>
+<span id="cb3-522"><a href="#cb3-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-523"><a href="#cb3-523" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb3-524"><a href="#cb3-524" aria-hidden="true" tabindex="-1"></a><span class="fu">## What gradient descent does and does not do</span></span>
 <span id="cb3-525"><a href="#cb3-525" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-526"><a href="#cb3-526" aria-hidden="true" tabindex="-1"></a>What we have not specified: how to choose $\eta$, when to stop, how to</span>
-<span id="cb3-527"><a href="#cb3-527" aria-hidden="true" tabindex="-1"></a>handle noisy or high-dimensional settings. Those details matter</span>
-<span id="cb3-528"><a href="#cb3-528" aria-hidden="true" tabindex="-1"></a>enormously in practice and are the subject of Chapter 6, which covers</span>
-<span id="cb3-529"><a href="#cb3-529" aria-hidden="true" tabindex="-1"></a>first- and second-order numerical methods in full. The purpose here is</span>
-<span id="cb3-530"><a href="#cb3-530" aria-hidden="true" tabindex="-1"></a>only geometric: the gradient tells you where uphill is, and you go the</span>
-<span id="cb3-531"><a href="#cb3-531" aria-hidden="true" tabindex="-1"></a>other way.</span>
-<span id="cb3-532"><a href="#cb3-532" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-533"><a href="#cb3-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-536"><a href="#cb3-536" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-537"><a href="#cb3-537" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gd_step_base</span></span>
-<span id="cb3-538"><a href="#cb3-538" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb3-539"><a href="#cb3-539" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-540"><a href="#cb3-540" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-541"><a href="#cb3-541" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-542"><a href="#cb3-542" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="dv">10000</span>; h <span class="ot">&lt;-</span> <span class="fl">2.5</span>; s <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb3-543"><a href="#cb3-543" aria-hidden="true" tabindex="-1"></a>C  <span class="ot">&lt;-</span> <span class="cf">function</span>(q) h <span class="sc">*</span> q <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> D <span class="sc">*</span> s <span class="sc">/</span> q   <span class="co"># &lt;1&gt;</span></span>
-<span id="cb3-544"><a href="#cb3-544" aria-hidden="true" tabindex="-1"></a>Cp <span class="ot">&lt;-</span> <span class="cf">function</span>(q) h <span class="sc">/</span> <span class="dv">2</span> <span class="sc">-</span> D <span class="sc">*</span> s <span class="sc">/</span> q<span class="sc">^</span><span class="dv">2</span>     <span class="co"># &lt;2&gt;</span></span>
+<span id="cb3-526"><a href="#cb3-526" aria-hidden="true" tabindex="-1"></a>Gradient descent, as described here, is a geometric idea — not a</span>
+<span id="cb3-527"><a href="#cb3-527" aria-hidden="true" tabindex="-1"></a>complete algorithm. The one-step picture in @eq-gd-step captures the</span>
+<span id="cb3-528"><a href="#cb3-528" aria-hidden="true" tabindex="-1"></a>logic. Repeated application moves steadily toward the minimum.</span>
+<span id="cb3-529"><a href="#cb3-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-530"><a href="#cb3-530" aria-hidden="true" tabindex="-1"></a>What we have not specified: how to choose $\eta$, when to stop, how to</span>
+<span id="cb3-531"><a href="#cb3-531" aria-hidden="true" tabindex="-1"></a>handle noisy or high-dimensional settings. Those details matter</span>
+<span id="cb3-532"><a href="#cb3-532" aria-hidden="true" tabindex="-1"></a>enormously in practice and are the subject of Chapter 6, which covers</span>
+<span id="cb3-533"><a href="#cb3-533" aria-hidden="true" tabindex="-1"></a>first- and second-order numerical methods in full. The purpose here is</span>
+<span id="cb3-534"><a href="#cb3-534" aria-hidden="true" tabindex="-1"></a>only geometric: the gradient tells you where uphill is, and you go the</span>
+<span id="cb3-535"><a href="#cb3-535" aria-hidden="true" tabindex="-1"></a>other way.</span>
+<span id="cb3-536"><a href="#cb3-536" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-537"><a href="#cb3-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-540"><a href="#cb3-540" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-541"><a href="#cb3-541" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gd_step_base</span></span>
+<span id="cb3-542"><a href="#cb3-542" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb3-543"><a href="#cb3-543" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-544"><a href="#cb3-544" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-545"><a href="#cb3-545" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-546"><a href="#cb3-546" aria-hidden="true" tabindex="-1"></a>q0   <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
-<span id="cb3-547"><a href="#cb3-547" aria-hidden="true" tabindex="-1"></a>eta  <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># step size in units of q (illustrative)      # &lt;3&gt;</span></span>
-<span id="cb3-548"><a href="#cb3-548" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> <span class="fu">Cp</span>(q0)</span>
-<span id="cb3-549"><a href="#cb3-549" aria-hidden="true" tabindex="-1"></a>q1   <span class="ot">&lt;-</span> q0 <span class="sc">-</span> eta <span class="sc">*</span> grad</span>
-<span id="cb3-550"><a href="#cb3-550" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-551"><a href="#cb3-551" aria-hidden="true" tabindex="-1"></a>q_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">400</span>, <span class="dv">3200</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
-<span id="cb3-552"><a href="#cb3-552" aria-hidden="true" tabindex="-1"></a>cost_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">q =</span> q_vals, <span class="at">cost =</span> <span class="fu">C</span>(q_vals))</span>
-<span id="cb3-553"><a href="#cb3-553" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-554"><a href="#cb3-554" aria-hidden="true" tabindex="-1"></a>arrow_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb3-555"><a href="#cb3-555" aria-hidden="true" tabindex="-1"></a>  <span class="at">q    =</span> <span class="fu">c</span>(q0, q1),</span>
-<span id="cb3-556"><a href="#cb3-556" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost =</span> <span class="fu">C</span>(<span class="fu">c</span>(q0, q1))</span>
-<span id="cb3-557"><a href="#cb3-557" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-558"><a href="#cb3-558" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-559"><a href="#cb3-559" aria-hidden="true" tabindex="-1"></a>p_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cost_df, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> cost)) <span class="sc">+</span></span>
-<span id="cb3-560"><a href="#cb3-560" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"green"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb3-561"><a href="#cb3-561" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb3-562"><a href="#cb3-562" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> q0, <span class="at">y =</span> <span class="fu">C</span>(q0), <span class="at">xend =</span> q1, <span class="at">yend =</span> <span class="fu">C</span>(q0)),</span>
-<span id="cb3-563"><a href="#cb3-563" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">"cm"</span>), <span class="at">type =</span> <span class="st">"closed"</span>),</span>
-<span id="cb3-564"><a href="#cb3-564" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"red"</span>), <span class="at">linewidth =</span> <span class="fl">0.9</span></span>
-<span id="cb3-565"><a href="#cb3-565" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb3-566"><a href="#cb3-566" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> q0, <span class="at">y =</span> <span class="fu">C</span>(q0)),</span>
-<span id="cb3-567"><a href="#cb3-567" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"blue"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>       <span class="co"># &lt;4&gt;</span></span>
-<span id="cb3-568"><a href="#cb3-568" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> q1, <span class="at">y =</span> <span class="fu">C</span>(q1)),</span>
-<span id="cb3-569"><a href="#cb3-569" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"red"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>       <span class="co"># &lt;5&gt;</span></span>
-<span id="cb3-570"><a href="#cb3-570" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Order quantity (units)"</span>, <span class="at">y =</span> <span class="st">"Annual cost ($)"</span>)</span>
-<span id="cb3-571"><a href="#cb3-571" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-572"><a href="#cb3-572" aria-hidden="true" tabindex="-1"></a><span class="co"># Step labels added per render so text colour adapts to mode</span></span>
-<span id="cb3-573"><a href="#cb3-573" aria-hidden="true" tabindex="-1"></a>add_labels <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb3-574"><a href="#cb3-574" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
-<span id="cb3-575"><a href="#cb3-575" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> q0 <span class="sc">+</span> <span class="dv">50</span>, <span class="at">y =</span> <span class="fu">C</span>(q0) <span class="sc">+</span> <span class="dv">60</span>,</span>
-<span id="cb3-576"><a href="#cb3-576" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="fu">expression</span>(q[<span class="dv">0</span>] <span class="sc">==</span> <span class="dv">2000</span>), <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.5</span>,</span>
-<span id="cb3-577"><a href="#cb3-577" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
-<span id="cb3-578"><a href="#cb3-578" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> q1 <span class="sc">-</span> <span class="dv">50</span>, <span class="at">y =</span> <span class="fu">C</span>(q1) <span class="sc">+</span> <span class="dv">60</span>,</span>
-<span id="cb3-579"><a href="#cb3-579" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="fu">expression</span>(q[<span class="dv">1</span>]), <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">3.5</span>,</span>
-<span id="cb3-580"><a href="#cb3-580" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark))</span>
-<span id="cb3-581"><a href="#cb3-581" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-582"><a href="#cb3-582" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-583"><a href="#cb3-583" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-584"><a href="#cb3-584" aria-hidden="true" tabindex="-1"></a>::: {#fig-gd-step}</span>
-<span id="cb3-585"><a href="#cb3-585" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-588"><a href="#cb3-588" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-589"><a href="#cb3-589" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gd_step_render</span></span>
-<span id="cb3-590"><a href="#cb3-590" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
-<span id="cb3-591"><a href="#cb3-591" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-592"><a href="#cb3-592" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-593"><a href="#cb3-593" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels</span>(p_base, <span class="at">dark =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
-<span id="cb3-594"><a href="#cb3-594" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels</span>(p_base, <span class="at">dark =</span> <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
-<span id="cb3-595"><a href="#cb3-595" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-596"><a href="#cb3-596" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-597"><a href="#cb3-597" aria-hidden="true" tabindex="-1"></a>One step of gradient descent on the EOQ cost. Starting at $q_0 = 2000$,</span>
-<span id="cb3-598"><a href="#cb3-598" aria-hidden="true" tabindex="-1"></a>the negative gradient points left — toward the minimum. The step lands</span>
-<span id="cb3-599"><a href="#cb3-599" aria-hidden="true" tabindex="-1"></a>at $q_1$.</span>
-<span id="cb3-600"><a href="#cb3-600" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-601"><a href="#cb3-601" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-602"><a href="#cb3-602" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises {#sec-unconstrained-exercises}</span></span>
-<span id="cb3-603"><a href="#cb3-603" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-604"><a href="#cb3-604" aria-hidden="true" tabindex="-1"></a>**Exercise 2.1.** A server provisioning problem has the following</span>
-<span id="cb3-605"><a href="#cb3-605" aria-hidden="true" tabindex="-1"></a>response time cost:</span>
-<span id="cb3-606"><a href="#cb3-606" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-607"><a href="#cb3-607" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-608"><a href="#cb3-608" aria-hidden="true" tabindex="-1"></a>L(n) = \frac{a}{n} + b \cdot n^2, \qquad n &gt; 0,</span>
-<span id="cb3-609"><a href="#cb3-609" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-610"><a href="#cb3-610" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-611"><a href="#cb3-611" aria-hidden="true" tabindex="-1"></a>where $n$ is the number of allocated servers, $a &gt; 0$ captures the</span>
-<span id="cb3-612"><a href="#cb3-612" aria-hidden="true" tabindex="-1"></a>throughput benefit of more servers, and $b &gt; 0$ captures the</span>
-<span id="cb3-613"><a href="#cb3-613" aria-hidden="true" tabindex="-1"></a>coordination overhead that grows super-linearly.</span>
-<span id="cb3-614"><a href="#cb3-614" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-615"><a href="#cb3-615" aria-hidden="true" tabindex="-1"></a>a. Find the first-order optimality condition and solve for $n^*$.</span>
-<span id="cb3-616"><a href="#cb3-616" aria-hidden="true" tabindex="-1"></a>b. Verify that $n^*$ is a minimum using the second-order condition.</span>
-<span id="cb3-617"><a href="#cb3-617" aria-hidden="true" tabindex="-1"></a>c. Is $L(n)$ convex on $n &gt; 0$? Justify using the second derivative.</span>
-<span id="cb3-618"><a href="#cb3-618" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-619"><a href="#cb3-619" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-546"><a href="#cb3-546" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="dv">10000</span>; h <span class="ot">&lt;-</span> <span class="fl">2.5</span>; s <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb3-547"><a href="#cb3-547" aria-hidden="true" tabindex="-1"></a>C  <span class="ot">&lt;-</span> <span class="cf">function</span>(q) h <span class="sc">*</span> q <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> D <span class="sc">*</span> s <span class="sc">/</span> q   <span class="co"># &lt;1&gt;</span></span>
+<span id="cb3-548"><a href="#cb3-548" aria-hidden="true" tabindex="-1"></a>Cp <span class="ot">&lt;-</span> <span class="cf">function</span>(q) h <span class="sc">/</span> <span class="dv">2</span> <span class="sc">-</span> D <span class="sc">*</span> s <span class="sc">/</span> q<span class="sc">^</span><span class="dv">2</span>     <span class="co"># &lt;2&gt;</span></span>
+<span id="cb3-549"><a href="#cb3-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-550"><a href="#cb3-550" aria-hidden="true" tabindex="-1"></a>q0   <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb3-551"><a href="#cb3-551" aria-hidden="true" tabindex="-1"></a>eta  <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># step size in units of q (illustrative)      # &lt;3&gt;</span></span>
+<span id="cb3-552"><a href="#cb3-552" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> <span class="fu">Cp</span>(q0)</span>
+<span id="cb3-553"><a href="#cb3-553" aria-hidden="true" tabindex="-1"></a>q1   <span class="ot">&lt;-</span> q0 <span class="sc">-</span> eta <span class="sc">*</span> grad</span>
+<span id="cb3-554"><a href="#cb3-554" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-555"><a href="#cb3-555" aria-hidden="true" tabindex="-1"></a>q_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">400</span>, <span class="dv">3200</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
+<span id="cb3-556"><a href="#cb3-556" aria-hidden="true" tabindex="-1"></a>cost_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">q =</span> q_vals, <span class="at">cost =</span> <span class="fu">C</span>(q_vals))</span>
+<span id="cb3-557"><a href="#cb3-557" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-558"><a href="#cb3-558" aria-hidden="true" tabindex="-1"></a>arrow_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb3-559"><a href="#cb3-559" aria-hidden="true" tabindex="-1"></a>  <span class="at">q    =</span> <span class="fu">c</span>(q0, q1),</span>
+<span id="cb3-560"><a href="#cb3-560" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost =</span> <span class="fu">C</span>(<span class="fu">c</span>(q0, q1))</span>
+<span id="cb3-561"><a href="#cb3-561" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-562"><a href="#cb3-562" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-563"><a href="#cb3-563" aria-hidden="true" tabindex="-1"></a>p_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cost_df, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> cost)) <span class="sc">+</span></span>
+<span id="cb3-564"><a href="#cb3-564" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"green"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-565"><a href="#cb3-565" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb3-566"><a href="#cb3-566" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> q0, <span class="at">y =</span> <span class="fu">C</span>(q0), <span class="at">xend =</span> q1, <span class="at">yend =</span> <span class="fu">C</span>(q0)),</span>
+<span id="cb3-567"><a href="#cb3-567" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">"cm"</span>), <span class="at">type =</span> <span class="st">"closed"</span>),</span>
+<span id="cb3-568"><a href="#cb3-568" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"red"</span>), <span class="at">linewidth =</span> <span class="fl">0.9</span></span>
+<span id="cb3-569"><a href="#cb3-569" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-570"><a href="#cb3-570" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> q0, <span class="at">y =</span> <span class="fu">C</span>(q0)),</span>
+<span id="cb3-571"><a href="#cb3-571" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"blue"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>       <span class="co"># &lt;4&gt;</span></span>
+<span id="cb3-572"><a href="#cb3-572" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> q1, <span class="at">y =</span> <span class="fu">C</span>(q1)),</span>
+<span id="cb3-573"><a href="#cb3-573" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"red"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>       <span class="co"># &lt;5&gt;</span></span>
+<span id="cb3-574"><a href="#cb3-574" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Order quantity (units)"</span>, <span class="at">y =</span> <span class="st">"Annual cost ($)"</span>)</span>
+<span id="cb3-575"><a href="#cb3-575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-576"><a href="#cb3-576" aria-hidden="true" tabindex="-1"></a><span class="co"># Step labels added per render so text colour adapts to mode</span></span>
+<span id="cb3-577"><a href="#cb3-577" aria-hidden="true" tabindex="-1"></a>add_labels <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb3-578"><a href="#cb3-578" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
+<span id="cb3-579"><a href="#cb3-579" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> q0 <span class="sc">+</span> <span class="dv">50</span>, <span class="at">y =</span> <span class="fu">C</span>(q0) <span class="sc">+</span> <span class="dv">60</span>,</span>
+<span id="cb3-580"><a href="#cb3-580" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="fu">expression</span>(q[<span class="dv">0</span>] <span class="sc">==</span> <span class="dv">2000</span>), <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.5</span>,</span>
+<span id="cb3-581"><a href="#cb3-581" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-582"><a href="#cb3-582" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> q1 <span class="sc">-</span> <span class="dv">50</span>, <span class="at">y =</span> <span class="fu">C</span>(q1) <span class="sc">+</span> <span class="dv">60</span>,</span>
+<span id="cb3-583"><a href="#cb3-583" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="fu">expression</span>(q[<span class="dv">1</span>]), <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">3.5</span>,</span>
+<span id="cb3-584"><a href="#cb3-584" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark))</span>
+<span id="cb3-585"><a href="#cb3-585" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-586"><a href="#cb3-586" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-587"><a href="#cb3-587" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-588"><a href="#cb3-588" aria-hidden="true" tabindex="-1"></a>::: {#fig-gd-step}</span>
+<span id="cb3-589"><a href="#cb3-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-592"><a href="#cb3-592" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-593"><a href="#cb3-593" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: gd_step_render</span></span>
+<span id="cb3-594"><a href="#cb3-594" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
+<span id="cb3-595"><a href="#cb3-595" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-596"><a href="#cb3-596" aria-hidden="true" tabindex="-1"></a><span class="co">#| dev: "png"</span></span>
+<span id="cb3-597"><a href="#cb3-597" aria-hidden="true" tabindex="-1"></a><span class="co">#| dev-args: !expr list(bg = "transparent")</span></span>
+<span id="cb3-598"><a href="#cb3-598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-599"><a href="#cb3-599" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels</span>(p_base, <span class="at">dark =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
+<span id="cb3-600"><a href="#cb3-600" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels</span>(p_base, <span class="at">dark =</span> <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
+<span id="cb3-601"><a href="#cb3-601" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-602"><a href="#cb3-602" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-603"><a href="#cb3-603" aria-hidden="true" tabindex="-1"></a>One step of gradient descent on the EOQ cost. Starting at $q_0 = 2000$,</span>
+<span id="cb3-604"><a href="#cb3-604" aria-hidden="true" tabindex="-1"></a>the negative gradient points left — toward the minimum. The step lands</span>
+<span id="cb3-605"><a href="#cb3-605" aria-hidden="true" tabindex="-1"></a>at $q_1$.</span>
+<span id="cb3-606"><a href="#cb3-606" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-607"><a href="#cb3-607" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-608"><a href="#cb3-608" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises {#sec-unconstrained-exercises}</span></span>
+<span id="cb3-609"><a href="#cb3-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-610"><a href="#cb3-610" aria-hidden="true" tabindex="-1"></a>**Exercise 2.1.** A server provisioning problem has the following</span>
+<span id="cb3-611"><a href="#cb3-611" aria-hidden="true" tabindex="-1"></a>response time cost:</span>
+<span id="cb3-612"><a href="#cb3-612" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-613"><a href="#cb3-613" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-614"><a href="#cb3-614" aria-hidden="true" tabindex="-1"></a>L(n) = \frac{a}{n} + b \cdot n^2, \qquad n &gt; 0,</span>
+<span id="cb3-615"><a href="#cb3-615" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-616"><a href="#cb3-616" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-617"><a href="#cb3-617" aria-hidden="true" tabindex="-1"></a>where $n$ is the number of allocated servers, $a &gt; 0$ captures the</span>
+<span id="cb3-618"><a href="#cb3-618" aria-hidden="true" tabindex="-1"></a>throughput benefit of more servers, and $b &gt; 0$ captures the</span>
+<span id="cb3-619"><a href="#cb3-619" aria-hidden="true" tabindex="-1"></a>coordination overhead that grows super-linearly.</span>
 <span id="cb3-620"><a href="#cb3-620" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-621"><a href="#cb3-621" aria-hidden="true" tabindex="-1"></a>**Exercise 2.2.** Let $f(x, y) = (x - 2)^2 + (y - 3)^2 + xy$.</span>
-<span id="cb3-622"><a href="#cb3-622" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-623"><a href="#cb3-623" aria-hidden="true" tabindex="-1"></a>a. Find all critical points by solving $\nabla f = \mathbf{0}$.</span>
-<span id="cb3-624"><a href="#cb3-624" aria-hidden="true" tabindex="-1"></a>b. Compute the Hessian $H_f$ and classify each critical point.</span>
-<span id="cb3-625"><a href="#cb3-625" aria-hidden="true" tabindex="-1"></a>c. Is $f$ convex? Provide a criterion-based justification.</span>
+<span id="cb3-621"><a href="#cb3-621" aria-hidden="true" tabindex="-1"></a>a. Find the first-order optimality condition and solve for $n^*$.</span>
+<span id="cb3-622"><a href="#cb3-622" aria-hidden="true" tabindex="-1"></a>b. Verify that $n^*$ is a minimum using the second-order condition.</span>
+<span id="cb3-623"><a href="#cb3-623" aria-hidden="true" tabindex="-1"></a>c. Is $L(n)$ convex on $n &gt; 0$? Justify using the second derivative.</span>
+<span id="cb3-624"><a href="#cb3-624" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-625"><a href="#cb3-625" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb3-626"><a href="#cb3-626" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-627"><a href="#cb3-627" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-627"><a href="#cb3-627" aria-hidden="true" tabindex="-1"></a>**Exercise 2.2.** Let $f(x, y) = (x - 2)^2 + (y - 3)^2 + xy$.</span>
 <span id="cb3-628"><a href="#cb3-628" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-629"><a href="#cb3-629" aria-hidden="true" tabindex="-1"></a>**Exercise 2.3.** The gradient descent update</span>
-<span id="cb3-630"><a href="#cb3-630" aria-hidden="true" tabindex="-1"></a>$x_{t+1} = x_t - \eta f'(x_t)$ applied to $f(x) = x^2$ starting from</span>
-<span id="cb3-631"><a href="#cb3-631" aria-hidden="true" tabindex="-1"></a>$x_0 = 10$:</span>
+<span id="cb3-629"><a href="#cb3-629" aria-hidden="true" tabindex="-1"></a>a. Find all critical points by solving $\nabla f = \mathbf{0}$.</span>
+<span id="cb3-630"><a href="#cb3-630" aria-hidden="true" tabindex="-1"></a>b. Compute the Hessian $H_f$ and classify each critical point.</span>
+<span id="cb3-631"><a href="#cb3-631" aria-hidden="true" tabindex="-1"></a>c. Is $f$ convex? Provide a criterion-based justification.</span>
 <span id="cb3-632"><a href="#cb3-632" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-633"><a href="#cb3-633" aria-hidden="true" tabindex="-1"></a>a. Show that after $t$ steps, $x_t = x_0 (1 - 2\eta)^t$.</span>
-<span id="cb3-634"><a href="#cb3-634" aria-hidden="true" tabindex="-1"></a>b. For what range of $\eta$ does the sequence converge to the minimum?</span>
-<span id="cb3-635"><a href="#cb3-635" aria-hidden="true" tabindex="-1"></a>c. What happens when $\eta = 1$? When $\eta &gt; 1$?</span>
-<span id="cb3-636"><a href="#cb3-636" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-637"><a href="#cb3-637" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-633"><a href="#cb3-633" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-634"><a href="#cb3-634" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-635"><a href="#cb3-635" aria-hidden="true" tabindex="-1"></a>**Exercise 2.3.** The gradient descent update</span>
+<span id="cb3-636"><a href="#cb3-636" aria-hidden="true" tabindex="-1"></a>$x_{t+1} = x_t - \eta f'(x_t)$ applied to $f(x) = x^2$ starting from</span>
+<span id="cb3-637"><a href="#cb3-637" aria-hidden="true" tabindex="-1"></a>$x_0 = 10$:</span>
 <span id="cb3-638"><a href="#cb3-638" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-639"><a href="#cb3-639" aria-hidden="true" tabindex="-1"></a>**Exercise 2.4 — Graduate level.** Consider a function</span>
-<span id="cb3-640"><a href="#cb3-640" aria-hidden="true" tabindex="-1"></a>$f : \mathbb{R}^p \to \mathbb{R}$ that is differentiable and convex.</span>
-<span id="cb3-641"><a href="#cb3-641" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-642"><a href="#cb3-642" aria-hidden="true" tabindex="-1"></a>a. Prove that any local minimum of $f$ is also a global minimum.</span>
-<span id="cb3-643"><a href="#cb3-643" aria-hidden="true" tabindex="-1"></a>   *(Hint: suppose $\mathbf{x}^*$ is a local minimum and $\mathbf{y}$</span>
-<span id="cb3-644"><a href="#cb3-644" aria-hidden="true" tabindex="-1"></a>   satisfies $f(\mathbf{y}) &lt; f(\mathbf{x}^*)$. Derive a contradiction</span>
-<span id="cb3-645"><a href="#cb3-645" aria-hidden="true" tabindex="-1"></a>   using the convexity definition.)*</span>
-<span id="cb3-646"><a href="#cb3-646" aria-hidden="true" tabindex="-1"></a>b. Show that if $f$ is strictly convex, the global minimum is unique.</span>
-<span id="cb3-647"><a href="#cb3-647" aria-hidden="true" tabindex="-1"></a>c. Now suppose $f$ is convex and $\nabla f(\mathbf{x}^*) = \mathbf{0}$.</span>
-<span id="cb3-648"><a href="#cb3-648" aria-hidden="true" tabindex="-1"></a>   Prove, using the first-order characterization of convexity</span>
-<span id="cb3-649"><a href="#cb3-649" aria-hidden="true" tabindex="-1"></a>   ($f(\mathbf{y}) \geq f(\mathbf{x}) + \nabla f(\mathbf{x})^\top</span>
-<span id="cb3-650"><a href="#cb3-650" aria-hidden="true" tabindex="-1"></a>   (\mathbf{y} - \mathbf{x})$), that $\mathbf{x}^*$ is a global minimum.</span>
+<span id="cb3-639"><a href="#cb3-639" aria-hidden="true" tabindex="-1"></a>a. Show that after $t$ steps, $x_t = x_0 (1 - 2\eta)^t$.</span>
+<span id="cb3-640"><a href="#cb3-640" aria-hidden="true" tabindex="-1"></a>b. For what range of $\eta$ does the sequence converge to the minimum?</span>
+<span id="cb3-641"><a href="#cb3-641" aria-hidden="true" tabindex="-1"></a>c. What happens when $\eta = 1$? When $\eta &gt; 1$?</span>
+<span id="cb3-642"><a href="#cb3-642" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-643"><a href="#cb3-643" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-644"><a href="#cb3-644" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-645"><a href="#cb3-645" aria-hidden="true" tabindex="-1"></a>**Exercise 2.4 — Graduate level.** Consider a function</span>
+<span id="cb3-646"><a href="#cb3-646" aria-hidden="true" tabindex="-1"></a>$f : \mathbb{R}^p \to \mathbb{R}$ that is differentiable and convex.</span>
+<span id="cb3-647"><a href="#cb3-647" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-648"><a href="#cb3-648" aria-hidden="true" tabindex="-1"></a>a. Prove that any local minimum of $f$ is also a global minimum.</span>
+<span id="cb3-649"><a href="#cb3-649" aria-hidden="true" tabindex="-1"></a>   *(Hint: suppose $\mathbf{x}^*$ is a local minimum and $\mathbf{y}$</span>
+<span id="cb3-650"><a href="#cb3-650" aria-hidden="true" tabindex="-1"></a>   satisfies $f(\mathbf{y}) &lt; f(\mathbf{x}^*)$. Derive a contradiction</span>
+<span id="cb3-651"><a href="#cb3-651" aria-hidden="true" tabindex="-1"></a>   using the convexity definition.)*</span>
+<span id="cb3-652"><a href="#cb3-652" aria-hidden="true" tabindex="-1"></a>b. Show that if $f$ is strictly convex, the global minimum is unique.</span>
+<span id="cb3-653"><a href="#cb3-653" aria-hidden="true" tabindex="-1"></a>c. Now suppose $f$ is convex and $\nabla f(\mathbf{x}^*) = \mathbf{0}$.</span>
+<span id="cb3-654"><a href="#cb3-654" aria-hidden="true" tabindex="-1"></a>   Prove, using the first-order characterization of convexity</span>
+<span id="cb3-655"><a href="#cb3-655" aria-hidden="true" tabindex="-1"></a>   ($f(\mathbf{y}) \geq f(\mathbf{x}) + \nabla f(\mathbf{x})^\top</span>
+<span id="cb3-656"><a href="#cb3-656" aria-hidden="true" tabindex="-1"></a>   (\mathbf{y} - \mathbf{x})$), that $\mathbf{x}^*$ is a global minimum.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
