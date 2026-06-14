@@ -133,6 +133,8 @@ add_labels_limits <- function(pl, dark = FALSE) {
 #| label: limits_render
 #| renderings: [light, dark]
 #| echo: false
+#| dev: "png"
+#| dev-args: !expr list(bg = "transparent")
 
 add_labels_limits(p_limits, FALSE) + scale_laurelin()
 add_labels_limits(p_limits, TRUE)  + scale_laurelin_dark()
@@ -232,6 +234,8 @@ add_labels_equality <- function(pl, dark = FALSE) {
 #| label: equality_render
 #| renderings: [light, dark]
 #| echo: false
+#| dev: "png"
+#| dev-args: !expr list(bg = "transparent")
 
 add_labels_equality(p_equality, FALSE) + scale_laurelin()
 add_labels_equality(p_equality, TRUE)  + scale_laurelin_dark()
@@ -330,6 +334,8 @@ add_labels_ineq <- function(pl, dark = FALSE) {
 #| label: inequality_render
 #| renderings: [light, dark]
 #| echo: false
+#| dev: "png"
+#| dev-args: !expr list(bg = "transparent")
 
 add_labels_ineq(p_ineq, FALSE) + scale_laurelin()
 add_labels_ineq(p_ineq, TRUE)  + scale_laurelin_dark()
@@ -420,6 +426,8 @@ add_labels_active <- function(pl, dark = FALSE) {
 #| label: active_render
 #| renderings: [light, dark]
 #| echo: false
+#| dev: "png"
+#| dev-args: !expr list(bg = "transparent")
 
 add_labels_active(p_active, FALSE) + scale_laurelin()
 add_labels_active(p_active, TRUE)  + scale_laurelin_dark()

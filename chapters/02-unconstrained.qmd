@@ -192,6 +192,8 @@ add_refs <- function(pl, dark = FALSE) {
 #| label: eoq_curve_render
 #| renderings: [light, dark]
 #| echo: false
+#| dev: "png"
+#| dev-args: !expr list(bg = "transparent")
 
 add_refs(p_base, dark = FALSE) + scale_laurelin() + theme(legend.position = "bottom")
 add_refs(p_base, dark = TRUE)  + scale_laurelin_dark() + theme(legend.position = "bottom")
@@ -453,6 +455,8 @@ add_labels <- function(pl, dark = FALSE) {
 #| label: convexity_render
 #| renderings: [light, dark]
 #| echo: false
+#| dev: "png"
+#| dev-args: !expr list(bg = "transparent")
 
 add_labels(p_base, dark = FALSE) + scale_laurelin()
 add_labels(p_base, dark = TRUE)  + scale_laurelin_dark()
@@ -573,6 +577,8 @@ add_labels <- function(pl, dark = FALSE) {
 #| label: gd_step_render
 #| renderings: [light, dark]
 #| echo: false
+#| dev: "png"
+#| dev-args: !expr list(bg = "transparent")
 
 add_labels(p_base, dark = FALSE) + scale_laurelin()
 add_labels(p_base, dark = TRUE)  + scale_laurelin_dark()
