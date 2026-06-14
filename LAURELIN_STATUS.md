@@ -60,21 +60,22 @@
   the sidebar TOC.
 - **Ch. 23 structure:** all SMO-MAPE content stays in one chapter with
   `###` subsections. Sidebar TOC provides navigation.
-- **Light/dark renderings:** every figure uses the base+render split:
-  - Base chunk: `#| output: false`, `#| code-fold: true` (required —
-    without it the fold renders outside the tabset)
-  - R render chunk: inside `{#fig-xxx}` div with caption text; uses
-    `scale_laurelin()` / `scale_laurelin_dark()`
-  - Python render chunk: `#| fig-cap:` directly on chunk; uses
-    `reset_style()` + `apply_light(fig, ax)` / `apply_dark(fig, ax)`
-    + `lc(name)` / `lc(name, dark=True)`
-  - Cross-references `@fig-xxx` resolve via the R div
-  - `annotate("text")` defaults to black — always pass
-    `color = lc("ref_text", dark = dark)` explicitly
-  - See SKILL for full pattern
-- **code-annotations:** `select` globally in `_quarto.yml`.
-  Annotations work on base chunks with `#| code-fold: true`.
-  Never add annotation lists after render chunks.
+- **Light/dark renderings:** two figure types — see SKILL for full patterns.
+  - **Type 1 (illustrative):** R only, all chunks `echo: false`, no tabset,
+    no Python. `{#fig-xxx}` div wraps render chunk directly. Use for geometry,
+    regions, concept diagrams. Add `#| dev: "png"` + `#| dev-args: !expr list(bg="transparent")`
+    to every render chunk.
+  - **Type 2 (pedagogical):** R + Python tabset, base chunk visible, render
+    chunk `echo: false`. `{#fig-xxx}` div inside R tab only. Use for code
+    the reader is expected to learn.
+  - Both types: render chunk uses `scale_laurelin()` / `scale_laurelin_dark()`.
+    Colors via `lc(name, dark = dark)` — never hardcoded hex in geoms.
+  - `annotate("text")` always gets `color = lc("ref_text", dark = dark)`.
+  - `theme_laurelin()` and `theme_laurelin_dark()` both use
+    `plot.background = transparent` — page CSS provides the background color.
+- **code-annotations:** `select` globally in `_quarto.yml`. Only use on
+  Type 2 (pedagogical) base chunks where code is visible. Never add
+  annotation lists after render chunks or echo: false chunks.
 - **Chapter setup:** two hidden setup chunks (R + Python) followed by
   a collapsed `appearance="simple"` Required packages callout.
   `laurelin_plot` is internal — not listed in Required packages.
@@ -136,41 +137,49 @@ Required packages callout at top.
 **Concepts installed:** ∇f = 0, Hessian, convexity → unique minimum.
 Seed planted: "convexity is what makes optimization in Part III tractable."
 **Introduces running examples:** NO
-**Final commits:** `7c96689` (fig crossref pattern applied to all three figures)
+**Final commits:** `7c96689` (fig crossref pattern), `59c1b32` (orphaned annotation lists removed, code-annotations: none dropped), `8a878bc` (transparent PNG background, theme_laurelin() plot.background → transparent)
+**Figure pattern:** Type 1 (illustrative) — R only, `echo: false`, no tabset, no Python. `dev: "png"` + `dev-args: list(bg="transparent")` on all render chunks.
 
 ---
 
-### Ch. 3 — `03-constrained.qmd` — 🔲 Stub
+### Ch. 3 — `03-constrained.qmd` — 🟠 Draft complete
 
 **Title:** Constrained Optimization
 **Anchor (primary):** Portfolio optimization — maximize return subject
-to a fixed budget.
-**Anchor (secondary):** Production planning — maximize units with
-limited machine-hours and materials.
+to a fixed budget (equality constraint).
+**Anchor (secondary):** Production planning — maximize revenue with
+limited machine-hours and materials (inequality constraints).
 **Scope IN:**
-- Feasible region: equality and inequality constraints
-- Geometric interpretation of constrained optimum
-- Active vs. inactive constraints
-- Why unconstrained techniques fail here
+- Why unconstrained methods fail when the optimum lies outside the feasible region
+- Feasible region: definition, convexity, infeasibility
+- Equality constraints: geometric interpretation, tangency at optimum
+- Inequality constraints: half-spaces, feasible region as intersection
+- Active vs. inactive constraints; active set definition
 **Scope OUT:**
 - Lagrangian construction → Ch. 4
 - KKT conditions → Ch. 5
 **Sections:**
 ```
-[Opening hook]
-## Feasible regions and constraints
+[Opening hook — portfolio manager]
+## The limits of unconstrained optimization
+## Feasible regions
 ## Equality constraints
 ## Inequality constraints
 ## Active and inactive constraints
-## Geometric interpretation of the constrained optimum
 ## Exercises
 ```
-**Code:** Visualize feasible regions, plot constrained vs unconstrained
-optima (R + Python).
-**Concepts installed:** Feasible region, active/inactive constraints,
-constrained optimum.
+**Code:** Four illustrative figures (limits, equality, inequality, active),
+all Type 1 (R only, echo: false, transparent PNG background).
+**Concepts installed:** Feasible region $\mathcal{F}$, active/inactive
+constraints, active set $\mathcal{A}(\mathbf{x}^*)$.
+Seeds planted: tangency condition → Lagrangian (Ch. 4); active set →
+complementary slackness (Ch. 5).
 **Introduces running examples:** NO
 **Depends on:** Ch. 2 (unconstrained optimum as baseline)
+**Final commits:** `c47a11e` (full chapter draft), `37f7f06` (dark-mode
+colors via lc()), `8a878bc` (transparent PNG background)
+**Known issues:** `@sec-lagrangian` and `@sec-kkt` cross-refs unresolved
+until Ch. 4 and Ch. 5 are written — expected, non-blocking.
 
 ---
 
@@ -551,4 +560,4 @@ Convergence curves, wall time, accuracy. Closes book arc back to Ch. 1.
 
 ## Active work
 
-- [ ] Ch. 3 — Constrained Optimization: agree structure, then write
+- [ ] Ch. 4 — The Lagrangian and Duality: agree structure, then write
