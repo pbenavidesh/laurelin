@@ -647,7 +647,6 @@ This shows the caption text without a figure number. The cross-ref
 ```{r}
 #| label: FIGURENAME_base
 #| output: false
-#| code-fold: true
 # base plot code
 ```
 
@@ -688,23 +687,17 @@ Caption text here.
 ````
 
 **Chunk label rules:**
-- Base chunks: plain `snake_case`, `#| output: false`, `#| code-fold: true`
+- Base chunks: plain `snake_case`, `#| output: false`
 - Render chunks: plain `snake_case` (no `fig-` prefix), `#| echo: false`
 - The `{#fig-xxx}` div label uses the `fig-` prefix for cross-references
 - Cross-references in prose: `@fig-FIGURENAME` resolves via the R div
-
-**Why `#| code-fold: true` on the base chunk is required:** without it,
-the global `code-fold: true` from `_quarto.yml` causes the base chunk's
-fold to render outside the tabset in the HTML output. The explicit
-per-chunk option keeps it correctly placed inside the tab.
 
 ---
 
 ### Code annotation
 
 Code annotations (numbered lists after a closing fence) work correctly
-in base chunks inside tabsets, **provided** the base chunk has
-`#| code-fold: true` explicitly set. The annotation list must appear
+in base chunks inside tabsets. The annotation list must appear
 immediately after the closing fence of the base chunk, before the
 render chunk or any div.
 
