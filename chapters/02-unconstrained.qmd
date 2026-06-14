@@ -1,5 +1,6 @@
 ---
 title: "Unconstrained Optimization"
+code-annotations: none
 ---
 
 ```{r}
