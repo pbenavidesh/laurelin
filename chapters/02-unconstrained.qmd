@@ -133,7 +133,7 @@ every first-order optimization method we will encounter in this book.
 ```{r}
 #| label: eoq_curve_base
 #| output: false
-#| code-fold: true
+
 
 # EOQ parameters
 D <- 10000   # annual demand (units)      # <1>
@@ -517,7 +517,6 @@ simpler pieces.
 ```{r}
 #| label: convexity_base
 #| output: false
-#| code-fold: true
 
 D <- 10000; h <- 2.5; s <- 200
 
@@ -734,7 +733,7 @@ other way.
 ```{r}
 #| label: gd_step_base
 #| output: false
-#| code-fold: true
+
 
 D <- 10000; h <- 2.5; s <- 200
 C  <- function(q) h * q / 2 + D * s / q   # <1>
@@ -887,6 +886,10 @@ ax.legend(frameon=False)
 apply_dark(fig, ax)
 plt.tight_layout(); plt.show(); plt.close()
 ```
+
+:::
+
+One step of gradient descent on the EOQ cost. Starting at $q_0 = 2000$, the negative gradient points left — toward the minimum. The step lands at $q_1$.
 
 :::
 
