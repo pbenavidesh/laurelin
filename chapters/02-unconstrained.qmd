@@ -126,13 +126,8 @@ eoq_df <- tibble(
 # Optimal q*
 q_star <- sqrt(2 * D * s / h)  # <7>
 
-p <- ggplot(eoq_df, aes(x = q, y = cost, color = component, linetype = component)) +
+p_base <- ggplot(eoq_df, aes(x = q, y = cost, color = component, linetype = component)) +
   geom_line(linewidth = 0.8) +
-  geom_vline(xintercept = q_star, linetype = "dashed", color = "grey40") +
-  annotate(
-    "text", x = q_star + 80, y = max(eoq_df$cost) * 0.85,
-    label = paste0("q* = ", round(q_star)), hjust = 0, size = 3.5
-  ) +
   scale_linetype_manual(
     values = c("Holding cost" = "solid", "Ordering cost" = "solid",
                "Total cost"   = "solid")
@@ -142,6 +137,18 @@ p <- ggplot(eoq_df, aes(x = q, y = cost, color = component, linetype = component
     y     = "Annual cost ($)",
     color = NULL, linetype = NULL
   )
+
+# Reference line + annotation added per render so colours adapt to mode
+add_refs <- function(pl, dark = FALSE) {
+  pl +
+    geom_vline(xintercept = q_star, linetype = "dashed",
+               color = lc("ref_line", dark = dark)) +
+    annotate(
+      "text", x = q_star + 80, y = max(eoq_df$cost) * 0.85,
+      label = paste0("q* = ", round(q_star)), hjust = 0, size = 3.5,
+      color = lc("ref_text", dark = dark)
+    )
+}
 ```
 1. Annual demand — how many units the warehouse moves in a year.
 2. Cost to hold one unit in inventory for one year.
@@ -156,8 +163,8 @@ p <- ggplot(eoq_df, aes(x = q, y = cost, color = component, linetype = component
 #| renderings: [light, dark]
 #| echo: false
 
-p + scale_laurelin() + theme(legend.position = "bottom")
-p + scale_laurelin_dark() + theme(legend.position = "bottom")
+add_refs(p_base, dark = FALSE) + scale_laurelin() + theme(legend.position = "bottom")
+add_refs(p_base, dark = TRUE)  + scale_laurelin_dark() + theme(legend.position = "bottom")
 ```
 
 ## Python
@@ -257,9 +264,9 @@ plt.rcParams.update({"text.color": "white"})
 ax.plot(q_vals, holding,  label="Holding cost",  color="#52B788", lw=1.5)
 ax.plot(q_vals, ordering, label="Ordering cost", color="#74A9D8", lw=1.5)
 ax.plot(q_vals, total,    label="Total cost",    color="#F4A261", lw=1.5)
-ax.axvline(q_star, color="grey", linestyle="--", lw=1)
+ax.axvline(q_star, color="#BBBBBB", linestyle="--", lw=1)
 ax.text(q_star + 50, total.max() * 0.85,
-        f"q* = {q_star:.0f}", fontsize=10, color="grey")
+        f"q* = {q_star:.0f}", fontsize=10, color="#DDDDDD")
 ax.set_xlabel("Order quantity (units)", fontsize=12)
 ax.set_ylabel("Annual cost ($)",        fontsize=12)
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f"${x:,.0f}"))
@@ -502,20 +509,27 @@ c2 <- h * q2 / 2 + D * s / q2
 # Chord between the two points
 chord <- tibble(q = c(q1, q2), cost = c(c1, c2))
 
-p <- ggplot(cost, aes(x = q, y = cost)) +
+p_base <- ggplot(cost, aes(x = q, y = cost)) +
   geom_line(color = lc("green"), linewidth = 1) +
   geom_line(data = chord, aes(x = q, y = cost),   # <1>
             color = lc("red"), linewidth = 1, linetype = "dashed") +
   geom_point(data = chord, aes(x = q, y = cost),
              color = lc("red"), size = 3) +
-  annotate("text", x = q1 - 80, y = c1 + 150,
-           label = "(q₁, C(q₁))", size = 3.5, hjust = 1) +
-  annotate("text", x = q2 + 80, y = c2 + 150,
-           label = "(q₂, C(q₂))", size = 3.5, hjust = 0) +
   labs(
     x = "Order quantity (units)",
     y = "Annual cost ($)"
   )
+
+# Point labels added per render so text colour adapts to mode
+add_labels <- function(pl, dark = FALSE) {
+  pl +
+    annotate("text", x = q1 - 80, y = c1 + 150,
+             label = "(q₁, C(q₁))", size = 3.5, hjust = 1,
+             color = lc("ref_text", dark = dark)) +
+    annotate("text", x = q2 + 80, y = c2 + 150,
+             label = "(q₂, C(q₂))", size = 3.5, hjust = 0,
+             color = lc("ref_text", dark = dark))
+}
 ```
 1. The chord lies above the curve between $q_1$ and $q_2$ — this is the
    geometric definition of convexity.
@@ -525,8 +539,8 @@ p <- ggplot(cost, aes(x = q, y = cost)) +
 #| renderings: [light, dark]
 #| echo: false
 
-p + scale_laurelin()
-p + scale_laurelin_dark()
+add_labels(p_base, dark = FALSE) + scale_laurelin()
+add_labels(p_base, dark = TRUE)  + scale_laurelin_dark()
 ```
 
 ## Python
@@ -625,10 +639,10 @@ ax.plot([q1, q2], [c1, c2], color="#E76F51", lw=1.5, linestyle="--", label="Chor
 ax.scatter([q1, q2], [c1, c2], color="#E76F51", s=50, zorder=5)
 ax.annotate(r"$(q_1, C(q_1))$", xy=(q1, c1),
             xytext=(q1 - 100, c1 + 200), fontsize=10,
-            ha="right", arrowprops=dict(arrowstyle="-", color="grey"))
+            ha="right", arrowprops=dict(arrowstyle="-", color="#BBBBBB"))
 ax.annotate(r"$(q_2, C(q_2))$", xy=(q2, c2),
             xytext=(q2 + 100, c2 + 200), fontsize=10,
-            ha="left",  arrowprops=dict(arrowstyle="-", color="grey"))
+            ha="left",  arrowprops=dict(arrowstyle="-", color="#BBBBBB"))
 ax.set_xlabel("Order quantity (units)", fontsize=12)
 ax.set_ylabel("Annual cost ($)",        fontsize=12)
 ax.legend(frameon=False)
@@ -725,7 +739,7 @@ arrow_df <- tibble(
   cost = C(c(q0, q1))
 )
 
-p <- ggplot(cost_df, aes(x = q, y = cost)) +
+p_base <- ggplot(cost_df, aes(x = q, y = cost)) +
   geom_line(color = lc("green"), linewidth = 1) +
   geom_segment(
     aes(x = q0, y = C(q0), xend = q1, yend = C(q0)),
@@ -736,11 +750,18 @@ p <- ggplot(cost_df, aes(x = q, y = cost)) +
              color = lc("blue"), size = 3) +       # <4>
   geom_point(aes(x = q1, y = C(q1)),
              color = lc("red"), size = 3) +       # <5>
-  annotate("text", x = q0 + 50, y = C(q0) + 60,
-           label = expression(q[0] == 2000), hjust = 0, size = 3.5) +
-  annotate("text", x = q1 - 50, y = C(q1) + 60,
-           label = expression(q[1]), hjust = 1, size = 3.5) +
   labs(x = "Order quantity (units)", y = "Annual cost ($)")
+
+# Step labels added per render so text colour adapts to mode
+add_labels <- function(pl, dark = FALSE) {
+  pl +
+    annotate("text", x = q0 + 50, y = C(q0) + 60,
+             label = expression(q[0] == 2000), hjust = 0, size = 3.5,
+             color = lc("ref_text", dark = dark)) +
+    annotate("text", x = q1 - 50, y = C(q1) + 60,
+             label = expression(q[1]), hjust = 1, size = 3.5,
+             color = lc("ref_text", dark = dark))
+}
 ```
 1. The EOQ cost function $C(q) = hq/2 + Ds/q$.
 2. Its derivative $C'(q) = h/2 - Ds/q^2$.
@@ -754,8 +775,8 @@ p <- ggplot(cost_df, aes(x = q, y = cost)) +
 #| renderings: [light, dark]
 #| echo: false
 
-p + scale_laurelin()
-p + scale_laurelin_dark()
+add_labels(p_base, dark = FALSE) + scale_laurelin()
+add_labels(p_base, dark = TRUE)  + scale_laurelin_dark()
 ```
 
 ## Python

@@ -12,29 +12,35 @@
 
 #' Laurelin colour palette
 #'
-#' Six discrete colours used consistently across all chapters.
-#' Order: green, blue, orange, red, purple, teal.
+#' Eight colours used consistently across all chapters.
+#' Six discrete data colours (green, blue, orange, red, purple, teal)
+#' plus two reference colours for annotations and guide lines
+#' (ref_line, ref_text) that adapt to light/dark mode.
 #'
 #' @param dark Logical. Return the dark-mode variant?
 #' @return Named character vector of hex colours.
 laurelin_pal <- function(dark = FALSE) {
   if (dark) {
     c(
-      green  = "#52B788",   # lighter green  — readable on dark bg
-      blue   = "#74A9D8",   # lighter blue
-      orange = "#F4A261",   # lighter orange
-      red    = "#E76F51",   # lighter red
-      purple = "#C77DFF",   # violet
-      teal   = "#48CAE4"    # teal
+      green    = "#52B788",   # lighter green  — readable on dark bg
+      blue     = "#74A9D8",   # lighter blue
+      orange   = "#F4A261",   # lighter orange
+      red      = "#E76F51",   # lighter red
+      purple   = "#C77DFF",   # violet
+      teal     = "#48CAE4",   # teal
+      ref_line = "#BBBBBB",   # reference lines (vlines, guidelines)
+      ref_text = "#DDDDDD"    # annotation text, axis labels
     )
   } else {
     c(
-      green  = "#2D6A4F",   # dark forest green
-      blue   = "#4C72B0",   # steel blue
-      orange = "#DD8452",   # terracotta orange
-      red    = "#C0392B",   # emphasis red
-      purple = "#7B2D8B",   # deep purple
-      teal   = "#0077B6"    # ocean teal
+      green    = "#2D6A4F",   # dark forest green
+      blue     = "#4C72B0",   # steel blue
+      orange   = "#DD8452",   # terracotta orange
+      red      = "#C0392B",   # emphasis red
+      purple   = "#7B2D8B",   # deep purple
+      teal     = "#0077B6",   # ocean teal
+      ref_line = "#999999",   # reference lines (vlines, guidelines)
+      ref_text = "#666666"    # annotation text, axis labels
     )
   }
 }
@@ -51,10 +57,10 @@ laurelin_pal <- function(dark = FALSE) {
 theme_laurelin <- function(base_size = 13) {
   ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(
-      # solid backgrounds — one per rendering (light/dark)
-      plot.background  = ggplot2::element_rect(fill = "#ffffff",
+      # transparent backgrounds — works with renderings: [light, dark]
+      plot.background  = ggplot2::element_rect(fill = "transparent",
                                                colour = NA),
-      panel.background = ggplot2::element_rect(fill = "#ffffff",
+      panel.background = ggplot2::element_rect(fill = "transparent",
                                                colour = NA),
       # grid
       panel.grid.major = ggplot2::element_line(colour = "#E5E5E5",
@@ -98,9 +104,9 @@ theme_laurelin <- function(base_size = 13) {
 theme_laurelin_dark <- function(base_size = 13) {
   ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(
-      plot.background  = ggplot2::element_rect(fill = "#222222",
+      plot.background  = ggplot2::element_rect(fill = "transparent",
                                                colour = NA),
-      panel.background = ggplot2::element_rect(fill = "#222222",
+      panel.background = ggplot2::element_rect(fill = "transparent",
                                                colour = NA),
       panel.grid.major = ggplot2::element_line(colour = "#3A3A3A",
                                                linewidth = 0.4),
