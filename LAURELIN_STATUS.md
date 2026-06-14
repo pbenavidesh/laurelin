@@ -21,6 +21,7 @@
 | `_quarto.yml` | ✅ Complete — includes margin refs, code-annotations: select |
 | Running datasets | ✅ `data/vic_elec.csv`, `data/california_housing.csv` |
 | `R/laurelin_theme.R` | ✅ Installed — light/dark themes, palette, lc() accessor |
+| `python/laurelin_plot.py` | ✅ Installed — lc(), apply_light(), apply_dark(), reset_style() |
 
 ---
 
@@ -51,26 +52,32 @@
 - **Appendices:** notation table (A) + math identities (B) only.
   No derivations in appendices.
 - **renv:** always `renv::record("pkg")`, never `renv::snapshot()`.
-- **Paths:** always `here::here()` in R, `_project_root()` helper in Python.
+- **Paths:** always `here::here()` in R. Python resolves `python/` via
+  a loop that handles both project root and chapter dir as cwd.
 - **Heading hierarchy:** `#` H1 is reserved for the chapter title
   (generated from YAML `title:`). Body content uses `##` and `###` only.
   `toc-depth: 3` in `_quarto.yml` ensures `###` subsections appear in
-  the sidebar TOC — use this for navigation in long chapters instead of
-  additional `#` headings.
-- **Ch. 23 structure:** all SMO-MAPE content (structural invariance
-  theorem + all four efficiency extensions + symmetric kernel variant)
-  stays in one chapter. Each extension gets its own `###` subsection
-  with theorem, collapsible proof, and code. Sidebar TOC provides
-  navigation — no need to split into separate chapters.
-- **Light/dark renderings:** every figure uses `renderings: [light, dark]`
-  pattern — base chunk (output: false) + render chunk (echo: false).
-  R uses `scale_laurelin()` / `scale_laurelin_dark()`. Python runs full
-  plot code twice with light/dark palette hex values.
-  `annotate("text")` defaults to black — always pass
-  `color = lc("ref_text", dark = dark)` explicitly. See SKILL for full
-  pattern including helper function naming convention.
+  the sidebar TOC.
+- **Ch. 23 structure:** all SMO-MAPE content stays in one chapter with
+  `###` subsections. Sidebar TOC provides navigation.
+- **Light/dark renderings:** every figure uses the base+render split:
+  - Base chunk: `#| output: false`, `#| code-fold: true` (required —
+    without it the fold renders outside the tabset)
+  - R render chunk: inside `{#fig-xxx}` div with caption text; uses
+    `scale_laurelin()` / `scale_laurelin_dark()`
+  - Python render chunk: `#| fig-cap:` directly on chunk; uses
+    `reset_style()` + `apply_light(fig, ax)` / `apply_dark(fig, ax)`
+    + `lc(name)` / `lc(name, dark=True)`
+  - Cross-references `@fig-xxx` resolve via the R div
+  - `annotate("text")` defaults to black — always pass
+    `color = lc("ref_text", dark = dark)` explicitly
+  - See SKILL for full pattern
 - **code-annotations:** `select` globally in `_quarto.yml`.
-  Labels inside `renderings` chunks must not start with `fig-`/`tbl-`.
+  Annotations work on base chunks with `#| code-fold: true`.
+  Never add annotation lists after render chunks.
+- **Chapter setup:** two hidden setup chunks (R + Python) followed by
+  a collapsed `appearance="simple"` Required packages callout.
+  `laurelin_plot` is internal — not listed in Required packages.
 
 ---
 
@@ -123,12 +130,13 @@ to zero.
 ## Gradient descent: geometric intuition
 ## Exercises
 ```
-**Code:** Plot EOQ cost curve, visualize gradient at a point, one step
-of GD on EOQ surface (R + Python). All figures use light/dark renderings.
+**Code:** Three figures (EOQ cost curve, convexity chord, GD step),
+all with light/dark renderings in R + Python. Setup chunks centralized.
+Required packages callout at top.
 **Concepts installed:** ∇f = 0, Hessian, convexity → unique minimum.
 Seed planted: "convexity is what makes optimization in Part III tractable."
 **Introduces running examples:** NO
-**Commits:** stub `1f532e5` → full chapter with light/dark renderings `919d975`
+**Final commits:** `7c96689` (fig crossref pattern applied to all three figures)
 
 ---
 
