@@ -357,13 +357,11 @@ Each chapter follows this pattern:
 
 **Two non-negotiable structural rules learned from Ch. 1:**
 
-- **Never add a `# H1` heading in the body.** The YAML `title:` field
-  already renders the chapter title. Adding `# Title {#sec-...}` as
-  the first body line produces a duplicate heading and renumbers all
-  subsequent sections. To cross-reference the full chapter from another
-  chapter, Quarto books derive the label automatically from the title —
-  no explicit H1 label is needed. Cross-reference labels belong on
-  `##` section headings only, for referencing specific sections.
+- **Never repeat the chapter title as a heading.** The YAML `title:`
+  field already renders the title. Do not add `# Title {#sec-...}` as
+  the first line of the body — it produces a duplicate heading.
+  The first line of body content should be the opening sentence or the
+  first `##` section heading.
 
 - **Never use `---` horizontal rules between sections.** Quarto renders
   `##` headings with their own visual separation. A `---` above or below
@@ -547,6 +545,128 @@ whenever the explanation benefits from visual separation from the code.
 
 Use plain `#` only for purely technical notes (index conventions,
 tolerance values) where no pedagogical explanation is needed.
+
+---
+
+### Light/dark renderings
+
+Every figure must display correctly in both the `cosmo` (light) and `darkly`
+(dark) Quarto themes. Use Quarto's `renderings: [light, dark]` chunk option
+to produce two versions of each plot — one per theme.
+
+**This applies to both R and Python chunks.** `renderings` is a Quarto
+option, not a knitr option — it works identically for `{r}` and `{python}`.
+
+#### Pattern: two-chunk split per figure
+
+Split every figure into a **base chunk** (builds the plot object, hidden
+output) and a **render chunk** (emits light then dark, hidden code):
+
+```markdown
+::: {#fig-FIGURENAME}
+
+::: {.panel-tabset group="language"}
+
+## R
+
+```{r}
+#| label: FIGURENAME_base
+#| output: false
+
+p <- ggplot(...) + geom_...() + labs(...)
+```
+
+```{r}
+#| label: FIGURENAME_render
+#| renderings: [light, dark]
+#| echo: false
+
+p + scale_laurelin()
+p + scale_laurelin_dark()
+```
+
+## Python
+
+```{python}
+#| label: FIGURENAME_py_base
+#| output: false
+
+# full plot code with light palette
+# ends with plt.close()
+```
+
+```{python}
+#| label: FIGURENAME_py_render
+#| renderings: [light, dark]
+#| echo: false
+
+# --- light rendering ---
+# full plot code; fig.patch.set_facecolor("#ffffff"); plt.show(); plt.close()
+
+# --- dark rendering ---
+# full plot code with dark palette
+# fig.patch.set_facecolor("#222222")
+# ax.set_facecolor("#222222")
+# ax.tick_params(colors="white")
+# ax.xaxis.label.set_color("white"); ax.yaxis.label.set_color("white")
+# for spine in ax.spines.values(): spine.set_edgecolor("#555555")
+# ax.title.set_color("white")
+# plt.rcParams.update({"text.color": "white"})
+# plt.show(); plt.close()
+```
+
+:::
+
+Caption text.
+:::
+```
+
+#### Critical label rule
+
+Chunk labels inside `renderings` blocks must **not** start with `fig-`,
+`tbl-`, or any other cross-reference prefix — Quarto will fail to resolve
+them. Use plain `snake_case`:
+
+- ✓ `eoq_curve_render`
+- ✗ `fig-eoq-curve-render`
+
+The cross-reference label lives on the outer div only (`#fig-eoq-curve`).
+
+#### Theme and palette helpers
+
+| Function | Use |
+|---|---|
+| `scale_laurelin()` | Light theme + colour scale — first line of R render chunk |
+| `scale_laurelin_dark()` | Dark theme + colour scale — second line of R render chunk |
+| `lc("name")` | Named colour accessor for manual geom colours (R only) |
+
+Light palette: `green=#2D6A4F`, `blue=#4C72B0`, `orange=#DD8452`, `red=#C0392B`
+Dark palette: `green=#52B788`, `blue=#74A9D8`, `orange=#F4A261`, `red=#E76F51`
+
+For Python, use the hex values directly — there is no `lc()` equivalent.
+
+#### Background colours
+
+- Light: `#ffffff` (set by `theme_laurelin()` / `fig.patch.set_facecolor`)
+- Dark: `#222222` (darkly body background / `fig.patch.set_facecolor`)
+
+#### EOQ legend caveat
+
+`scale_laurelin()` resets the complete theme, which wipes any
+`theme(legend.position = ...)` baked into the base plot object. Re-append
+manual theme overrides in the render chunk:
+
+```r
+p + scale_laurelin()      + theme(legend.position = "bottom")
+p + scale_laurelin_dark() + theme(legend.position = "bottom")
+```
+
+#### Python rcParams reset
+
+`plt.rcParams.update({"text.color": "white"})` in a dark render block
+persists into subsequent chunks. Each Python plot block must call
+`plt.style.use("seaborn-v0_8-whitegrid")` at the top to reset rcParams
+and prevent dark-mode text leaking into light renders.
 
 ---
 
