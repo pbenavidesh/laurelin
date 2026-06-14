@@ -1,44 +1,789 @@
-# Constrained Optimization {#sec-ch-constrained}
+---
+title: "Constrained Optimization"
+---
 
-## Motivation
+```{r}
+#| label: setup
+#| include: false
 
-*[Opening question or real-world problem that motivates this chapter.
-1-2 sentences placeholder.]*
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(here)
+source(here::here("R/laurelin_theme.R"))
+theme_set(theme_laurelin())
+```
 
-## SECTION_1_TITLE
+```{python}
+#| label: setup-py
+#| include: false
 
-*[Content placeholder.]*
+import sys
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+for _cand in ("python", os.path.join("..", "python")):
+    if os.path.isdir(_cand):
+        sys.path.insert(0, os.path.abspath(_cand))
+        break
+from laurelin_plot import lc, apply_light, apply_dark, reset_style
+```
 
-::: {.callout-note collapse="true"}
-## Derivation: DERIVATION_TITLE
+::: {.callout-note collapse="true" appearance="simple"}
+## Required packages
 
-*[Full derivation placeholder — collapsible for advanced readers.]*
+::: {.panel-tabset group="language"}
+## R
+```r
+library(ggplot2)   # plotting
+library(dplyr)     # data manipulation
+library(tidyr)     # reshaping
+```
+## Python
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+:::
 :::
 
-::: {.panel-tabset}
+A portfolio manager has $1,000,000 to invest. She wants to maximize expected return. Left unconstrained, the answer is trivial: borrow as much as possible and put it all in the highest-yielding asset. But she cannot do that. Every peso must be allocated — no cash sitting idle, no leverage. The constraint changes everything.
+
+## The limits of unconstrained optimization {#sec-constrained-limits}
+
+In Chapter 2, the recipe was straightforward. Write an objective function, set its gradient to zero, check the second-order conditions. If the function is convex, you have found the global minimum.
+
+That recipe requires nothing of the solution except that it satisfies $\nabla f(\mathbf{x}^*) = 0$. The solution can live anywhere in $\mathbb{R}^p$. When the portfolio manager adds the constraint that allocations must sum to exactly one, she is saying the solution must live somewhere specific — on a particular surface in the space of all possible portfolios. The unconstrained optimum may not be there.
+
+The figure below illustrates the conflict. The contour lines are the objective; the shaded region is where the solution is allowed to be. The unconstrained minimum sits outside that region. Following the gradient from any point inside the feasible region leads toward that forbidden point.
+
+```{r}
+#| label: limits_base
+#| output: false
+
+
+# Simple 2D example: minimize f(x,y) = (x-2.5)^2 + (y-2)^2
+# subject to x + y <= 3, x >= 0, y >= 0
+# Unconstrained minimum: (2.5, 2) — outside the feasible region
+# Constrained minimum: on x + y = 3, nearest point to (2.5, 2)
+# Projection: x* = 2.5 - (2.5+2-3)/2 = 1.75, y* = 1.25
+
+grid_df <- expand.grid(
+  x = seq(-0.3, 3.5, length.out = 300),
+  y = seq(-0.3, 3.2, length.out = 300)
+) |>
+  mutate(z = (x - 2.5)^2 + (y - 2)^2)
+
+feasible_df <- data.frame(
+  x = c(0, 3, 0, 0),
+  y = c(0, 0, 3, 0)
+)
+
+# Gradient arrow from (1.1, 1.4) pointing toward unconstrained min
+gx0 <- 1.1; gy0 <- 1.4
+gx1 <- gx0 + 0.55 * (2.5 - gx0) / sqrt((2.5-gx0)^2 + (2-gy0)^2)
+gy1 <- gy0 + 0.55 * (2 - gy0) / sqrt((2.5-gx0)^2 + (2-gy0)^2)
+
+p_limits <- ggplot() +
+  geom_polygon(data = feasible_df, aes(x, y),
+               fill = "#2D6A4F", alpha = 0.12) +
+  geom_contour(data = grid_df, aes(x, y, z = z),
+               breaks = c(0.3, 0.8, 1.5, 2.5, 4),
+               color = "gray60", linewidth = 0.4) +
+  # Constraint boundary
+  geom_segment(aes(x = 0, y = 3, xend = 3, yend = 0),
+               linewidth = 0.8) +
+  # Unconstrained minimum
+  geom_point(aes(x = 2.5, y = 2), size = 3) +
+  # Constrained minimum
+  geom_point(aes(x = 1.75, y = 1.25), size = 3, shape = 17) +
+  # Gradient arrow
+  geom_segment(aes(x = gx0, y = gy0, xend = gx1, yend = gy1),
+               arrow = arrow(length = unit(0.18, "cm"), type = "closed"),
+               linewidth = 0.7) +
+  coord_fixed(xlim = c(-0.3, 3.3), ylim = c(-0.3, 3.1)) +
+  labs(x = expression(x[1]), y = expression(x[2]))
+
+add_labels_limits <- function(pl, dark = FALSE) {
+  ref_col <- lc("ref_text", dark = dark)
+  pl +
+    annotate("text", x = 2.55, y = 1.75, label = "Unconstrained\nminimum",
+             hjust = 0, size = 3.2, color = ref_col) +
+    annotate("text", x = 1.85, y = 1.0, label = "Constrained\nminimum",
+             hjust = 0, size = 3.2, color = ref_col) +
+    annotate("text", x = 0.55, y = 2.6, label = "x\u2081 + x\u2082 = 3",
+             size = 3.2, color = ref_col, angle = -45) +
+    annotate("text", x = 0.55, y = 1.1, label = "Feasible\nregion",
+             size = 3.2, color = ref_col) +
+    annotate("text", x = gx0 - 0.08, y = gy0 + 0.2, label = "-\u2207f",
+             size = 3.2, color = ref_col)
+}
+```
+
+::: {.panel-tabset group="language"}
+
 ## R
 
-```r
-# R code placeholder
+```{r}
+#| label: limits_render_base
+#| output: false
+
+
+# (objects p_limits and add_labels_limits built in limits_base above)
 ```
+
+::: {#fig-limits}
+
+```{r}
+#| label: limits_render
+#| renderings: [light, dark]
+#| echo: false
+
+add_labels_limits(p_limits, FALSE) + scale_laurelin()
+add_labels_limits(p_limits, TRUE)  + scale_laurelin_dark()
+```
+
+The unconstrained minimum (circle) lies outside the feasible region (shaded). The gradient at any interior point points toward it — out of bounds. The constrained minimum (triangle) is the closest feasible point to the unconstrained solution.
+:::
 
 ## Python
 
-```python
-# Python code placeholder
+```{python}
+#| label: limits_py_base
+#| output: false
+
+x1 = np.linspace(-0.3, 3.3, 300)
+x2 = np.linspace(-0.3, 3.1, 300)
+X1, X2 = np.meshgrid(x1, x2)
+Z = (X1 - 2.5)**2 + (X2 - 2)**2
+feasible_mask = (X1 >= 0) & (X2 >= 0) & (X1 + X2 <= 3)
+
+gx0, gy0 = 1.1, 1.4
+dist = np.sqrt((2.5 - gx0)**2 + (2 - gy0)**2)
+gx1 = gx0 + 0.55 * (2.5 - gx0) / dist
+gy1 = gy0 + 0.55 * (2 - gy0) / dist
+```
+
+```{python}
+#| label: limits_py_render
+#| renderings: [light, dark]
+#| echo: false
+#| fig-cap: "The unconstrained minimum (circle) lies outside the feasible region (shaded). The gradient at any interior point points toward it — out of bounds. The constrained minimum (triangle) is the closest feasible point to the unconstrained solution."
+
+reset_style()
+
+# --- light rendering ---
+fig, ax = plt.subplots(figsize=(5, 5))
+fill_color = lc("green")
+ax.contourf(X1, X2, feasible_mask.astype(float), levels=[0.5, 1.5],
+            colors=[fill_color], alpha=0.15)
+ax.contour(X1, X2, Z, levels=[0.3, 0.8, 1.5, 2.5, 4],
+           colors=["#999999"], linewidths=0.5)
+ax.plot([0, 3], [3, 0], color=lc("ref_line"), linewidth=1)
+ax.plot(2.5, 2, 'o', color=lc("blue"), markersize=7, zorder=5)
+ax.plot(1.75, 1.25, '^', color=lc("orange"), markersize=7, zorder=5)
+ax.annotate("", xy=(gx1, gy1), xytext=(gx0, gy0),
+            arrowprops=dict(arrowstyle="->", color=lc("ref_line"), lw=1.2))
+txt = "#666666"
+ax.text(2.6, 1.7, "Unconstrained\nminimum", fontsize=8, color=txt)
+ax.text(1.85, 0.95, "Constrained\nminimum", fontsize=8, color=txt)
+ax.text(0.4, 2.55, "x\u2081 + x\u2082 = 3", fontsize=8, color=txt, rotation=-45)
+ax.text(0.3, 1.0, "Feasible\nregion", fontsize=8, color=txt)
+ax.text(gx0 - 0.15, gy0 + 0.22, "\u2212\u2207f", fontsize=8, color=txt)
+ax.set_xlabel("$x_1$", fontsize=12)
+ax.set_ylabel("$x_2$", fontsize=12)
+ax.set_xlim(-0.3, 3.3)
+ax.set_ylim(-0.3, 3.1)
+ax.set_aspect("equal")
+apply_light(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
+
+reset_style()
+
+# --- dark rendering ---
+fig, ax = plt.subplots(figsize=(5, 5))
+fill_color = lc("green", dark=True)
+ax.contourf(X1, X2, feasible_mask.astype(float), levels=[0.5, 1.5],
+            colors=[fill_color], alpha=0.15)
+ax.contour(X1, X2, Z, levels=[0.3, 0.8, 1.5, 2.5, 4],
+           colors=["#666666"], linewidths=0.5)
+ax.plot([0, 3], [3, 0], color=lc("ref_line", dark=True), linewidth=1)
+ax.plot(2.5, 2, 'o', color=lc("blue", dark=True), markersize=7, zorder=5)
+ax.plot(1.75, 1.25, '^', color=lc("orange", dark=True), markersize=7, zorder=5)
+ax.annotate("", xy=(gx1, gy1), xytext=(gx0, gy0),
+            arrowprops=dict(arrowstyle="->", color=lc("ref_line", dark=True), lw=1.2))
+txt = "#DDDDDD"
+ax.text(2.6, 1.7, "Unconstrained\nminimum", fontsize=8, color=txt)
+ax.text(1.85, 0.95, "Constrained\nminimum", fontsize=8, color=txt)
+ax.text(0.4, 2.55, "x\u2081 + x\u2082 = 3", fontsize=8, color=txt, rotation=-45)
+ax.text(0.3, 1.0, "Feasible\nregion", fontsize=8, color=txt)
+ax.text(gx0 - 0.15, gy0 + 0.22, "\u2212\u2207f", fontsize=8, color=txt)
+ax.set_xlabel("$x_1$", fontsize=12)
+ax.set_ylabel("$x_2$", fontsize=12)
+ax.set_xlim(-0.3, 3.3)
+ax.set_ylim(-0.3, 3.1)
+ax.set_aspect("equal")
+apply_dark(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
 ```
 
 :::
 
-## SECTION_2_TITLE
+The gradient does not know about the constraint. It points in the direction of steepest descent, which may be straight out of the region where the solution is allowed to live. A different set of tools is needed — ones that take the boundary seriously.
 
-*[Content placeholder.]*
+## Feasible regions {#sec-constrained-feasible}
 
-## Summary
+A **constrained optimization problem** has the form
 
-*[Key takeaways from this chapter — 3-5 bullet points placeholder.]*
+$$
+\begin{aligned}
+\min_{\mathbf{x} \in \mathbb{R}^p} \quad & f(\mathbf{x}) \\
+\text{subject to} \quad & g_i(\mathbf{x}) \leq 0, \quad i = 1, \ldots, m \\
+& h_j(\mathbf{x}) = 0, \quad j = 1, \ldots, r
+\end{aligned}
+$$ {#eq-constrained-general}
 
-## Exercises
+where $f$ is the objective, $g_i$ are inequality constraints, and $h_j$ are equality constraints. The **feasible region** $\mathcal{F}$ is the set of all $\mathbf{x}$ that satisfy every constraint simultaneously:
 
-1. *[Exercise placeholder.]*
-2. *[Exercise placeholder.]*
+$$
+\mathcal{F} = \{\mathbf{x} \in \mathbb{R}^p : g_i(\mathbf{x}) \leq 0 \text{ for all } i, \; h_j(\mathbf{x}) = 0 \text{ for all } j\}.
+$$ {#eq-feasible-region}
+
+The constrained optimum is the point in $\mathcal{F}$ where $f$ is smallest. If $\mathcal{F}$ is empty — the constraints are contradictory — the problem is **infeasible** and has no solution. If $f$ is unbounded below on $\mathcal{F}$, the problem is **unbounded**.
+
+::: {.callout-tip}
+## Convexity of the feasible region
+
+When all inequality constraints $g_i$ are convex functions and all equality constraints $h_j$ are affine (linear plus constant), the feasible region $\mathcal{F}$ is a convex set. Convexity of $\mathcal{F}$ combined with convexity of $f$ guarantees that any local minimum is a global minimum — the same guarantee we had in Chapter 2, now carried into the constrained setting.
+:::
+
+## Equality constraints {#sec-constrained-equality}
+
+The portfolio problem is the cleanest example of an equality constraint. The manager allocates fractions $x_1, x_2, \ldots, x_p$ of her capital across $p$ assets. The fractions must sum to one: every peso must go somewhere.
+
+$$
+x_1 + x_2 + \cdots + x_p = 1, \quad x_k \geq 0.
+$$ {#eq-portfolio-budget}
+
+This is not an approximation or a soft target. It is a hard constraint. Leaving 5% in cash is a choice with a cost — the opportunity cost of not investing — and the manager's mandate does not allow it.
+
+An equality constraint $h(\mathbf{x}) = 0$ defines a surface in $\mathbb{R}^p$: all the points where $h$ evaluates to zero. In two dimensions, it is a curve. The feasible solutions must lie exactly on that curve.
+
+The figure below shows what this means geometrically. The objective has circular contours centered at its unconstrained minimum. The constraint $h(\mathbf{x}) = x_1 + x_2 - 1 = 0$ is a line. The constrained minimum is the point on the line where the contours are tightest — where the objective is smallest among all points satisfying the constraint.
+
+```{r}
+#| label: equality_base
+#| output: false
+
+
+# Unconstrained min: (0.8, 1.5); constraint: x1 + x2 = 1
+# Projection onto x1+x2=1: x*=(0.8-1.5+1)/2=0.15, y*=(1.5-0.8+1)/2=0.85
+# f at constrained min: (0.15-0.8)^2 + (0.85-1.5)^2 = 0.4225 + 0.4225 = 0.845
+# Tangent contour must use break = 0.845
+
+grid_eq <- expand.grid(
+  x = seq(-0.2, 2.1, length.out = 300),
+  y = seq(-0.2, 2.1, length.out = 300)
+) |>
+  mutate(z = (x - 0.8)^2 + (y - 1.5)^2)
+
+p_equality <- ggplot() +
+  geom_contour(data = grid_eq, aes(x, y, z = z),
+               breaks = c(0.25, 0.507, 0.845, 1.35, 2.1),
+               color = "gray60", linewidth = 0.4) +
+  geom_abline(slope = -1, intercept = 1, linewidth = 0.9) +
+  geom_point(aes(x = 0.8, y = 1.5), size = 3) +
+  geom_point(aes(x = 0.15, y = 0.85), size = 3, shape = 17) +
+  coord_fixed(xlim = c(-0.2, 2.1), ylim = c(-0.2, 2.1)) +
+  labs(x = expression(x[1]), y = expression(x[2]))
+
+add_labels_equality <- function(pl, dark = FALSE) {
+  ref_col <- lc("ref_text", dark = dark)
+  pl +
+    annotate("text", x = 0.9, y = 1.62, label = "Unconstrained\nminimum",
+             hjust = 0, size = 3.2, color = ref_col) +
+    annotate("text", x = 0.18, y = 0.68, label = "Constrained\nminimum",
+             hjust = 0, size = 3.2, color = ref_col) +
+    annotate("text", x = 1.45, y = 0.62, label = "h(x) = 0",
+             size = 3.2, color = ref_col, angle = -45)
+}
+```
+
+::: {.panel-tabset group="language"}
+
+## R
+
+```{r}
+#| label: equality_render_base
+#| output: false
+
+
+# (objects p_equality and add_labels_equality built in equality_base above)
+```
+
+::: {#fig-equality}
+
+```{r}
+#| label: equality_render
+#| renderings: [light, dark]
+#| echo: false
+
+add_labels_equality(p_equality, FALSE) + scale_laurelin()
+add_labels_equality(p_equality, TRUE)  + scale_laurelin_dark()
+```
+
+The equality constraint $h(\mathbf{x}) = 0$ defines a line. The constrained minimum (triangle) is the point on that line closest to the unconstrained minimum — the contour tangent to the constraint.
+:::
+
+## Python
+
+```{python}
+#| label: equality_py_base
+#| output: false
+
+x1e = np.linspace(-0.2, 2.1, 300)
+x2e = np.linspace(-0.2, 2.1, 300)
+X1e, X2e = np.meshgrid(x1e, x2e)
+Ze = (X1e - 0.8)**2 + (X2e - 1.5)**2
+# tangent contour level = 0.845 (exact f value at constrained minimum)
+eq_breaks = [0.25, 0.507, 0.845, 1.35, 2.1]
+```
+
+```{python}
+#| label: equality_py_render
+#| renderings: [light, dark]
+#| echo: false
+#| fig-cap: "The equality constraint $h(\\mathbf{x}) = 0$ defines a line. The constrained minimum (triangle) is the point on that line closest to the unconstrained minimum — the contour tangent to the constraint."
+
+reset_style()
+
+# --- light rendering ---
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.contour(X1e, X2e, Ze, levels=eq_breaks,
+           colors=["#999999"], linewidths=0.5)
+ax.plot([0, 1], [1, 0], color=lc("ref_line"), linewidth=1.2)
+ax.plot(0.8, 1.5, 'o', color=lc("blue"), markersize=7, zorder=5)
+ax.plot(0.15, 0.85, '^', color=lc("orange"), markersize=7, zorder=5)
+txt = "#666666"
+ax.text(0.88, 1.62, "Unconstrained\nminimum", fontsize=8, color=txt)
+ax.text(0.18, 0.68, "Constrained\nminimum", fontsize=8, color=txt)
+ax.text(1.42, 0.60, "$h(\\mathbf{x})=0$", fontsize=8, color=txt, rotation=-45)
+ax.set_xlabel("$x_1$", fontsize=12)
+ax.set_ylabel("$x_2$", fontsize=12)
+ax.set_xlim(-0.2, 2.1)
+ax.set_ylim(-0.2, 2.1)
+ax.set_aspect("equal")
+apply_light(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
+
+reset_style()
+
+# --- dark rendering ---
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.contour(X1e, X2e, Ze, levels=eq_breaks,
+           colors=["#666666"], linewidths=0.5)
+ax.plot([0, 1], [1, 0], color=lc("ref_line", dark=True), linewidth=1.2)
+ax.plot(0.8, 1.5, 'o', color=lc("blue", dark=True), markersize=7, zorder=5)
+ax.plot(0.15, 0.85, '^', color=lc("orange", dark=True), markersize=7, zorder=5)
+txt = "#DDDDDD"
+ax.text(0.88, 1.62, "Unconstrained\nminimum", fontsize=8, color=txt)
+ax.text(0.18, 0.68, "Constrained\nminimum", fontsize=8, color=txt)
+ax.text(1.42, 0.60, "$h(\\mathbf{x})=0$", fontsize=8, color=txt, rotation=-45)
+ax.set_xlabel("$x_1$", fontsize=12)
+ax.set_ylabel("$x_2$", fontsize=12)
+ax.set_xlim(-0.2, 2.1)
+ax.set_ylim(-0.2, 2.1)
+ax.set_aspect("equal")
+apply_dark(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
+```
+
+:::
+
+The geometric insight is worth holding onto. At the constrained minimum, the contour of $f$ is tangent to the constraint surface. Moving along the constraint in either direction increases $f$. This tangency condition — the contours of $f$ and the constraint surface sharing the same direction — is precisely what the Lagrangian captures formally in @sec-lagrangian.
+
+::: {.callout-warning}
+## Equality constraints are rarely met in practice
+
+A constraint like $\sum_k x_k = 1$ is exact in theory but fragile in numerical optimization. Floating-point arithmetic means the sum may be $1.0000000003$ rather than exactly $1$. In practice, equality constraints are enforced up to a tolerance. This matters when implementing solvers — always check whether your solver requires exact feasibility or accepts an $\epsilon$-tolerance.
+:::
+
+## Inequality constraints {#sec-constrained-inequality}
+
+The production planning anchor is more natural for inequalities. A factory has 200 machine-hours available per week and 150 kg of raw material. It produces two goods: tables and chairs. Each table requires 5 machine-hours and 3 kg of material; each chair requires 2 machine-hours and 4 kg. The manager wants to maximize revenue.
+
+$$
+\begin{aligned}
+\max_{x_1, x_2} \quad & 80 x_1 + 50 x_2 \\
+\text{subject to} \quad & 5 x_1 + 2 x_2 \leq 200 \\
+& 3 x_1 + 4 x_2 \leq 150 \\
+& x_1, x_2 \geq 0
+\end{aligned}
+$$ {#eq-production}
+
+Each inequality constraint cuts a half-space from $\mathbb{R}^2$. The feasible region is their intersection — a polygon whose edges are the constraint boundaries.
+
+Unlike an equality constraint, an inequality constraint does not force the solution to a surface. It rules out one side of a boundary and leaves the other side open. The solution can be anywhere in the interior or on the boundary.
+
+```{r}
+#| label: inequality_base
+#| output: false
+
+
+# Feasible region for production planning
+# 5x + 2y <= 200, 3x + 4y <= 150, x>=0, y>=0
+# Corner points: (0,0), (40,0), (25*8/7, ...) — solve intersection
+# 5x+2y=200, 3x+4y=150 → multiply first by 2: 10x+4y=400, subtract: 7x=250 → x=250/7≈35.7, y=(200-5*250/7)/2=(200-178.6)/2≈10.7
+# Corner points: (0,0), (40,0), (250/7, 200/7*... let me recompute)
+# x*=250/7, y=(200-5*250/7)/2 = (200-1250/7)/2 = (1400/7-1250/7)/2 = 150/14 = 75/7
+# Also (0, 37.5) from 4y=150
+
+x_int <- 250/7; y_int <- 75/7
+
+grid_prod <- expand.grid(
+  x = seq(-2, 45, length.out = 300),
+  y = seq(-2, 42, length.out = 300)
+) |>
+  mutate(
+    feasible = (5*x + 2*y <= 200) & (3*x + 4*y <= 150) & x >= 0 & y >= 0,
+    obj = 80*x + 50*y
+  )
+
+corners <- data.frame(x = c(0, 40, x_int, 0), y = c(0, 0, y_int, 150/4))
+
+p_ineq <- ggplot() +
+  geom_raster(data = filter(grid_prod, feasible),
+              aes(x, y), fill = "#2D6A4F", alpha = 0.15) +
+  geom_contour(data = grid_prod, aes(x, y, z = obj),
+               breaks = c(500, 1000, 1500, 2000, 2500, 2900),
+               color = "gray60", linewidth = 0.4) +
+  geom_segment(aes(x = 0, y = 100, xend = 40, yend = 0),
+               linewidth = 0.8) +
+  geom_segment(aes(x = 0, y = 150/4, xend = 50, yend = 0),
+               linewidth = 0.8, linetype = "dashed") +
+  geom_point(aes(x = x_int, y = y_int), size = 3, shape = 17) +
+  coord_cartesian(xlim = c(-1, 44), ylim = c(-1, 42)) +
+  labs(x = expression(x[1]~~(tables)), y = expression(x[2]~~(chairs)))
+
+add_labels_ineq <- function(pl, dark = FALSE) {
+  ref_col <- lc("ref_text", dark = dark)
+  pl +
+    annotate("text", x = 5, y = 20, label = "Feasible\nregion",
+             size = 3.2, color = ref_col) +
+    annotate("text", x = 22, y = 36, label = "Machine-hours",
+             size = 3.0, color = ref_col, angle = -27) +
+    annotate("text", x = 36, y = 17, label = "Material",
+             size = 3.0, color = ref_col, angle = -18, linetype = "dashed") +
+    annotate("text", x = x_int + 0.5, y = y_int + 2,
+             label = "Optimal",
+             size = 3.2, color = ref_col)
+}
+```
+
+::: {.panel-tabset group="language"}
+
+## R
+
+```{r}
+#| label: inequality_render_base
+#| output: false
+
+
+# (objects p_ineq and add_labels_ineq built in inequality_base above)
+```
+
+::: {#fig-inequality}
+
+```{r}
+#| label: inequality_render
+#| renderings: [light, dark]
+#| echo: false
+
+add_labels_ineq(p_ineq, FALSE) + scale_laurelin()
+add_labels_ineq(p_ineq, TRUE)  + scale_laurelin_dark()
+```
+
+The feasible region (shaded) is the intersection of all inequality half-spaces. The objective contours increase to the upper right. The constrained optimum (triangle) lies at a vertex — where two constraints are simultaneously active.
+:::
+
+## Python
+
+```{python}
+#| label: inequality_py_base
+#| output: false
+
+x1p = np.linspace(-1, 44, 400)
+x2p = np.linspace(-1, 42, 400)
+X1p, X2p = np.meshgrid(x1p, x2p)
+feasp = (5*X1p + 2*X2p <= 200) & (3*X1p + 4*X2p <= 150) & (X1p >= 0) & (X2p >= 0)
+Zobj = 80*X1p + 50*X2p
+
+x_int_p = 250/7
+y_int_p = 75/7
+```
+
+```{python}
+#| label: inequality_py_render
+#| renderings: [light, dark]
+#| echo: false
+#| fig-cap: "The feasible region (shaded) is the intersection of all inequality half-spaces. The objective contours increase to the upper right. The constrained optimum (triangle) lies at a vertex — where two constraints are simultaneously active."
+
+reset_style()
+
+# --- light rendering ---
+fig, ax = plt.subplots(figsize=(5.5, 4.5))
+ax.contourf(X1p, X2p, feasp.astype(float), levels=[0.5, 1.5],
+            colors=[lc("green")], alpha=0.15)
+ax.contour(X1p, X2p, Zobj, levels=[500, 1000, 1500, 2000, 2500, 2900],
+           colors=["#999999"], linewidths=0.5)
+ax.plot([0, 40], [100, 0], color=lc("blue"), linewidth=1.2)
+ax.plot([0, 50], [37.5, 0], color=lc("orange"), linewidth=1.2, linestyle="--")
+ax.plot(x_int_p, y_int_p, '^', color=lc("green"), markersize=8, zorder=5)
+txt = "#666666"
+ax.text(4, 18, "Feasible\nregion", fontsize=8, color=txt)
+ax.text(17, 37, "Machine-hours", fontsize=7.5, color=txt, rotation=-27)
+ax.text(33, 16, "Material", fontsize=7.5, color=txt, rotation=-12)
+ax.text(x_int_p + 0.5, y_int_p + 2, "Optimal", fontsize=8, color=txt)
+ax.set_xlabel("$x_1$ (tables)", fontsize=11)
+ax.set_ylabel("$x_2$ (chairs)", fontsize=11)
+ax.set_xlim(-1, 44); ax.set_ylim(-1, 42)
+apply_light(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
+
+reset_style()
+
+# --- dark rendering ---
+fig, ax = plt.subplots(figsize=(5.5, 4.5))
+ax.contourf(X1p, X2p, feasp.astype(float), levels=[0.5, 1.5],
+            colors=[lc("green", dark=True)], alpha=0.15)
+ax.contour(X1p, X2p, Zobj, levels=[500, 1000, 1500, 2000, 2500, 2900],
+           colors=["#666666"], linewidths=0.5)
+ax.plot([0, 40], [100, 0], color=lc("blue", dark=True), linewidth=1.2)
+ax.plot([0, 50], [37.5, 0], color=lc("orange", dark=True), linewidth=1.2, linestyle="--")
+ax.plot(x_int_p, y_int_p, '^', color=lc("green", dark=True), markersize=8, zorder=5)
+txt = "#DDDDDD"
+ax.text(4, 18, "Feasible\nregion", fontsize=8, color=txt)
+ax.text(17, 37, "Machine-hours", fontsize=7.5, color=txt, rotation=-27)
+ax.text(33, 16, "Material", fontsize=7.5, color=txt, rotation=-12)
+ax.text(x_int_p + 0.5, y_int_p + 2, "Optimal", fontsize=8, color=txt)
+ax.set_xlabel("$x_1$ (tables)", fontsize=11)
+ax.set_ylabel("$x_2$ (chairs)", fontsize=11)
+ax.set_xlim(-1, 44); ax.set_ylim(-1, 42)
+apply_dark(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
+```
+
+:::
+
+The optimal solution sits at a corner of the feasible region. This is not a coincidence for linear objectives and linear constraints — it is a theorem (the fundamental theorem of linear programming). For nonlinear objectives and constraints, the optimum can be anywhere on the boundary or in the interior, depending on the problem's geometry.
+
+## Active and inactive constraints {#sec-constrained-active}
+
+At any feasible point $\mathbf{x}$, each inequality constraint $g_i(\mathbf{x}) \leq 0$ is either **active** (binding) or **inactive**.
+
+A constraint is **active** at $\mathbf{x}$ if $g_i(\mathbf{x}) = 0$ — the point sits exactly on the boundary. Moving away from the boundary into the interior relaxes the constraint. A constraint is **inactive** at $\mathbf{x}$ if $g_i(\mathbf{x}) < 0$ — the point is strictly inside the half-space, and the constraint is not exerting any pressure on the solution.
+
+The distinction matters because inactive constraints are invisible at the optimum. If you removed them, the solution would not change. Active constraints are the ones that actually determine where the optimum is.
+
+In the production example, the machine-hours constraint and the material constraint are both active at the optimum $\mathbf{x}^* = (250/7, \, 75/7)$: the factory uses exactly 200 machine-hours and exactly 150 kg of material. The non-negativity constraints $x_1 \geq 0$ and $x_2 \geq 0$ are inactive — the factory produces positive quantities of both goods, so those boundaries are not touched.
+
+```{r}
+#| label: active_base
+#| output: false
+
+
+# Three-constraint problem in 2D to show active/inactive
+# min f(x,y) = (x-4)^2 + (y-3)^2
+# s.t.  g1: x + y <= 5        (active at opt)
+#        g2: x <= 4.5          (inactive)
+#        g3: y >= 0.5          (inactive)
+# Unconstrained min: (4,3) — violates g1
+# Constrained min on g1: proj of (4,3) onto x+y=5 → x*=3, y*=2... 
+# Check: (4+3-1)/2... proj of (4,3): x*=(4-3+5)/2=3, y*=(3-4+5)/2=2
+# Check g2: 3<=4.5 ✓  g3: 2>=0.5 ✓
+
+grid_act <- expand.grid(
+  x = seq(-0.3, 5.5, length.out = 300),
+  y = seq(-0.3, 5.5, length.out = 300)
+) |>
+  mutate(
+    z = (x - 4)^2 + (y - 3)^2,
+    feasible = (x + y <= 5) & (x <= 4.5) & (y >= 0.5)
+  )
+
+p_active <- ggplot() +
+  geom_raster(data = filter(grid_act, feasible),
+              aes(x, y), fill = "#2D6A4F", alpha = 0.15) +
+  geom_contour(data = grid_act, aes(x, y, z = z),
+               breaks = c(0.5, 1.5, 3, 5, 8),
+               color = "gray60", linewidth = 0.4) +
+  # g1: active (solid)
+  geom_abline(slope = -1, intercept = 5, linewidth = 1.0) +
+  # g2: inactive (dashed)
+  geom_vline(xintercept = 4.5, linewidth = 0.8, linetype = "dashed") +
+  # g3: inactive (dotted)
+  geom_hline(yintercept = 0.5, linewidth = 0.8, linetype = "dotted") +
+  geom_point(aes(x = 4, y = 3), size = 3) +
+  geom_point(aes(x = 3, y = 2), size = 3, shape = 17) +
+  coord_fixed(xlim = c(-0.2, 5.3), ylim = c(-0.2, 5.3)) +
+  labs(x = expression(x[1]), y = expression(x[2]))
+
+add_labels_active <- function(pl, dark = FALSE) {
+  ref_col <- lc("ref_text", dark = dark)
+  pl +
+    annotate("text", x = 4.1, y = 3.15, label = "Unconstrained\nminimum",
+             hjust = 0, size = 3.2, color = ref_col) +
+    annotate("text", x = 3.1, y = 1.8, label = "Constrained\nminimum",
+             hjust = 0, size = 3.2, color = ref_col) +
+    annotate("text", x = 0.3, y = 5.1, label = "g\u2081 = 0  (active)",
+             size = 3.0, color = ref_col, angle = -45) +
+    annotate("text", x = 4.52, y = 4.5, label = "g\u2082 < 0  (inactive)",
+             hjust = 0, size = 3.0, color = ref_col, angle = 90) +
+    annotate("text", x = 1.5, y = 0.35, label = "g\u2083 < 0  (inactive)",
+             size = 3.0, color = ref_col)
+}
+```
+
+::: {.panel-tabset group="language"}
+
+## R
+
+```{r}
+#| label: active_render_base
+#| output: false
+
+
+# (objects p_active and add_labels_active built in active_base above)
+```
+
+::: {#fig-active}
+
+```{r}
+#| label: active_render
+#| renderings: [light, dark]
+#| echo: false
+
+add_labels_active(p_active, FALSE) + scale_laurelin()
+add_labels_active(p_active, TRUE)  + scale_laurelin_dark()
+```
+
+Three constraints bound the feasible region (shaded). At the constrained minimum (triangle), only $g_1 = 0$ is active — it determines the solution. Constraints $g_2$ and $g_3$ are inactive: removing them would not change the optimum.
+:::
+
+## Python
+
+```{python}
+#| label: active_py_base
+#| output: false
+
+x1a = np.linspace(-0.3, 5.3, 300)
+x2a = np.linspace(-0.3, 5.3, 300)
+X1a, X2a = np.meshgrid(x1a, x2a)
+Za = (X1a - 4)**2 + (X2a - 3)**2
+feasa = (X1a + X2a <= 5) & (X1a <= 4.5) & (X2a >= 0.5)
+```
+
+```{python}
+#| label: active_py_render
+#| renderings: [light, dark]
+#| echo: false
+#| fig-cap: "Three constraints bound the feasible region (shaded). At the constrained minimum (triangle), only $g_1 = 0$ is active — it determines the solution. Constraints $g_2$ and $g_3$ are inactive: removing them would not change the optimum."
+
+reset_style()
+
+# --- light rendering ---
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.contourf(X1a, X2a, feasa.astype(float), levels=[0.5, 1.5],
+            colors=[lc("green")], alpha=0.15)
+ax.contour(X1a, X2a, Za, levels=[0.5, 1.5, 3, 5, 8],
+           colors=["#999999"], linewidths=0.5)
+ax.plot([0, 5], [5, 0], color=lc("blue"), linewidth=1.2)
+ax.axvline(4.5, color=lc("orange"), linewidth=0.9, linestyle="--")
+ax.axhline(0.5, color=lc("red"), linewidth=0.9, linestyle=":")
+ax.plot(4, 3, 'o', color=lc("blue"), markersize=7, zorder=5)
+ax.plot(3, 2, '^', color=lc("orange"), markersize=7, zorder=5)
+txt = "#666666"
+ax.text(4.08, 3.18, "Unconstrained\nminimum", fontsize=8, color=txt)
+ax.text(3.08, 1.78, "Constrained\nminimum", fontsize=8, color=txt)
+ax.text(0.2, 5.05, "$g_1=0$ (active)", fontsize=7.5, color=txt, rotation=-45)
+ax.text(4.55, 4.2, "$g_2<0$ (inactive)", fontsize=7.5, color=txt, rotation=90)
+ax.text(1.2, 0.32, "$g_3<0$ (inactive)", fontsize=7.5, color=txt)
+ax.set_xlabel("$x_1$", fontsize=12)
+ax.set_ylabel("$x_2$", fontsize=12)
+ax.set_xlim(-0.2, 5.3); ax.set_ylim(-0.2, 5.3)
+ax.set_aspect("equal")
+apply_light(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
+
+reset_style()
+
+# --- dark rendering ---
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.contourf(X1a, X2a, feasa.astype(float), levels=[0.5, 1.5],
+            colors=[lc("green", dark=True)], alpha=0.15)
+ax.contour(X1a, X2a, Za, levels=[0.5, 1.5, 3, 5, 8],
+           colors=["#666666"], linewidths=0.5)
+ax.plot([0, 5], [5, 0], color=lc("blue", dark=True), linewidth=1.2)
+ax.axvline(4.5, color=lc("orange", dark=True), linewidth=0.9, linestyle="--")
+ax.axhline(0.5, color=lc("red", dark=True), linewidth=0.9, linestyle=":")
+ax.plot(4, 3, 'o', color=lc("blue", dark=True), markersize=7, zorder=5)
+ax.plot(3, 2, '^', color=lc("orange", dark=True), markersize=7, zorder=5)
+txt = "#DDDDDD"
+ax.text(4.08, 3.18, "Unconstrained\nminimum", fontsize=8, color=txt)
+ax.text(3.08, 1.78, "Constrained\nminimum", fontsize=8, color=txt)
+ax.text(0.2, 5.05, "$g_1=0$ (active)", fontsize=7.5, color=txt, rotation=-45)
+ax.text(4.55, 4.2, "$g_2<0$ (inactive)", fontsize=7.5, color=txt, rotation=90)
+ax.text(1.2, 0.32, "$g_3<0$ (inactive)", fontsize=7.5, color=txt)
+ax.set_xlabel("$x_1$", fontsize=12)
+ax.set_ylabel("$x_2$", fontsize=12)
+ax.set_xlim(-0.2, 5.3); ax.set_ylim(-0.2, 5.3)
+ax.set_aspect("equal")
+apply_dark(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
+```
+
+:::
+
+This observation leads to one of the central ideas in constrained optimization: at the optimum, the active constraints are the ones that matter. An algorithm does not need to track all $m$ constraints equally — it needs to identify which ones are binding. This is exactly what the KKT conditions in @sec-kkt accomplish through the complementary slackness condition.
+
+::: {.callout-important}
+## Active constraints at the optimum
+
+At the constrained minimum $\mathbf{x}^*$, each inequality constraint satisfies exactly one of the following:
+
+- $g_i(\mathbf{x}^*) = 0$ — the constraint is **active**: it is binding and shapes the solution.
+- $g_i(\mathbf{x}^*) < 0$ — the constraint is **inactive**: it is satisfied with slack and does not affect the optimum.
+
+The set of active constraints at $\mathbf{x}^*$ is called the **active set** $\mathcal{A}(\mathbf{x}^*) = \{i : g_i(\mathbf{x}^*) = 0\}$.
+:::
+
+Equality constraints are always active by definition: $h_j(\mathbf{x}) = 0$ must hold everywhere in $\mathcal{F}$, including at the optimum.
+
+## Exercises {#sec-constrained-exercises}
+
+**3.1** A company produces two products. Product A requires 3 hours of labor and 2 kg of material per unit; product B requires 1 hour and 4 kg. Available: 120 labor-hours, 160 kg of material. Revenue is \$40 per unit of A and \$30 per unit of B.
+
+a. Write the optimization problem in standard form (@eq-constrained-general).
+b. Sketch the feasible region. Identify each constraint boundary.
+c. Find all corner points of the feasible region.
+d. At the revenue-maximizing corner, which constraints are active?
+
+**3.2** Consider the problem
+
+$$
+\min_{x_1, x_2} \; (x_1 - 3)^2 + (x_2 - 2)^2 \quad \text{s.t.} \quad x_1 + 2x_2 = 4.
+$$
+
+a. What is the feasible set? Describe it geometrically.
+b. The unconstrained minimum is $(3, 2)$. Is it feasible? Why or why not?
+c. Use geometry to find the constrained minimum without calculus. (*Hint: which point on the constraint line is closest to $(3,2)$?*)
+
+**3.3** Suppose you add the constraint $x_1 \leq 10$ to the problem in Exercise 3.2.
+
+a. Is this constraint active at the solution you found in 3.2c?
+b. Does the solution change? Explain why or why not in terms of the active set.
+
+**3.4** *(Graduate level)* Consider a feasible region defined by $m$ convex inequality constraints $g_i(\mathbf{x}) \leq 0$. Show that if each $g_i$ is a convex function, then $\mathcal{F}$ is a convex set. (*Hint: use the definition of convexity — for any two feasible points and any $\lambda \in [0,1]$, the convex combination must also be feasible.*)
