@@ -668,6 +668,71 @@ persists into subsequent chunks. Each Python plot block must call
 `plt.style.use("seaborn-v0_8-whitegrid")` at the top to reset rcParams
 and prevent dark-mode text leaking into light renders.
 
+#### `annotate("text")` defaults to black — never inherits theme
+
+**Critical:** ggplot2's `annotate("text", ...)` and `annotate("label", ...)`
+default to black (`#000000`) regardless of `theme_laurelin_dark()`. They
+do **not** inherit the theme's text colour. On a `#222222` dark background,
+black annotation text is invisible.
+
+**Rule:** never use `annotate("text", ...)` without an explicit `color`
+argument in any chunk that participates in `renderings: [light, dark]`.
+Always pass `color = lc("ref_text", dark = dark)`.
+
+Since the base chunk builds `p` once for both renders, annotation colours
+cannot be baked into `p` directly. Use a helper function pattern:
+
+```r
+# In the base chunk — build p WITHOUT annotations
+p_base <- ggplot(...) + geom_...() + labs(...)
+
+# Helper defined in the base chunk
+add_labels <- function(pl, dark = FALSE) {
+  pl +
+    annotate("text", x = x0, y = y0,
+             label = "some label",
+             color = lc("ref_text", dark = dark))
+}
+```
+
+```r
+# In the render chunk
+add_labels(p_base, FALSE) + scale_laurelin()
+add_labels(p_base, TRUE)  + scale_laurelin_dark()
+```
+
+The same pattern applies to `geom_vline`, `geom_hline`, `geom_segment`,
+and any other geom with a hardcoded reference colour:
+
+```r
+add_refs <- function(pl, dark = FALSE) {
+  pl +
+    geom_vline(xintercept = x_ref, linetype = "dashed",
+               color = lc("ref_line", dark = dark)) +
+    annotate("text", x = x_ref + 80, y = y_ref,
+             label = "label text",
+             color = lc("ref_text", dark = dark))
+}
+```
+
+**Name helper functions uniquely per figure** to avoid collisions when
+multiple figures are defined in the same chapter session:
+`add_refs_eoq`, `add_labels_convexity`, `add_labels_gd_step`, etc.
+
+#### Reference colour palette entries
+
+`laurelin_pal()` includes two reference colours in addition to the six
+data colours:
+
+| Name | Light | Dark | Use |
+|---|---|---|---|
+| `ref_line` | `#999999` | `#BBBBBB` | vlines, hlines, guide segments |
+| `ref_text` | `#666666` | `#DDDDDD` | annotation text, inline labels |
+
+Access via `lc("ref_line")` / `lc("ref_line", dark = TRUE)` in R.
+In Python dark blocks use the hex values directly:
+`#BBBBBB` for lines, `#DDDDDD` for text.
+
 ---
 
 ### Margin content
