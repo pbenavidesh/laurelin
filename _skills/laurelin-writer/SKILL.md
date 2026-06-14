@@ -1121,10 +1121,14 @@ When asked to generate a CC prompt for a chapter:
 2. Include the full `.qmd` content to write — never just a description
 3. End with the git commit and push commands:
    ```
-   git add chapters/NN-name.qmd
+   git add chapters/NN-name.qmd _freeze/chapters/NN-name/
    git commit -m "docs: write chapter N — [title]"
    git push
    ```
+   **Always include `_freeze/chapters/NN-name/` in the commit.** The
+   freeze cache must be tracked so GitHub Actions does not re-render
+   chapters from scratch on every push. This rule applies to laurelin
+   and narsil alike — never leave `_freeze/` untracked.
 4. Note any renv dependencies the chapter introduces. Add them with
    `renv::record("packagename")` — never `renv::snapshot()` (see
    Data and environment conventions below).
