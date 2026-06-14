@@ -58,9 +58,9 @@ theme_laurelin <- function(base_size = 13) {
   ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(
       # transparent backgrounds — works with renderings: [light, dark]
-      plot.background  = ggplot2::element_rect(fill = "#ffffff",
+      plot.background  = ggplot2::element_rect(fill = "transparent",
                                                colour = NA),
-      panel.background = ggplot2::element_rect(fill = "#ffffff",
+      panel.background = ggplot2::element_rect(fill = "transparent",
                                                colour = NA),
       # grid
       panel.grid.major = ggplot2::element_line(colour = "#E5E5E5",

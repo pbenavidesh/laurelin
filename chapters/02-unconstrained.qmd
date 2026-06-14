@@ -1,6 +1,5 @@
 ---
 title: "Unconstrained Optimization"
-code-annotations: none
 ---
 
 ```{r}
@@ -186,14 +185,6 @@ add_refs <- function(pl, dark = FALSE) {
     )
 }
 ```
-
-1. Annual demand — how many units the warehouse moves in a year.
-2. Cost to hold one unit in inventory for one year.
-3. Fixed cost per replenishment order (delivery, setup, paperwork).
-4. Holding cost grows linearly with order quantity.
-5. Ordering cost decreases hyperbolically: more per order means fewer orders.
-6. Total cost: the U-shaped sum of two competing terms.
-7. The analytical optimum — we will derive this in the next section.
 
 ::: {#fig-eoq-curve-render}
 
@@ -456,8 +447,6 @@ add_labels <- function(pl, dark = FALSE) {
 }
 ```
 
-1. The chord lies above the curve between $q_1$ and $q_2$ — this is the geometric definition of convexity.
-
 ::: {#fig-convexity}
 
 ```{r}
@@ -577,12 +566,6 @@ add_labels <- function(pl, dark = FALSE) {
              color = lc("ref_text", dark = dark))
 }
 ```
-
-1. The EOQ cost function $C(q) = hq/2 + Ds/q$.
-2. Its derivative $C'(q) = h/2 - Ds/q^2$.
-3. Step size chosen to produce a visible move in the plot — not a physically optimal learning rate.
-4. Starting point $q_0$.
-5. One step later: $q_1 = q_0 - \eta C'(q_0)$.
 
 ::: {#fig-gd-step}
 
