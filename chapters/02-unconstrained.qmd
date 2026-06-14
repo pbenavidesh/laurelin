@@ -38,9 +38,9 @@ from laurelin_plot import lc, apply_light, apply_dark, reset_style
 ::: {.panel-tabset group="language"}
 ## R
 ```r
-library(ggplot2)   # plotting
-library(dplyr)     # data manipulation
-library(tidyr)     # reshaping
+library(ggplot2)   
+library(dplyr)     
+library(tidyr)     
 ```
 ## Python
 ```python
@@ -126,8 +126,6 @@ ascent of $f$ from that point. Its magnitude measures how rapidly $f$
 changes in that direction. This geometric picture is the foundation of
 every first-order optimization method we will encounter in this book.
 
-::: {#fig-eoq-curve}
-
 ::: {.panel-tabset group="language"}
 
 ## R
@@ -135,6 +133,7 @@ every first-order optimization method we will encounter in this book.
 ```{r}
 #| label: eoq_curve_base
 #| output: false
+#| code-fold: true
 
 # EOQ parameters
 D <- 10000   # annual demand (units)      # <1>
@@ -189,6 +188,7 @@ add_refs <- function(pl, dark = FALSE) {
     )
 }
 ```
+
 1. Annual demand — how many units the warehouse moves in a year.
 2. Cost to hold one unit in inventory for one year.
 3. Fixed cost per replenishment order (delivery, setup, paperwork).
@@ -196,6 +196,8 @@ add_refs <- function(pl, dark = FALSE) {
 5. Ordering cost decreases hyperbolically: more per order means fewer orders.
 6. Total cost: the U-shaped sum of two competing terms.
 7. The analytical optimum — we will derive this in the next section.
+
+::: {#fig-eoq-curve-render}
 
 ```{r}
 #| label: eoq_curve_render
@@ -205,6 +207,10 @@ add_refs <- function(pl, dark = FALSE) {
 add_refs(p_base, dark = FALSE) + scale_laurelin() + theme(legend.position = "bottom")
 add_refs(p_base, dark = TRUE)  + scale_laurelin_dark() + theme(legend.position = "bottom")
 ```
+
+EOQ total cost as a function of order quantity. The holding and ordering cost components are shown separately. The minimum occurs where the two components intersect.
+
+:::
 
 ## Python
 
@@ -242,6 +248,7 @@ ax.legend(frameon=False)
 plt.tight_layout()
 plt.close()
 ```
+
 1. Annual demand — same parameters as the R version.
 2. Holding cost per unit per year.
 3. Fixed cost per order.
@@ -254,6 +261,7 @@ plt.close()
 #| label: eoq_curve_py_render
 #| renderings: [light, dark]
 #| echo: false
+#| fig-cap: "EOQ total cost as a function of order quantity. The holding and ordering cost components are shown separately. The minimum occurs where the two components intersect."
 
 D = 10_000; h = 2.5; s = 200
 q_vals   = np.linspace(100, 4000, 500)
@@ -299,12 +307,10 @@ plt.tight_layout(); plt.show(); plt.close()
 
 :::
 
-EOQ total cost as a function of order quantity. The holding and ordering cost components are shown separately. The minimum occurs where the two components intersect.
-:::
 
 ## First-order optimality conditions {#sec-unconstrained-first-order}
 
-The U-shape of $C(q)$ in @fig-eoq-curve reveals the key idea: at the
+The U-shape of $C(q)$ in @fig-eoq-curve-render reveals the key idea: at the
 minimum, the curve has zero slope. The holding cost is rising at exactly
 the rate the ordering cost is falling. Neither term dominates — they
 balance.
@@ -340,7 +346,7 @@ $$ {#eq-eoq-optimal}
 
 With $D = 10{,}000$, $s = 200$, and $h = 2.5$, this gives
 $q^* = \sqrt{1{,}600{,}000} = 1{,}265$ units — the vertical line in
-@fig-eoq-curve.
+@fig-eoq-curve-render.
 
 ::: {.callout-warning}
 ## Common confusion: necessary ≠ sufficient
@@ -504,8 +510,6 @@ multiple of a convex function is convex. These preservation rules allow
 us to certify convexity for complex objectives by decomposing them into
 simpler pieces.
 
-::: {#fig-convexity}
-
 ::: {.panel-tabset group="language"}
 
 ## R
@@ -513,6 +517,7 @@ simpler pieces.
 ```{r}
 #| label: convexity_base
 #| output: false
+#| code-fold: true
 
 D <- 10000; h <- 2.5; s <- 200
 
@@ -552,7 +557,10 @@ add_labels <- function(pl, dark = FALSE) {
              color = lc("ref_text", dark = dark))
 }
 ```
+
 1. The chord lies above the curve between $q_1$ and $q_2$ — this is the geometric definition of convexity.
+
+::: {#fig-convexity}
 
 ```{r}
 #| label: convexity_render
@@ -562,6 +570,11 @@ add_labels <- function(pl, dark = FALSE) {
 add_labels(p_base, dark = FALSE) + scale_laurelin()
 add_labels(p_base, dark = TRUE)  + scale_laurelin_dark()
 ```
+
+Geometric interpretation of convexity. For any two points on the EOQ
+cost curve, the chord (dashed) lies entirely above the curve — the
+defining property of a convex function.
+:::
 
 ## Python
 
@@ -601,12 +614,14 @@ ax.legend(frameon=False)
 plt.tight_layout()
 plt.close()
 ```
+
 1. The chord lies entirely above the EOQ curve between $q_1$ and $q_2$, confirming convexity.
 
 ```{python}
 #| label: convexity_py_render
 #| renderings: [light, dark]
 #| echo: false
+#| fig-cap: "Geometric interpretation of convexity. For any two points on the EOQ cost curve, the chord (dashed) lies entirely above the curve — the defining property of a convex function."
 
 D = 10_000; h = 2.5; s = 200
 q_vals = np.linspace(200, 3000, 500)
@@ -654,9 +669,6 @@ apply_dark(fig, ax)
 plt.tight_layout(); plt.show(); plt.close()
 ```
 
-:::
-
-Geometric interpretation of convexity. For any two points on the EOQ cost curve, the chord (dashed) lies entirely above the curve — the defining property of a convex function.
 :::
 
 ## Gradient descent: geometric intuition {#sec-unconstrained-gd}
@@ -715,8 +727,6 @@ only geometric: the gradient tells you where uphill is, and you go the
 other way.
 :::
 
-::: {#fig-gd-step}
-
 ::: {.panel-tabset group="language"}
 
 ## R
@@ -724,6 +734,7 @@ other way.
 ```{r}
 #| label: gd_step_base
 #| output: false
+#| code-fold: true
 
 D <- 10000; h <- 2.5; s <- 200
 C  <- function(q) h * q / 2 + D * s / q   # <1>
@@ -766,11 +777,14 @@ add_labels <- function(pl, dark = FALSE) {
              color = lc("ref_text", dark = dark))
 }
 ```
+
 1. The EOQ cost function $C(q) = hq/2 + Ds/q$.
 2. Its derivative $C'(q) = h/2 - Ds/q^2$.
 3. Step size chosen to produce a visible move in the plot — not a physically optimal learning rate.
 4. Starting point $q_0$.
 5. One step later: $q_1 = q_0 - \eta C'(q_0)$.
+
+::: {#fig-gd-step}
 
 ```{r}
 #| label: gd_step_render
@@ -780,6 +794,11 @@ add_labels <- function(pl, dark = FALSE) {
 add_labels(p_base, dark = FALSE) + scale_laurelin()
 add_labels(p_base, dark = TRUE)  + scale_laurelin_dark()
 ```
+
+One step of gradient descent on the EOQ cost. Starting at $q_0 = 2000$,
+the negative gradient points left — toward the minimum. The step lands
+at $q_1$.
+:::
 
 ## Python
 
@@ -818,6 +837,7 @@ ax.legend(frameon=False)
 plt.tight_layout()
 plt.close()
 ```
+
 1. EOQ cost function as a Python lambda.
 2. Its derivative.
 3. Illustrative step size — calibrated for visual clarity, not numerical optimality.
@@ -827,6 +847,7 @@ plt.close()
 #| label: gd_step_py_render
 #| renderings: [light, dark]
 #| echo: false
+#| fig-cap: "One step of gradient descent on the EOQ cost. Starting at $q_0 = 2000$, the negative gradient points left — toward the minimum. The step lands at $q_1$."
 
 D = 10_000; h = 2.5; s = 200
 C  = lambda q: h * q / 2 + D * s / q
@@ -867,9 +888,6 @@ apply_dark(fig, ax)
 plt.tight_layout(); plt.show(); plt.close()
 ```
 
-:::
-
-One step of gradient descent on the EOQ cost. Starting at $q_0 = 2000$, the negative gradient points left — toward the minimum. The step lands at $q_1$.
 :::
 
 ## Exercises {#sec-unconstrained-exercises}
