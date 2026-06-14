@@ -444,6 +444,77 @@ the chapter.
 
 ---
 
+### Chapter setup pattern
+
+Every chapter begins with two hidden setup chunks followed by a
+collapsed "Required packages" callout. This is the non-negotiable
+opening structure for every `.qmd` in laurelin:
+
+````markdown
+```{r}
+#| label: setup
+#| include: false
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(here)
+source(here::here("R/laurelin_theme.R"))
+theme_set(theme_laurelin())
+# add any chapter-specific R packages here
+```
+
+```{python}
+#| label: setup-py
+#| include: false
+
+import sys
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+# Resolve python/ whether cwd is the project root or the chapter dir
+for _cand in ("python", os.path.join("..", "python")):
+    if os.path.isdir(_cand):
+        sys.path.insert(0, os.path.abspath(_cand))
+        break
+from laurelin_plot import lc, apply_light, apply_dark, reset_style
+# add any chapter-specific Python packages here
+```
+
+::: {.callout-note collapse="true" appearance="simple"}
+## Required packages
+
+::: {.panel-tabset group="language"}
+## R
+```r
+library(ggplot2)   # plotting
+library(dplyr)     # data manipulation
+library(tidyr)     # reshaping
+# list all R packages loaded in setup
+```
+## Python
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+# list all Python packages imported in setup
+```
+:::
+:::
+````
+
+The callout lists packages for the reader's benefit; the actual loading
+happens in the hidden setup chunks. **Never repeat `import` or `library`
+calls in individual plot chunks** — all imports are centralised in setup.
+
+Note on `laurelin_plot`: this is internal book infrastructure — do not
+list it in the Required packages callout.
+
+---
+
 ### R conventions
 
 Follow tidyverse/tidymodels style throughout. Non-negotiable rules:
@@ -501,50 +572,145 @@ data |> filter(...) |> mutate(...)
 
 ### Python conventions
 
-Follow PEP 8 and current scientific Python best practices:
+All Python plotting uses `python/laurelin_plot.py` — the book's shared
+helper module. It provides:
+
+- `lc(name, dark=False)` — colour accessor, equivalent to R's `lc()`
+- `apply_light(fig, ax)` — apply light-mode styling (white bg, dark
+  text, subtle grid `#E5E5E5`)
+- `apply_dark(fig, ax)` — apply dark-mode styling (`#222222` bg, white
+  text, subdued grid `#444444`)
+- `reset_style()` — reset rcParams to `seaborn-v0_8-whitegrid` defaults;
+  call at the top of every render chunk to prevent dark-mode rcParams
+  leaking into subsequent light renders
+
+**Python plot pattern for render chunks:**
 
 ```python
-# Standard imports — in this order, one block each
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+reset_style()
 
-# sklearn — prefer pipeline-based workflows
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.datasets import fetch_california_housing
-from sklearn.model_selection import train_test_split
+# --- light rendering ---
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.plot(..., color=lc("green"))
+ax.set_xlabel("...", fontsize=12)
+ax.set_ylabel("...", fontsize=12)
+ax.legend(frameon=False)
+apply_light(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
 
-# Type hints on functions when the signature is non-obvious
-def fit_model(X: np.ndarray, y: np.ndarray) -> object:
-    ...
+reset_style()
+
+# --- dark rendering ---
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.plot(..., color=lc("green", dark=True))
+ax.set_xlabel("...", fontsize=12)
+ax.set_ylabel("...", fontsize=12)
+ax.legend(frameon=False)
+apply_dark(fig, ax)
+plt.tight_layout(); plt.show(); plt.close()
 ```
 
 **Style rules:**
 - snake_case for variables and functions, PascalCase for classes
 - Explicit axis labels on all plots — never default column names
-- `matplotlib` with `seaborn` style as default:
-  `plt.style.use("seaborn-v0_8-whitegrid")`
 - Avoid `*` imports — always explicit namespace
 - Prefer `pathlib.Path` over `os.path` for file operations
 - f-strings over `.format()` or `%` formatting
+- Never call `plt.style.use()` directly in chunks — use `reset_style()`
 
-**Code quality (same principle as R):**
-- Every cell self-contained and reproducible
+**Code quality:**
+- All imports are centralised in the setup chunk — never repeat
+  `import numpy`, `import matplotlib`, etc. in individual chunks
 - Use Quarto's `#| label:` and `#| fig-cap:` chunk options
   for figures and tables — identical syntax to R chunks
 
 ---
 
+### Figure cross-references with renderings
+
+Quarto does not support a cross-reference div (`{#fig-xxx}`) wrapping
+an entire tabset — it produces a "No tabs found" warning and breaks
+the tabset. The working pattern is:
+
+**R tab:** wrap only the R render chunk in the `{#fig-xxx}` div. This
+gives the figure its number, caption, and cross-reference anchor.
+
+**Python tab:** add `#| fig-cap:` directly to the Python render chunk.
+This shows the caption text without a figure number. The cross-ref
+`@fig-xxx` resolves via the R div.
+
+````markdown
+::: {.panel-tabset group="language"}
+
+## R
+
+```{r}
+#| label: FIGURENAME_base
+#| output: false
+#| code-fold: true
+# base plot code
+```
+
+1. Annotation text...
+
+::: {#fig-FIGURENAME}
+
+```{r}
+#| label: FIGURENAME_render
+#| renderings: [light, dark]
+#| echo: false
+p + scale_laurelin()
+p + scale_laurelin_dark()
+```
+
+Caption text here.
+:::
+
+## Python
+
+```{python}
+#| label: FIGURENAME_py_base
+#| output: false
+# base plot code
+```
+
+1. Annotation text...
+
+```{python}
+#| label: FIGURENAME_py_render
+#| renderings: [light, dark]
+#| echo: false
+#| fig-cap: "Caption text here."
+# render code
+```
+
+:::
+````
+
+**Chunk label rules:**
+- Base chunks: plain `snake_case`, `#| output: false`, `#| code-fold: true`
+- Render chunks: plain `snake_case` (no `fig-` prefix), `#| echo: false`
+- The `{#fig-xxx}` div label uses the `fig-` prefix for cross-references
+- Cross-references in prose: `@fig-FIGURENAME` resolves via the R div
+
+**Why `#| code-fold: true` on the base chunk is required:** without it,
+the global `code-fold: true` from `_quarto.yml` causes the base chunk's
+fold to render outside the tabset in the HTML output. The explicit
+per-chunk option keeps it correctly placed inside the tab.
+
+---
+
 ### Code annotation
 
-Use code annotation for any explanation of *why* something is done,
-including short one-liners. Prefer annotation over `#` comments
-whenever the explanation benefits from visual separation from the code.
+Code annotations (numbered lists after a closing fence) work correctly
+in base chunks inside tabsets, **provided** the base chunk has
+`#| code-fold: true` explicitly set. The annotation list must appear
+immediately after the closing fence of the base chunk, before the
+render chunk or any div.
 
-Use plain `#` only for purely technical notes (index conventions,
-tolerance values) where no pedagogical explanation is needed.
+Code annotations do **not** work inside `renderings` chunks — only in
+base chunks (`#| output: false`). Never add annotation lists after a
+render chunk.
 
 ---
 
