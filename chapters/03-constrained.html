@@ -1468,369 +1468,385 @@ Figure&nbsp;3.4: Three constraints bound the feasible region (shaded). At the co
 <span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>gy1 <span class="ot">&lt;-</span> gy0 <span class="sc">+</span> <span class="fl">0.55</span> <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> gy0) <span class="sc">/</span> <span class="fu">sqrt</span>((<span class="fl">2.5</span><span class="sc">-</span>gx0)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">-</span>gy0)<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>p_limits <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> feasible_df, <span class="fu">aes</span>(x, y),</span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"#2D6A4F"</span>, <span class="at">alpha =</span> <span class="fl">0.12</span>) <span class="sc">+</span></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_df, <span class="fu">aes</span>(x, y, <span class="at">z =</span> z),</span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.8</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="dv">4</span>),</span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray60"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Constraint boundary</span></span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">3</span>, <span class="at">xend =</span> <span class="dv">3</span>, <span class="at">yend =</span> <span class="dv">0</span>),</span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Unconstrained minimum</span></span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">2.5</span>, <span class="at">y =</span> <span class="dv">2</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Constrained minimum</span></span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">1.75</span>, <span class="at">y =</span> <span class="fl">1.25</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">17</span>) <span class="sc">+</span></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Gradient arrow</span></span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> gx0, <span class="at">y =</span> gy0, <span class="at">xend =</span> gx1, <span class="at">yend =</span> gy1),</span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.18</span>, <span class="st">"cm"</span>), <span class="at">type =</span> <span class="st">"closed"</span>),</span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">3.3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">3.1</span>)) <span class="sc">+</span></span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]))</span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>add_labels_limits <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>  ref_col <span class="ot">&lt;-</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)</span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.55</span>, <span class="at">y =</span> <span class="fl">1.75</span>, <span class="at">label =</span> <span class="st">"Unconstrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.85</span>, <span class="at">y =</span> <span class="fl">1.0</span>, <span class="at">label =</span> <span class="st">"Constrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.55</span>, <span class="at">y =</span> <span class="fl">2.6</span>, <span class="at">label =</span> <span class="st">"x\u2081 + x\u2082 = 3"</span>,</span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">45</span>) <span class="sc">+</span></span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.55</span>, <span class="at">y =</span> <span class="fl">1.1</span>, <span class="at">label =</span> <span class="st">"Feasible</span><span class="sc">\n</span><span class="st">region"</span>,</span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> gx0 <span class="sc">-</span> <span class="fl">0.08</span>, <span class="at">y =</span> gy0 <span class="sc">+</span> <span class="fl">0.2</span>, <span class="at">label =</span> <span class="st">"-\u2207f"</span>,</span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col)</span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>::: {#fig-limits}</span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: limits_render</span></span>
-<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
-<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_limits</span>(p_limits, <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
-<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_limits</span>(p_limits, <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
-<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a>The unconstrained minimum (circle) lies outside the feasible region (shaded). The gradient at any interior point points toward it — out of bounds. The constrained minimum (triangle) is the closest feasible point to the unconstrained solution.</span>
-<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">3.3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">3.1</span>)) <span class="sc">+</span></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]))</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>add_labels_limits <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>  ref_col <span class="ot">&lt;-</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_polygon</span>(<span class="at">data =</span> feasible_df, <span class="fu">aes</span>(x, y),</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="fu">lc</span>(<span class="st">"green"</span>, <span class="at">dark =</span> dark), <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_df, <span class="fu">aes</span>(x, y, <span class="at">z =</span> z),</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>                 <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.8</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="dv">4</span>),</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="cf">if</span> (dark) <span class="st">"#888888"</span> <span class="cf">else</span> <span class="st">"gray60"</span>,</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Constraint boundary</span></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">3</span>, <span class="at">xend =</span> <span class="dv">3</span>, <span class="at">yend =</span> <span class="dv">0</span>),</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark), <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unconstrained minimum</span></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">2.5</span>, <span class="at">y =</span> <span class="dv">2</span>), <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Constrained minimum</span></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">1.75</span>, <span class="at">y =</span> <span class="fl">1.25</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">17</span>,</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Gradient arrow</span></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> gx0, <span class="at">y =</span> gy0, <span class="at">xend =</span> gx1, <span class="at">yend =</span> gy1),</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>                 <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.18</span>, <span class="st">"cm"</span>), <span class="at">type =</span> <span class="st">"closed"</span>),</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark), <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.55</span>, <span class="at">y =</span> <span class="fl">1.75</span>, <span class="at">label =</span> <span class="st">"Unconstrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.85</span>, <span class="at">y =</span> <span class="fl">1.0</span>, <span class="at">label =</span> <span class="st">"Constrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.55</span>, <span class="at">y =</span> <span class="fl">2.6</span>, <span class="at">label =</span> <span class="st">"x\u2081 + x\u2082 = 3"</span>,</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">45</span>) <span class="sc">+</span></span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.55</span>, <span class="at">y =</span> <span class="fl">1.1</span>, <span class="at">label =</span> <span class="st">"Feasible</span><span class="sc">\n</span><span class="st">region"</span>,</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> gx0 <span class="sc">-</span> <span class="fl">0.08</span>, <span class="at">y =</span> gy0 <span class="sc">+</span> <span class="fl">0.2</span>, <span class="at">label =</span> <span class="st">"-\u2207f"</span>,</span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col)</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>::: {#fig-limits}</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: limits_render</span></span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_limits</span>(p_limits, <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_limits</span>(p_limits, <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>The gradient does not know about the constraint. It points in the direction of steepest descent, which may be straight out of the region where the solution is allowed to live. A different set of tools is needed — ones that take the boundary seriously.</span>
-<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Feasible regions {#sec-constrained-feasible}</span></span>
-<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>A **constrained optimization problem** has the form</span>
-<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>\min_{\mathbf{x} \in \mathbb{R}^p} \quad &amp; f(\mathbf{x}) <span class="sc">\\</span></span>
-<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>\text{subject to} \quad &amp; g_i(\mathbf{x}) \leq 0, \quad i = 1, \ldots, m <span class="sc">\\</span></span>
-<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>&amp; h_j(\mathbf{x}) = 0, \quad j = 1, \ldots, r</span>
-<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>$$ {#eq-constrained-general}</span>
-<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>where $f$ is the objective, $g_i$ are inequality constraints, and $h_j$ are equality constraints. The **feasible region** $\mathcal{F}$ is the set of all $\mathbf{x}$ that satisfy every constraint simultaneously:</span>
-<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>\mathcal{F} = <span class="sc">\{</span>\mathbf{x} \in \mathbb{R}^p : g_i(\mathbf{x}) \leq 0 \text{ for all } i, \; h_j(\mathbf{x}) = 0 \text{ for all } j<span class="sc">\}</span>.</span>
-<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>$$ {#eq-feasible-region}</span>
-<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>The constrained optimum is the point in $\mathcal{F}$ where $f$ is smallest. If $\mathcal{F}$ is empty — the constraints are contradictory — the problem is **infeasible** and has no solution. If $f$ is unbounded below on $\mathcal{F}$, the problem is **unbounded**.</span>
-<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convexity of the feasible region</span></span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>The unconstrained minimum (circle) lies outside the feasible region (shaded). The gradient at any interior point points toward it — out of bounds. The constrained minimum (triangle) is the closest feasible point to the unconstrained solution.</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>The gradient does not know about the constraint. It points in the direction of steepest descent, which may be straight out of the region where the solution is allowed to live. A different set of tools is needed — ones that take the boundary seriously.</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Feasible regions {#sec-constrained-feasible}</span></span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>A **constrained optimization problem** has the form</span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>\min_{\mathbf{x} \in \mathbb{R}^p} \quad &amp; f(\mathbf{x}) <span class="sc">\\</span></span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>\text{subject to} \quad &amp; g_i(\mathbf{x}) \leq 0, \quad i = 1, \ldots, m <span class="sc">\\</span></span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>&amp; h_j(\mathbf{x}) = 0, \quad j = 1, \ldots, r</span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>$$ {#eq-constrained-general}</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>where $f$ is the objective, $g_i$ are inequality constraints, and $h_j$ are equality constraints. The **feasible region** $\mathcal{F}$ is the set of all $\mathbf{x}$ that satisfy every constraint simultaneously:</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>\mathcal{F} = <span class="sc">\{</span>\mathbf{x} \in \mathbb{R}^p : g_i(\mathbf{x}) \leq 0 \text{ for all } i, \; h_j(\mathbf{x}) = 0 \text{ for all } j<span class="sc">\}</span>.</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>$$ {#eq-feasible-region}</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>The constrained optimum is the point in $\mathcal{F}$ where $f$ is smallest. If $\mathcal{F}$ is empty — the constraints are contradictory — the problem is **infeasible** and has no solution. If $f$ is unbounded below on $\mathcal{F}$, the problem is **unbounded**.</span>
 <span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>When all inequality constraints $g_i$ are convex functions and all equality constraints $h_j$ are affine (linear plus constant), the feasible region $\mathcal{F}$ is a convex set. Convexity of $\mathcal{F}$ combined with convexity of $f$ guarantees that any local minimum is a global minimum — the same guarantee we had in Chapter 2, now carried into the constrained setting.</span>
-<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convexity of the feasible region</span></span>
 <span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Equality constraints {#sec-constrained-equality}</span></span>
-<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>The portfolio problem is the cleanest example of an equality constraint. The manager allocates fractions $x_1, x_2, \ldots, x_p$ of her capital across $p$ assets. The fractions must sum to one: every peso must go somewhere.</span>
-<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a>x_1 + x_2 + \cdots + x_p = 1, \quad x_k \geq 0.</span>
-<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>$$ {#eq-portfolio-budget}</span>
-<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a>This is not an approximation or a soft target. It is a hard constraint. Leaving 5% in cash is a choice with a cost — the opportunity cost of not investing — and the manager's mandate does not allow it.</span>
-<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a>An equality constraint $h(\mathbf{x}) = 0$ defines a surface in $\mathbb{R}^p$: all the points where $h$ evaluates to zero. In two dimensions, it is a curve. The feasible solutions must lie exactly on that curve.</span>
-<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a>The figure below shows what this means geometrically. The objective has circular contours centered at its unconstrained minimum. The constraint $h(\mathbf{x}) = x_1 + x_2 - 1 = 0$ is a line. The constrained minimum is the point on the line where the contours are tightest — where the objective is smallest among all points satisfying the constraint.</span>
-<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: equality_base</span></span>
-<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconstrained min: (0.8, 1.5); constraint: x1 + x2 = 1</span></span>
-<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="co"># Projection onto x1+x2=1: x*=(0.8-1.5+1)/2=0.15, y*=(1.5-0.8+1)/2=0.85</span></span>
-<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a><span class="co"># f at constrained min: (0.15-0.8)^2 + (0.85-1.5)^2 = 0.4225 + 0.4225 = 0.845</span></span>
-<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="co"># Tangent contour must use break = 0.845</span></span>
-<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a>grid_eq <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.1</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
-<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.1</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z =</span> (x <span class="sc">-</span> <span class="fl">0.8</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (y <span class="sc">-</span> <span class="fl">1.5</span>)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a>p_equality <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_eq, <span class="fu">aes</span>(x, y, <span class="at">z =</span> z),</span>
-<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.507</span>, <span class="fl">0.845</span>, <span class="fl">1.35</span>, <span class="fl">2.1</span>),</span>
-<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray60"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
-<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">0.8</span>, <span class="at">y =</span> <span class="fl">1.5</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">0.15</span>, <span class="at">y =</span> <span class="fl">0.85</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">17</span>) <span class="sc">+</span></span>
-<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.1</span>)) <span class="sc">+</span></span>
-<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]))</span>
-<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>add_labels_equality <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a>  ref_col <span class="ot">&lt;-</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)</span>
-<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
-<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.9</span>, <span class="at">y =</span> <span class="fl">1.62</span>, <span class="at">label =</span> <span class="st">"Unconstrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
-<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
-<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.18</span>, <span class="at">y =</span> <span class="fl">0.68</span>, <span class="at">label =</span> <span class="st">"Constrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
-<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
-<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.45</span>, <span class="at">y =</span> <span class="fl">0.62</span>, <span class="at">label =</span> <span class="st">"h(x) = 0"</span>,</span>
-<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">45</span>)</span>
-<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>::: {#fig-equality}</span>
-<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: equality_render</span></span>
-<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
-<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>When all inequality constraints $g_i$ are convex functions and all equality constraints $h_j$ are affine (linear plus constant), the feasible region $\mathcal{F}$ is a convex set. Convexity of $\mathcal{F}$ combined with convexity of $f$ guarantees that any local minimum is a global minimum — the same guarantee we had in Chapter 2, now carried into the constrained setting.</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## Equality constraints {#sec-constrained-equality}</span></span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a>The portfolio problem is the cleanest example of an equality constraint. The manager allocates fractions $x_1, x_2, \ldots, x_p$ of her capital across $p$ assets. The fractions must sum to one: every peso must go somewhere.</span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a>x_1 + x_2 + \cdots + x_p = 1, \quad x_k \geq 0.</span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a>$$ {#eq-portfolio-budget}</span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a>This is not an approximation or a soft target. It is a hard constraint. Leaving 5% in cash is a choice with a cost — the opportunity cost of not investing — and the manager's mandate does not allow it.</span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a>An equality constraint $h(\mathbf{x}) = 0$ defines a surface in $\mathbb{R}^p$: all the points where $h$ evaluates to zero. In two dimensions, it is a curve. The feasible solutions must lie exactly on that curve.</span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a>The figure below shows what this means geometrically. The objective has circular contours centered at its unconstrained minimum. The constraint $h(\mathbf{x}) = x_1 + x_2 - 1 = 0$ is a line. The constrained minimum is the point on the line where the contours are tightest — where the objective is smallest among all points satisfying the constraint.</span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: equality_base</span></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconstrained min: (0.8, 1.5); constraint: x1 + x2 = 1</span></span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a><span class="co"># Projection onto x1+x2=1: x*=(0.8-1.5+1)/2=0.15, y*=(1.5-0.8+1)/2=0.85</span></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="co"># f at constrained min: (0.15-0.8)^2 + (0.85-1.5)^2 = 0.4225 + 0.4225 = 0.845</span></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a><span class="co"># Tangent contour must use break = 0.845</span></span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a>grid_eq <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.1</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.1</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z =</span> (x <span class="sc">-</span> <span class="fl">0.8</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (y <span class="sc">-</span> <span class="fl">1.5</span>)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a>p_equality <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.1</span>)) <span class="sc">+</span></span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]))</span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>add_labels_equality <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>  ref_col <span class="ot">&lt;-</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_eq, <span class="fu">aes</span>(x, y, <span class="at">z =</span> z),</span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a>                 <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.507</span>, <span class="fl">0.845</span>, <span class="fl">1.35</span>, <span class="fl">2.1</span>),</span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="cf">if</span> (dark) <span class="st">"#888888"</span> <span class="cf">else</span> <span class="st">"gray60"</span>,</span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">1</span>,</span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark), <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">0.8</span>, <span class="at">y =</span> <span class="fl">1.5</span>), <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">0.15</span>, <span class="at">y =</span> <span class="fl">0.85</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">17</span>,</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.9</span>, <span class="at">y =</span> <span class="fl">1.62</span>, <span class="at">label =</span> <span class="st">"Unconstrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.18</span>, <span class="at">y =</span> <span class="fl">0.68</span>, <span class="at">label =</span> <span class="st">"Constrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.45</span>, <span class="at">y =</span> <span class="fl">0.62</span>, <span class="at">label =</span> <span class="st">"h(x) = 0"</span>,</span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">45</span>)</span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a>::: {#fig-equality}</span>
 <span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_equality</span>(p_equality, <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
-<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_equality</span>(p_equality, <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
-<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a>The equality constraint $h(\mathbf{x}) = 0$ defines a line. The constrained minimum (triangle) is the point on that line closest to the unconstrained minimum — the contour tangent to the constraint.</span>
-<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: equality_render</span></span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
 <span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a>The geometric insight is worth holding onto. At the constrained minimum, the contour of $f$ is tangent to the constraint surface. Moving along the constraint in either direction increases $f$. This tangency condition — the contours of $f$ and the constraint surface sharing the same direction — is precisely what the Lagrangian captures formally in @sec-lagrangian.</span>
-<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a><span class="fu">## Equality constraints are rarely met in practice</span></span>
-<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a>A constraint like $\sum_k x_k = 1$ is exact in theory but fragile in numerical optimization. Floating-point arithmetic means the sum may be $1.0000000003$ rather than exactly $1$. In practice, equality constraints are enforced up to a tolerance. This matters when implementing solvers — always check whether your solver requires exact feasibility or accepts an $\epsilon$-tolerance.</span>
-<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inequality constraints {#sec-constrained-inequality}</span></span>
-<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a>The production planning anchor is more natural for inequalities. A factory has 200 machine-hours available per week and 150 kg of raw material. It produces two goods: tables and chairs. Each table requires 5 machine-hours and 3 kg of material; each chair requires 2 machine-hours and 4 kg. The manager wants to maximize revenue.</span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_equality</span>(p_equality, <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_equality</span>(p_equality, <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>The equality constraint $h(\mathbf{x}) = 0$ defines a line. The constrained minimum (triangle) is the point on that line closest to the unconstrained minimum — the contour tangent to the constraint.</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a>The geometric insight is worth holding onto. At the constrained minimum, the contour of $f$ is tangent to the constraint surface. Moving along the constraint in either direction increases $f$. This tangency condition — the contours of $f$ and the constraint surface sharing the same direction — is precisely what the Lagrangian captures formally in @sec-lagrangian.</span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a><span class="fu">## Equality constraints are rarely met in practice</span></span>
 <span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a>\max_{x_1, x_2} \quad &amp; 80 x_1 + 50 x_2 <span class="sc">\\</span></span>
-<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a>\text{subject to} \quad &amp; 5 x_1 + 2 x_2 \leq 200 <span class="sc">\\</span></span>
-<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a>&amp; 3 x_1 + 4 x_2 \leq 150 <span class="sc">\\</span></span>
-<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a>&amp; x_1, x_2 \geq 0</span>
-<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a>$$ {#eq-production}</span>
-<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a>Each inequality constraint cuts a half-space from $\mathbb{R}^2$. The feasible region is their intersection — a polygon whose edges are the constraint boundaries.</span>
-<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a>Unlike an equality constraint, an inequality constraint does not force the solution to a surface. It rules out one side of a boundary and leaves the other side open. The solution can be anywhere in the interior or on the boundary.</span>
-<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: inequality_base</span></span>
-<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a>A constraint like $\sum_k x_k = 1$ is exact in theory but fragile in numerical optimization. Floating-point arithmetic means the sum may be $1.0000000003$ rather than exactly $1$. In practice, equality constraints are enforced up to a tolerance. This matters when implementing solvers — always check whether your solver requires exact feasibility or accepts an $\epsilon$-tolerance.</span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inequality constraints {#sec-constrained-inequality}</span></span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a>The production planning anchor is more natural for inequalities. A factory has 200 machine-hours available per week and 150 kg of raw material. It produces two goods: tables and chairs. Each table requires 5 machine-hours and 3 kg of material; each chair requires 2 machine-hours and 4 kg. The manager wants to maximize revenue.</span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a>\max_{x_1, x_2} \quad &amp; 80 x_1 + 50 x_2 <span class="sc">\\</span></span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a>\text{subject to} \quad &amp; 5 x_1 + 2 x_2 \leq 200 <span class="sc">\\</span></span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a>&amp; 3 x_1 + 4 x_2 \leq 150 <span class="sc">\\</span></span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a>&amp; x_1, x_2 \geq 0</span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a>$$ {#eq-production}</span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a>Each inequality constraint cuts a half-space from $\mathbb{R}^2$. The feasible region is their intersection — a polygon whose edges are the constraint boundaries.</span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a>Unlike an equality constraint, an inequality constraint does not force the solution to a surface. It rules out one side of a boundary and leaves the other side open. The solution can be anywhere in the interior or on the boundary.</span>
 <span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a><span class="co"># Feasible region for production planning</span></span>
-<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a><span class="co"># 5x + 2y &lt;= 200, 3x + 4y &lt;= 150, x&gt;=0, y&gt;=0</span></span>
-<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a><span class="co"># Corner points: (0,0), (40,0), (25*8/7, ...) — solve intersection</span></span>
-<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a><span class="co"># 5x+2y=200, 3x+4y=150 → multiply first by 2: 10x+4y=400, subtract: 7x=250 → x=250/7≈35.7, y=(200-5*250/7)/2=(200-178.6)/2≈10.7</span></span>
-<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a><span class="co"># Corner points: (0,0), (40,0), (250/7, 200/7*... let me recompute)</span></span>
-<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a><span class="co"># x*=250/7, y=(200-5*250/7)/2 = (200-1250/7)/2 = (1400/7-1250/7)/2 = 150/14 = 75/7</span></span>
-<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a><span class="co"># Also (0, 37.5) from 4y=150</span></span>
-<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a>x_int <span class="ot">&lt;-</span> <span class="dv">250</span><span class="sc">/</span><span class="dv">7</span>; y_int <span class="ot">&lt;-</span> <span class="dv">75</span><span class="sc">/</span><span class="dv">7</span></span>
-<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a>grid_prod <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">45</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
-<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">42</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a>    <span class="at">feasible =</span> (<span class="dv">5</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>y <span class="sc">&lt;=</span> <span class="dv">200</span>) <span class="sc">&amp;</span> (<span class="dv">3</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>y <span class="sc">&lt;=</span> <span class="dv">150</span>) <span class="sc">&amp;</span> x <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">&gt;=</span> <span class="dv">0</span>,</span>
-<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a>    <span class="at">obj =</span> <span class="dv">80</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">50</span><span class="sc">*</span>y</span>
-<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a>corners <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>, x_int, <span class="dv">0</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, y_int, <span class="dv">150</span><span class="sc">/</span><span class="dv">4</span>))</span>
-<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a>p_ineq <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="at">data =</span> <span class="fu">filter</span>(grid_prod, feasible),</span>
-<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#2D6A4F"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
-<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_prod, <span class="fu">aes</span>(x, y, <span class="at">z =</span> obj),</span>
-<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">1500</span>, <span class="dv">2000</span>, <span class="dv">2500</span>, <span class="dv">2900</span>),</span>
-<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray60"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">100</span>, <span class="at">xend =</span> <span class="dv">40</span>, <span class="at">yend =</span> <span class="dv">0</span>),</span>
-<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">150</span><span class="sc">/</span><span class="dv">4</span>, <span class="at">xend =</span> <span class="dv">50</span>, <span class="at">yend =</span> <span class="dv">0</span>),</span>
-<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x_int, <span class="at">y =</span> y_int), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">17</span>) <span class="sc">+</span></span>
-<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">44</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">42</span>)) <span class="sc">+</span></span>
-<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]<span class="sc">~</span><span class="er">~</span>(tables)), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]<span class="sc">~</span><span class="er">~</span>(chairs)))</span>
-<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a>add_labels_ineq <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a>  ref_col <span class="ot">&lt;-</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)</span>
-<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
-<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">5</span>, <span class="at">y =</span> <span class="dv">20</span>, <span class="at">label =</span> <span class="st">"Feasible</span><span class="sc">\n</span><span class="st">region"</span>,</span>
-<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
-<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">22</span>, <span class="at">y =</span> <span class="dv">36</span>, <span class="at">label =</span> <span class="st">"Machine-hours"</span>,</span>
-<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">27</span>) <span class="sc">+</span></span>
-<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">36</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">label =</span> <span class="st">"Material"</span>,</span>
-<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">18</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> x_int <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">y =</span> y_int <span class="sc">+</span> <span class="dv">2</span>,</span>
-<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="st">"Optimal"</span>,</span>
-<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col)</span>
-<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a>::: {#fig-inequality}</span>
-<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: inequality_render</span></span>
-<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
-<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_ineq</span>(p_ineq, <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
-<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_ineq</span>(p_ineq, <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
-<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a>The feasible region (shaded) is the intersection of all inequality half-spaces. The objective contours increase to the upper right. The constrained optimum (triangle) lies at a vertex — where two constraints are simultaneously active.</span>
-<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a>The optimal solution sits at a corner of the feasible region. This is not a coincidence for linear objectives and linear constraints — it is a theorem (the fundamental theorem of linear programming). For nonlinear objectives and constraints, the optimum can be anywhere on the boundary or in the interior, depending on the problem's geometry.</span>
-<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a><span class="fu">## Active and inactive constraints {#sec-constrained-active}</span></span>
-<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a>At any feasible point $\mathbf{x}$, each inequality constraint $g_i(\mathbf{x}) \leq 0$ is either **active** (binding) or **inactive**.</span>
-<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a>A constraint is **active** at $\mathbf{x}$ if $g_i(\mathbf{x}) = 0$ — the point sits exactly on the boundary. Moving away from the boundary into the interior relaxes the constraint. A constraint is **inactive** at $\mathbf{x}$ if $g_i(\mathbf{x}) &lt; 0$ — the point is strictly inside the half-space, and the constraint is not exerting any pressure on the solution.</span>
-<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a>The distinction matters because inactive constraints are invisible at the optimum. If you removed them, the solution would not change. Active constraints are the ones that actually determine where the optimum is.</span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: inequality_base</span></span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a><span class="co"># Feasible region for production planning</span></span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a><span class="co"># 5x + 2y &lt;= 200, 3x + 4y &lt;= 150, x&gt;=0, y&gt;=0</span></span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a><span class="co"># Corner points: (0,0), (40,0), (25*8/7, ...) — solve intersection</span></span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a><span class="co"># 5x+2y=200, 3x+4y=150 → multiply first by 2: 10x+4y=400, subtract: 7x=250 → x=250/7≈35.7, y=(200-5*250/7)/2=(200-178.6)/2≈10.7</span></span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a><span class="co"># Corner points: (0,0), (40,0), (250/7, 200/7*... let me recompute)</span></span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a><span class="co"># x*=250/7, y=(200-5*250/7)/2 = (200-1250/7)/2 = (1400/7-1250/7)/2 = 150/14 = 75/7</span></span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a><span class="co"># Also (0, 37.5) from 4y=150</span></span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a>x_int <span class="ot">&lt;-</span> <span class="dv">250</span><span class="sc">/</span><span class="dv">7</span>; y_int <span class="ot">&lt;-</span> <span class="dv">75</span><span class="sc">/</span><span class="dv">7</span></span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a>grid_prod <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">45</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">42</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>    <span class="at">feasible =</span> (<span class="dv">5</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>y <span class="sc">&lt;=</span> <span class="dv">200</span>) <span class="sc">&amp;</span> (<span class="dv">3</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>y <span class="sc">&lt;=</span> <span class="dv">150</span>) <span class="sc">&amp;</span> x <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">&gt;=</span> <span class="dv">0</span>,</span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>    <span class="at">obj =</span> <span class="dv">80</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">50</span><span class="sc">*</span>y</span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a>corners <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>, x_int, <span class="dv">0</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, y_int, <span class="dv">150</span><span class="sc">/</span><span class="dv">4</span>))</span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>p_ineq <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">44</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">42</span>)) <span class="sc">+</span></span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]<span class="sc">~</span><span class="er">~</span>(tables)), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]<span class="sc">~</span><span class="er">~</span>(chairs)))</span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a>add_labels_ineq <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a>  ref_col <span class="ot">&lt;-</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)</span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_raster</span>(<span class="at">data =</span> <span class="fu">filter</span>(grid_prod, feasible),</span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="fu">lc</span>(<span class="st">"green"</span>, <span class="at">dark =</span> dark), <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_prod, <span class="fu">aes</span>(x, y, <span class="at">z =</span> obj),</span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a>                 <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">1500</span>, <span class="dv">2000</span>, <span class="dv">2500</span>, <span class="dv">2900</span>),</span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="cf">if</span> (dark) <span class="st">"#888888"</span> <span class="cf">else</span> <span class="st">"gray60"</span>,</span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">100</span>, <span class="at">xend =</span> <span class="dv">40</span>, <span class="at">yend =</span> <span class="dv">0</span>),</span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark), <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">150</span><span class="sc">/</span><span class="dv">4</span>, <span class="at">xend =</span> <span class="dv">50</span>, <span class="at">yend =</span> <span class="dv">0</span>),</span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark),</span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x_int, <span class="at">y =</span> y_int), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">17</span>,</span>
+<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">5</span>, <span class="at">y =</span> <span class="dv">20</span>, <span class="at">label =</span> <span class="st">"Feasible</span><span class="sc">\n</span><span class="st">region"</span>,</span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">22</span>, <span class="at">y =</span> <span class="dv">36</span>, <span class="at">label =</span> <span class="st">"Machine-hours"</span>,</span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">27</span>) <span class="sc">+</span></span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">36</span>, <span class="at">y =</span> <span class="dv">17</span>, <span class="at">label =</span> <span class="st">"Material"</span>,</span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">18</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> x_int <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">y =</span> y_int <span class="sc">+</span> <span class="dv">2</span>,</span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="st">"Optimal"</span>,</span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col)</span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a>::: {#fig-inequality}</span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: inequality_render</span></span>
+<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_ineq</span>(p_ineq, <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
+<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_ineq</span>(p_ineq, <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
+<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a>The feasible region (shaded) is the intersection of all inequality half-spaces. The objective contours increase to the upper right. The constrained optimum (triangle) lies at a vertex — where two constraints are simultaneously active.</span>
+<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a>In the production example, the machine-hours constraint and the material constraint are both active at the optimum $\mathbf{x}^* = (250/7, \, 75/7)$: the factory uses exactly 200 machine-hours and exactly 150 kg of material. The non-negativity constraints $x_1 \geq 0$ and $x_2 \geq 0$ are inactive — the factory produces positive quantities of both goods, so those boundaries are not touched.</span>
+<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a>The optimal solution sits at a corner of the feasible region. This is not a coincidence for linear objectives and linear constraints — it is a theorem (the fundamental theorem of linear programming). For nonlinear objectives and constraints, the optimum can be anywhere on the boundary or in the interior, depending on the problem's geometry.</span>
 <span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: active_base</span></span>
-<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a><span class="fu">## Active and inactive constraints {#sec-constrained-active}</span></span>
+<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a>At any feasible point $\mathbf{x}$, each inequality constraint $g_i(\mathbf{x}) \leq 0$ is either **active** (binding) or **inactive**.</span>
+<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a>A constraint is **active** at $\mathbf{x}$ if $g_i(\mathbf{x}) = 0$ — the point sits exactly on the boundary. Moving away from the boundary into the interior relaxes the constraint. A constraint is **inactive** at $\mathbf{x}$ if $g_i(\mathbf{x}) &lt; 0$ — the point is strictly inside the half-space, and the constraint is not exerting any pressure on the solution.</span>
+<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a>The distinction matters because inactive constraints are invisible at the optimum. If you removed them, the solution would not change. Active constraints are the ones that actually determine where the optimum is.</span>
 <span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a><span class="co"># Three-constraint problem in 2D to show active/inactive</span></span>
-<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a><span class="co"># min f(x,y) = (x-4)^2 + (y-3)^2</span></span>
-<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a><span class="co"># s.t.  g1: x + y &lt;= 5        (active at opt)</span></span>
-<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a><span class="co">#        g2: x &lt;= 4.5          (inactive)</span></span>
-<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a><span class="co">#        g3: y &gt;= 0.5          (inactive)</span></span>
-<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconstrained min: (4,3) — violates g1</span></span>
-<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a><span class="co"># Constrained min on g1: proj of (4,3) onto x+y=5 → x*=3, y*=2... </span></span>
-<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a><span class="co"># Check: (4+3-1)/2... proj of (4,3): x*=(4-3+5)/2=3, y*=(3-4+5)/2=2</span></span>
-<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a><span class="co"># Check g2: 3&lt;=4.5 ✓  g3: 2&gt;=0.5 ✓</span></span>
+<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a>In the production example, the machine-hours constraint and the material constraint are both active at the optimum $\mathbf{x}^* = (250/7, \, 75/7)$: the factory uses exactly 200 machine-hours and exactly 150 kg of material. The non-negativity constraints $x_1 \geq 0$ and $x_2 \geq 0$ are inactive — the factory produces positive quantities of both goods, so those boundaries are not touched.</span>
+<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: active_base</span></span>
+<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a>grid_act <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">5.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
-<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">5.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a>    <span class="at">z =</span> (x <span class="sc">-</span> <span class="dv">4</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (y <span class="sc">-</span> <span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span>,</span>
-<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a>    <span class="at">feasible =</span> (x <span class="sc">+</span> y <span class="sc">&lt;=</span> <span class="dv">5</span>) <span class="sc">&amp;</span> (x <span class="sc">&lt;=</span> <span class="fl">4.5</span>) <span class="sc">&amp;</span> (y <span class="sc">&gt;=</span> <span class="fl">0.5</span>)</span>
-<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a>p_active <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb3-387"><a href="#cb3-387" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="at">data =</span> <span class="fu">filter</span>(grid_act, feasible),</span>
-<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#2D6A4F"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
-<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_act, <span class="fu">aes</span>(x, y, <span class="at">z =</span> z),</span>
-<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">8</span>),</span>
-<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray60"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a>  <span class="co"># g1: active (solid)</span></span>
-<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">5</span>, <span class="at">linewidth =</span> <span class="fl">1.0</span>) <span class="sc">+</span></span>
-<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a>  <span class="co"># g2: inactive (dashed)</span></span>
-<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">4.5</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a>  <span class="co"># g3: inactive (dotted)</span></span>
-<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
-<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">4</span>, <span class="at">y =</span> <span class="dv">3</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb3-399"><a href="#cb3-399" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">3</span>, <span class="at">y =</span> <span class="dv">2</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">17</span>) <span class="sc">+</span></span>
-<span id="cb3-400"><a href="#cb3-400" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">5.3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">5.3</span>)) <span class="sc">+</span></span>
-<span id="cb3-401"><a href="#cb3-401" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]))</span>
-<span id="cb3-402"><a href="#cb3-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-403"><a href="#cb3-403" aria-hidden="true" tabindex="-1"></a>add_labels_active <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb3-404"><a href="#cb3-404" aria-hidden="true" tabindex="-1"></a>  ref_col <span class="ot">&lt;-</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)</span>
-<span id="cb3-405"><a href="#cb3-405" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
-<span id="cb3-406"><a href="#cb3-406" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">4.1</span>, <span class="at">y =</span> <span class="fl">3.15</span>, <span class="at">label =</span> <span class="st">"Unconstrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
-<span id="cb3-407"><a href="#cb3-407" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
-<span id="cb3-408"><a href="#cb3-408" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">3.1</span>, <span class="at">y =</span> <span class="fl">1.8</span>, <span class="at">label =</span> <span class="st">"Constrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
-<span id="cb3-409"><a href="#cb3-409" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
-<span id="cb3-410"><a href="#cb3-410" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.3</span>, <span class="at">y =</span> <span class="fl">5.1</span>, <span class="at">label =</span> <span class="st">"g\u2081 = 0  (active)"</span>,</span>
-<span id="cb3-411"><a href="#cb3-411" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">45</span>) <span class="sc">+</span></span>
-<span id="cb3-412"><a href="#cb3-412" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">4.52</span>, <span class="at">y =</span> <span class="fl">4.5</span>, <span class="at">label =</span> <span class="st">"g\u2082 &lt; 0  (inactive)"</span>,</span>
-<span id="cb3-413"><a href="#cb3-413" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="dv">90</span>) <span class="sc">+</span></span>
-<span id="cb3-414"><a href="#cb3-414" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.5</span>, <span class="at">y =</span> <span class="fl">0.35</span>, <span class="at">label =</span> <span class="st">"g\u2083 &lt; 0  (inactive)"</span>,</span>
-<span id="cb3-415"><a href="#cb3-415" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col)</span>
-<span id="cb3-416"><a href="#cb3-416" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-417"><a href="#cb3-417" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-418"><a href="#cb3-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-419"><a href="#cb3-419" aria-hidden="true" tabindex="-1"></a>::: {#fig-active}</span>
-<span id="cb3-420"><a href="#cb3-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-423"><a href="#cb3-423" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-424"><a href="#cb3-424" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: active_render</span></span>
-<span id="cb3-425"><a href="#cb3-425" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
-<span id="cb3-426"><a href="#cb3-426" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb3-427"><a href="#cb3-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-428"><a href="#cb3-428" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_active</span>(p_active, <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
-<span id="cb3-429"><a href="#cb3-429" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_active</span>(p_active, <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
-<span id="cb3-430"><a href="#cb3-430" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-431"><a href="#cb3-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-432"><a href="#cb3-432" aria-hidden="true" tabindex="-1"></a>Three constraints bound the feasible region (shaded). At the constrained minimum (triangle), only $g_1 = 0$ is active — it determines the solution. Constraints $g_2$ and $g_3$ are inactive: removing them would not change the optimum.</span>
-<span id="cb3-433"><a href="#cb3-433" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a><span class="co"># Three-constraint problem in 2D to show active/inactive</span></span>
+<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a><span class="co"># min f(x,y) = (x-4)^2 + (y-3)^2</span></span>
+<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a><span class="co"># s.t.  g1: x + y &lt;= 5        (active at opt)</span></span>
+<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a><span class="co">#        g2: x &lt;= 4.5          (inactive)</span></span>
+<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a><span class="co">#        g3: y &gt;= 0.5          (inactive)</span></span>
+<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconstrained min: (4,3) — violates g1</span></span>
+<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a><span class="co"># Constrained min on g1: proj of (4,3) onto x+y=5 → x*=3, y*=2... </span></span>
+<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a><span class="co"># Check: (4+3-1)/2... proj of (4,3): x*=(4-3+5)/2=3, y*=(3-4+5)/2=2</span></span>
+<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a><span class="co"># Check g2: 3&lt;=4.5 ✓  g3: 2&gt;=0.5 ✓</span></span>
+<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-387"><a href="#cb3-387" aria-hidden="true" tabindex="-1"></a>grid_act <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">5.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>),</span>
+<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">5.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a>    <span class="at">z =</span> (x <span class="sc">-</span> <span class="dv">4</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (y <span class="sc">-</span> <span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a>    <span class="at">feasible =</span> (x <span class="sc">+</span> y <span class="sc">&lt;=</span> <span class="dv">5</span>) <span class="sc">&amp;</span> (x <span class="sc">&lt;=</span> <span class="fl">4.5</span>) <span class="sc">&amp;</span> (y <span class="sc">&gt;=</span> <span class="fl">0.5</span>)</span>
+<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a>p_active <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">5.3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">5.3</span>)) <span class="sc">+</span></span>
+<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]))</span>
+<span id="cb3-399"><a href="#cb3-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-400"><a href="#cb3-400" aria-hidden="true" tabindex="-1"></a>add_labels_active <span class="ot">&lt;-</span> <span class="cf">function</span>(pl, <span class="at">dark =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb3-401"><a href="#cb3-401" aria-hidden="true" tabindex="-1"></a>  ref_col <span class="ot">&lt;-</span> <span class="fu">lc</span>(<span class="st">"ref_text"</span>, <span class="at">dark =</span> dark)</span>
+<span id="cb3-402"><a href="#cb3-402" aria-hidden="true" tabindex="-1"></a>  pl <span class="sc">+</span></span>
+<span id="cb3-403"><a href="#cb3-403" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_raster</span>(<span class="at">data =</span> <span class="fu">filter</span>(grid_act, feasible),</span>
+<span id="cb3-404"><a href="#cb3-404" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="fu">lc</span>(<span class="st">"green"</span>, <span class="at">dark =</span> dark), <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb3-405"><a href="#cb3-405" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_contour</span>(<span class="at">data =</span> grid_act, <span class="fu">aes</span>(x, y, <span class="at">z =</span> z),</span>
+<span id="cb3-406"><a href="#cb3-406" aria-hidden="true" tabindex="-1"></a>                 <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">8</span>),</span>
+<span id="cb3-407"><a href="#cb3-407" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="cf">if</span> (dark) <span class="st">"#888888"</span> <span class="cf">else</span> <span class="st">"gray60"</span>,</span>
+<span id="cb3-408"><a href="#cb3-408" aria-hidden="true" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb3-409"><a href="#cb3-409" aria-hidden="true" tabindex="-1"></a>    <span class="co"># g1: active (solid)</span></span>
+<span id="cb3-410"><a href="#cb3-410" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">5</span>,</span>
+<span id="cb3-411"><a href="#cb3-411" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark), <span class="at">linewidth =</span> <span class="fl">1.0</span>) <span class="sc">+</span></span>
+<span id="cb3-412"><a href="#cb3-412" aria-hidden="true" tabindex="-1"></a>    <span class="co"># g2: inactive (dashed)</span></span>
+<span id="cb3-413"><a href="#cb3-413" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">4.5</span>, <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark),</span>
+<span id="cb3-414"><a href="#cb3-414" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-415"><a href="#cb3-415" aria-hidden="true" tabindex="-1"></a>    <span class="co"># g3: inactive (dotted)</span></span>
+<span id="cb3-416"><a href="#cb3-416" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark),</span>
+<span id="cb3-417"><a href="#cb3-417" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb3-418"><a href="#cb3-418" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">4</span>, <span class="at">y =</span> <span class="dv">3</span>), <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb3-419"><a href="#cb3-419" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-420"><a href="#cb3-420" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">3</span>, <span class="at">y =</span> <span class="dv">2</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">17</span>,</span>
+<span id="cb3-421"><a href="#cb3-421" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="fu">lc</span>(<span class="st">"ref_line"</span>, <span class="at">dark =</span> dark)) <span class="sc">+</span></span>
+<span id="cb3-422"><a href="#cb3-422" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">4.1</span>, <span class="at">y =</span> <span class="fl">3.15</span>, <span class="at">label =</span> <span class="st">"Unconstrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
+<span id="cb3-423"><a href="#cb3-423" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
+<span id="cb3-424"><a href="#cb3-424" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">3.1</span>, <span class="at">y =</span> <span class="fl">1.8</span>, <span class="at">label =</span> <span class="st">"Constrained</span><span class="sc">\n</span><span class="st">minimum"</span>,</span>
+<span id="cb3-425"><a href="#cb3-425" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> ref_col) <span class="sc">+</span></span>
+<span id="cb3-426"><a href="#cb3-426" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.3</span>, <span class="at">y =</span> <span class="fl">5.1</span>, <span class="at">label =</span> <span class="st">"g\u2081 = 0  (active)"</span>,</span>
+<span id="cb3-427"><a href="#cb3-427" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="sc">-</span><span class="dv">45</span>) <span class="sc">+</span></span>
+<span id="cb3-428"><a href="#cb3-428" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">4.52</span>, <span class="at">y =</span> <span class="fl">4.5</span>, <span class="at">label =</span> <span class="st">"g\u2082 &lt; 0  (inactive)"</span>,</span>
+<span id="cb3-429"><a href="#cb3-429" aria-hidden="true" tabindex="-1"></a>             <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col, <span class="at">angle =</span> <span class="dv">90</span>) <span class="sc">+</span></span>
+<span id="cb3-430"><a href="#cb3-430" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.5</span>, <span class="at">y =</span> <span class="fl">0.35</span>, <span class="at">label =</span> <span class="st">"g\u2083 &lt; 0  (inactive)"</span>,</span>
+<span id="cb3-431"><a href="#cb3-431" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.0</span>, <span class="at">color =</span> ref_col)</span>
+<span id="cb3-432"><a href="#cb3-432" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-433"><a href="#cb3-433" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb3-434"><a href="#cb3-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-435"><a href="#cb3-435" aria-hidden="true" tabindex="-1"></a>This observation leads to one of the central ideas in constrained optimization: at the optimum, the active constraints are the ones that matter. An algorithm does not need to track all $m$ constraints equally — it needs to identify which ones are binding. This is exactly what the KKT conditions in @sec-kkt accomplish through the complementary slackness condition.</span>
+<span id="cb3-435"><a href="#cb3-435" aria-hidden="true" tabindex="-1"></a>::: {#fig-active}</span>
 <span id="cb3-436"><a href="#cb3-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-437"><a href="#cb3-437" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
-<span id="cb3-438"><a href="#cb3-438" aria-hidden="true" tabindex="-1"></a><span class="fu">## Active constraints at the optimum</span></span>
-<span id="cb3-439"><a href="#cb3-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-440"><a href="#cb3-440" aria-hidden="true" tabindex="-1"></a>At the constrained minimum $\mathbf{x}^*$, each inequality constraint satisfies exactly one of the following:</span>
-<span id="cb3-441"><a href="#cb3-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-442"><a href="#cb3-442" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$g_i(\mathbf{x}^*) = 0$ — the constraint is **active**: it is binding and shapes the solution.</span>
-<span id="cb3-443"><a href="#cb3-443" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$g_i(\mathbf{x}^*) &lt; 0$ — the constraint is **inactive**: it is satisfied with slack and does not affect the optimum.</span>
-<span id="cb3-444"><a href="#cb3-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-445"><a href="#cb3-445" aria-hidden="true" tabindex="-1"></a>The set of active constraints at $\mathbf{x}^*$ is called the **active set** $\mathcal{A}(\mathbf{x}^*) = \{i : g_i(\mathbf{x}^*) = 0<span class="sc">\}</span>$.</span>
-<span id="cb3-446"><a href="#cb3-446" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-439"><a href="#cb3-439" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-440"><a href="#cb3-440" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: active_render</span></span>
+<span id="cb3-441"><a href="#cb3-441" aria-hidden="true" tabindex="-1"></a><span class="co">#| renderings: [light, dark]</span></span>
+<span id="cb3-442"><a href="#cb3-442" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb3-443"><a href="#cb3-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-444"><a href="#cb3-444" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_active</span>(p_active, <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_laurelin</span>()</span>
+<span id="cb3-445"><a href="#cb3-445" aria-hidden="true" tabindex="-1"></a><span class="fu">add_labels_active</span>(p_active, <span class="cn">TRUE</span>)  <span class="sc">+</span> <span class="fu">scale_laurelin_dark</span>()</span>
+<span id="cb3-446"><a href="#cb3-446" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb3-447"><a href="#cb3-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-448"><a href="#cb3-448" aria-hidden="true" tabindex="-1"></a>Equality constraints are always active by definition: $h_j(\mathbf{x}) = 0$ must hold everywhere in $\mathcal{F}$, including at the optimum.</span>
-<span id="cb3-449"><a href="#cb3-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-450"><a href="#cb3-450" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises {#sec-constrained-exercises}</span></span>
-<span id="cb3-451"><a href="#cb3-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-452"><a href="#cb3-452" aria-hidden="true" tabindex="-1"></a>**3.1** A company produces two products. Product A requires 3 hours of labor and 2 kg of material per unit; product B requires 1 hour and 4 kg. Available: 120 labor-hours, 160 kg of material. Revenue is \$40 per unit of A and \$30 per unit of B.</span>
-<span id="cb3-453"><a href="#cb3-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-454"><a href="#cb3-454" aria-hidden="true" tabindex="-1"></a>a. Write the optimization problem in standard form (@eq-constrained-general).</span>
-<span id="cb3-455"><a href="#cb3-455" aria-hidden="true" tabindex="-1"></a>b. Sketch the feasible region. Identify each constraint boundary.</span>
-<span id="cb3-456"><a href="#cb3-456" aria-hidden="true" tabindex="-1"></a>c. Find all corner points of the feasible region.</span>
-<span id="cb3-457"><a href="#cb3-457" aria-hidden="true" tabindex="-1"></a>d. At the revenue-maximizing corner, which constraints are active?</span>
-<span id="cb3-458"><a href="#cb3-458" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a>**3.2** Consider the problem</span>
+<span id="cb3-448"><a href="#cb3-448" aria-hidden="true" tabindex="-1"></a>Three constraints bound the feasible region (shaded). At the constrained minimum (triangle), only $g_1 = 0$ is active — it determines the solution. Constraints $g_2$ and $g_3$ are inactive: removing them would not change the optimum.</span>
+<span id="cb3-449"><a href="#cb3-449" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-450"><a href="#cb3-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-451"><a href="#cb3-451" aria-hidden="true" tabindex="-1"></a>This observation leads to one of the central ideas in constrained optimization: at the optimum, the active constraints are the ones that matter. An algorithm does not need to track all $m$ constraints equally — it needs to identify which ones are binding. This is exactly what the KKT conditions in @sec-kkt accomplish through the complementary slackness condition.</span>
+<span id="cb3-452"><a href="#cb3-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-453"><a href="#cb3-453" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb3-454"><a href="#cb3-454" aria-hidden="true" tabindex="-1"></a><span class="fu">## Active constraints at the optimum</span></span>
+<span id="cb3-455"><a href="#cb3-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-456"><a href="#cb3-456" aria-hidden="true" tabindex="-1"></a>At the constrained minimum $\mathbf{x}^*$, each inequality constraint satisfies exactly one of the following:</span>
+<span id="cb3-457"><a href="#cb3-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-458"><a href="#cb3-458" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$g_i(\mathbf{x}^*) = 0$ — the constraint is **active**: it is binding and shapes the solution.</span>
+<span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$g_i(\mathbf{x}^*) &lt; 0$ — the constraint is **inactive**: it is satisfied with slack and does not affect the optimum.</span>
 <span id="cb3-460"><a href="#cb3-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-461"><a href="#cb3-461" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-462"><a href="#cb3-462" aria-hidden="true" tabindex="-1"></a>\min_{x_1, x_2} \; (x_1 - 3)^2 + (x_2 - 2)^2 \quad \text{s.t.} \quad x_1 + 2x_2 = 4.</span>
-<span id="cb3-463"><a href="#cb3-463" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb3-464"><a href="#cb3-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-465"><a href="#cb3-465" aria-hidden="true" tabindex="-1"></a>a. What is the feasible set? Describe it geometrically.</span>
-<span id="cb3-466"><a href="#cb3-466" aria-hidden="true" tabindex="-1"></a>b. The unconstrained minimum is $(3, 2)$. Is it feasible? Why or why not?</span>
-<span id="cb3-467"><a href="#cb3-467" aria-hidden="true" tabindex="-1"></a>c. Use geometry to find the constrained minimum without calculus. (*Hint: which point on the constraint line is closest to $(3,2)$?*)</span>
-<span id="cb3-468"><a href="#cb3-468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-469"><a href="#cb3-469" aria-hidden="true" tabindex="-1"></a>**3.3** Suppose you add the constraint $x_1 \leq 10$ to the problem in Exercise 3.2.</span>
-<span id="cb3-470"><a href="#cb3-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-471"><a href="#cb3-471" aria-hidden="true" tabindex="-1"></a>a. Is this constraint active at the solution you found in 3.2c?</span>
-<span id="cb3-472"><a href="#cb3-472" aria-hidden="true" tabindex="-1"></a>b. Does the solution change? Explain why or why not in terms of the active set.</span>
-<span id="cb3-473"><a href="#cb3-473" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-474"><a href="#cb3-474" aria-hidden="true" tabindex="-1"></a>**3.4** *(Graduate level)* Consider a feasible region defined by $m$ convex inequality constraints $g_i(\mathbf{x}) \leq 0$. Show that if each $g_i$ is a convex function, then $\mathcal{F}$ is a convex set. (*Hint: use the definition of convexity — for any two feasible points and any $\lambda \in [0,1]$, the convex combination must also be feasible.*)</span>
+<span id="cb3-461"><a href="#cb3-461" aria-hidden="true" tabindex="-1"></a>The set of active constraints at $\mathbf{x}^*$ is called the **active set** $\mathcal{A}(\mathbf{x}^*) = \{i : g_i(\mathbf{x}^*) = 0<span class="sc">\}</span>$.</span>
+<span id="cb3-462"><a href="#cb3-462" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb3-463"><a href="#cb3-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-464"><a href="#cb3-464" aria-hidden="true" tabindex="-1"></a>Equality constraints are always active by definition: $h_j(\mathbf{x}) = 0$ must hold everywhere in $\mathcal{F}$, including at the optimum.</span>
+<span id="cb3-465"><a href="#cb3-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-466"><a href="#cb3-466" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises {#sec-constrained-exercises}</span></span>
+<span id="cb3-467"><a href="#cb3-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-468"><a href="#cb3-468" aria-hidden="true" tabindex="-1"></a>**3.1** A company produces two products. Product A requires 3 hours of labor and 2 kg of material per unit; product B requires 1 hour and 4 kg. Available: 120 labor-hours, 160 kg of material. Revenue is \$40 per unit of A and \$30 per unit of B.</span>
+<span id="cb3-469"><a href="#cb3-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-470"><a href="#cb3-470" aria-hidden="true" tabindex="-1"></a>a. Write the optimization problem in standard form (@eq-constrained-general).</span>
+<span id="cb3-471"><a href="#cb3-471" aria-hidden="true" tabindex="-1"></a>b. Sketch the feasible region. Identify each constraint boundary.</span>
+<span id="cb3-472"><a href="#cb3-472" aria-hidden="true" tabindex="-1"></a>c. Find all corner points of the feasible region.</span>
+<span id="cb3-473"><a href="#cb3-473" aria-hidden="true" tabindex="-1"></a>d. At the revenue-maximizing corner, which constraints are active?</span>
+<span id="cb3-474"><a href="#cb3-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-475"><a href="#cb3-475" aria-hidden="true" tabindex="-1"></a>**3.2** Consider the problem</span>
+<span id="cb3-476"><a href="#cb3-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-477"><a href="#cb3-477" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-478"><a href="#cb3-478" aria-hidden="true" tabindex="-1"></a>\min_{x_1, x_2} \; (x_1 - 3)^2 + (x_2 - 2)^2 \quad \text{s.t.} \quad x_1 + 2x_2 = 4.</span>
+<span id="cb3-479"><a href="#cb3-479" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb3-480"><a href="#cb3-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-481"><a href="#cb3-481" aria-hidden="true" tabindex="-1"></a>a. What is the feasible set? Describe it geometrically.</span>
+<span id="cb3-482"><a href="#cb3-482" aria-hidden="true" tabindex="-1"></a>b. The unconstrained minimum is $(3, 2)$. Is it feasible? Why or why not?</span>
+<span id="cb3-483"><a href="#cb3-483" aria-hidden="true" tabindex="-1"></a>c. Use geometry to find the constrained minimum without calculus. (*Hint: which point on the constraint line is closest to $(3,2)$?*)</span>
+<span id="cb3-484"><a href="#cb3-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-485"><a href="#cb3-485" aria-hidden="true" tabindex="-1"></a>**3.3** Suppose you add the constraint $x_1 \leq 10$ to the problem in Exercise 3.2.</span>
+<span id="cb3-486"><a href="#cb3-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-487"><a href="#cb3-487" aria-hidden="true" tabindex="-1"></a>a. Is this constraint active at the solution you found in 3.2c?</span>
+<span id="cb3-488"><a href="#cb3-488" aria-hidden="true" tabindex="-1"></a>b. Does the solution change? Explain why or why not in terms of the active set.</span>
+<span id="cb3-489"><a href="#cb3-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-490"><a href="#cb3-490" aria-hidden="true" tabindex="-1"></a>**3.4** *(Graduate level)* Consider a feasible region defined by $m$ convex inequality constraints $g_i(\mathbf{x}) \leq 0$. Show that if each $g_i$ is a convex function, then $\mathcal{F}$ is a convex set. (*Hint: use the definition of convexity — for any two feasible points and any $\lambda \in [0,1]$, the convex combination must also be feasible.*)</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
