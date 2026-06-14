@@ -2,106 +2,106 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/index.html</loc>
-    <lastmod>2026-06-13T16:35:49.253Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.092Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/01-motivation.html</loc>
-    <lastmod>2026-06-13T16:35:49.235Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.074Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/02-unconstrained.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/03-constrained.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/04-lagrangian-duality.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/05-kkt.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/06-numerical-methods.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/07-representation.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/08-kernel-trick.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/09-common-kernels.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/10-representer-theorem.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/11-svm-classification.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/12-svr.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/13-ls-svr.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/14-gaussian-processes.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/15-svr-in-perspective.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/16-percentage-error.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/17-eps-svr-mape.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/18-ls-svr-rmspe.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/19-symmetric-variants.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/20-unified-framework.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/21-scale-problem.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/22-smo-classical.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/23-smo-mape.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/chapters/24-empirical-comparison.html</loc>
-    <lastmod>2026-06-13T16:35:49.236Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.075Z</lastmod>
   </url>
   <url>
     <loc>https://pbenavidesh.github.io/laurelin/references.html</loc>
-    <lastmod>2026-06-13T16:35:49.253Z</lastmod>
+    <lastmod>2026-06-14T07:11:36.092Z</lastmod>
   </url>
 </urlset>
