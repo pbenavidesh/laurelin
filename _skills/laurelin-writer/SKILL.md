@@ -671,6 +671,38 @@ Caption text here.
 :::
 ````
 
+#### Dynamic colour rule for geoms
+
+`theme_laurelin_dark()` changes backgrounds and text colours, but **does
+not change the default colour of geoms** (lines, points, segments). Any
+geom whose colour must differ between light and dark must be declared
+inside `add_labels_*()` — not in the base chunk — so the `dark`
+argument can control it.
+
+**Base chunk:** put only data-derived geoms whose colour comes from an
+`aes()` mapping (e.g. `geom_line(aes(color = group))`), plus `labs()`.
+Avoid bare `geom_line()`, `geom_hline()`, `geom_vline()`, or
+`geom_segment()` with no colour mapping in the base chunk.
+
+**`add_labels_*()`:** put all geoms with fixed colours here, using
+`lc()` or an explicit `if (dark)` branch:
+
+```r
+add_labels <- function(pl, dark = FALSE) {
+  line_col <- if (dark) "#DDDDDD" else "black"
+  pl +
+    geom_line(data = df, aes(y = val), linewidth = 1, color = line_col) +
+    geom_hline(yintercept = y_star, linetype = "dashed",
+               linewidth = 0.8, color = line_col) +
+    geom_vline(xintercept = x_star, linetype = "dotted",
+               color = lc("ref_line", dark = dark)) +
+    annotate("text", ..., color = lc("ref_text", dark = dark))
+}
+```
+
+This pattern ensures every geom renders correctly in both modes without
+manual overrides in the render chunk.
+
 #### Type 2 — Pedagogical figures (code the reader should learn)
 
 Plots that demonstrate R and Python skills the reader is expected to
@@ -832,6 +864,19 @@ For Python, use the hex values directly — there is no `lc()` equivalent.
 
 - Light: `#ffffff` (set by `theme_laurelin()` / `fig.patch.set_facecolor`)
 - Dark: `#222222` (darkly body background / `fig.patch.set_facecolor`)
+
+**Transparent vs. solid backgrounds:** `theme_laurelin()` uses
+`fill = "transparent"` for `plot.background` and `panel.background`.
+This works for SVG output (the plot inherits the page background) but
+**fails for PNG output** — a transparent PNG renders on white in the
+browser regardless of the page theme.
+
+`theme_laurelin_dark()` uses solid fills (`#222222` / `#2a2a2a`) for
+this reason. Do **not** change it back to transparent. If a dark-mode
+ggplot2 figure still shows a white background after applying
+`scale_laurelin_dark()`, the chunk is producing PNG instead of SVG —
+check whether plotly or another HTML widget is present in the same
+document, which forces knitr to switch output formats.
 
 #### EOQ legend caveat
 
