@@ -128,11 +128,11 @@ theme_laurelin_dark <- function(base_size = 13) {
   ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(
       plot.background = ggplot2::element_rect(
-        fill = "transparent",
+        fill = "#222222",
         colour = NA
       ),
       panel.background = ggplot2::element_rect(
-        fill = "transparent",
+        fill = "#2a2a2a",
         colour = NA
       ),
       panel.grid.major = ggplot2::element_line(
