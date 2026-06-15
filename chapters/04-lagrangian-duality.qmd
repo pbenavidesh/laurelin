@@ -1,44 +1,444 @@
-# The Lagrangian and Duality {#sec-ch-lagrangian}
+---
+title: "The Lagrangian and Duality"
+---
 
-## Motivation
+```{r}
+#| label: setup
+#| include: false
 
-*[Opening question or real-world problem that motivates this chapter.
-1-2 sentences placeholder.]*
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(plotly)
+library(here)
+source(here::here("R/laurelin_theme.R"))
+theme_set(theme_laurelin())
+```
 
-## SECTION_1_TITLE
+::: {.callout-note collapse="true" appearance="simple"}
+## Required packages
 
-*[Content placeholder.]*
-
-::: {.callout-note collapse="true"}
-## Derivation: DERIVATION_TITLE
-
-*[Full derivation placeholder — collapsible for advanced readers.]*
-:::
-
-::: {.panel-tabset}
+::: {.panel-tabset group="language"}
 ## R
-
 ```r
-# R code placeholder
+library(ggplot2)   # plotting
+library(dplyr)     # data manipulation
+library(tidyr)     # reshaping
+library(plotly)    # interactive 3D surface
 ```
-
 ## Python
-
 ```python
-# Python code placeholder
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 ```
+:::
+:::
+
+A marketing team has 50,000 pesos to distribute across three channels — Google Ads, Meta, and email — and needs to decide how much to allocate to each. The goal is to maximize total conversions. The constraint is exact: the budget must be spent in full, nothing left over, nothing overspent. Chapter 3 gave us the vocabulary for this — feasible region, constrained optimum, active constraints. What it did not give us is a method for finding that optimum. That is what this chapter is about.
+
+## Constraints and the feasibility problem {#sec-lagrangian-constraints}
+
+Let $x_1$, $x_2$, $x_3$ denote the amounts allocated to Google Ads, Meta, and email respectively, measured in thousands of pesos. The problem is:
+
+$$
+\begin{aligned}
+\underset{x_1, x_2, x_3}{\text{maximize}} \quad & f(x_1, x_2, x_3) \\
+\text{subject to} \quad & x_1 + x_2 + x_3 = 50 \\
+& x_1, x_2, x_3 \geq 0
+\end{aligned}
+$$ {#eq-marketing-primal}
+
+The objective $f$ encodes how many conversions each allocation produces. We will specify it shortly. The first constraint is an equality — the budget is fixed. The three non-negativity conditions are inequalities — you cannot allocate a negative amount to any channel.
+
+The equality constraint collapses the search space immediately. With $x_1 + x_2 + x_3 = 50$, the three variables are not independent: once we fix $x_1$ and $x_2$, the value of $x_3$ is determined. We are effectively optimizing over a two-dimensional surface embedded in three-dimensional space.
+
+Gradient descent, as introduced in Chapter 2, cannot handle this. It follows $\nabla f$ without regard for the constraint. A step that increases conversions but violates the budget is not a valid step. We need a way to incorporate the constraint into the optimization itself — not as a filter applied after the fact, but as a structural component of the problem.
+
+::: {.callout-tip}
+## Why equality constraints are the harder case
+
+Inequality constraints ($x_k \geq 0$) may or may not be active at the optimum. An inactive inequality is irrelevant — the optimizer ignores it. An equality constraint is always active by definition. The optimum must lie exactly on the constraint surface, which makes equality constraints the governing structure of the problem.
+:::
+
+## The Lagrangian function and shadow prices {#sec-lagrangian-function}
+
+The key idea is to stop treating the constraint as a barrier and start treating it as a cost. If we penalize violations of $x_1 + x_2 + x_3 = 50$ by an amount $\lambda$ per unit of violation, the constrained problem becomes an unconstrained one — at least in form.
+
+The **Lagrangian** is:
+
+$$
+\mathcal{L}(x_1, x_2, x_3, \lambda) = f(x_1, x_2, x_3) - \lambda \left( x_1 + x_2 + x_3 - 50 \right)
+$$ {#eq-lagrangian-equality}
+
+The scalar $\lambda$ is the **Lagrange multiplier**. It enters with a negative sign because we are maximizing: a constraint violation ($x_1 + x_2 + x_3 > 50$) reduces the Lagrangian, discouraging infeasible allocations.
+
+At the optimum, the constraint holds exactly — $x_1 + x_2 + x_3 = 50$ — so the penalty term is zero and $\mathcal{L} = f$. But the multiplier has not disappeared. It leaves a trace in the first-order conditions.
+
+**Stationarity.** At the optimum, $\partial \mathcal{L} / \partial x_k = 0$ for each $k$:
+
+$$
+\frac{\partial f}{\partial x_k} = \lambda, \quad k = 1, 2, 3
+$$ {#eq-stationarity}
+
+This is the central insight. At the optimum, the marginal return of every active channel must be equal — and that common value is $\lambda$.
+
+Now ask: what happens if the budget increases by one unit, from 50 to 51? The optimum shifts. The gain in objective value from that extra unit of budget is exactly $\lambda$. This is the **shadow price** of the budget constraint — the value of one additional peso.
+
+::: {.callout-important}
+## Shadow price interpretation
+
+If $\lambda = 3.2$, then each additional thousand pesos of budget yields approximately 3,200 additional conversions at the margin. If $\lambda = 0.1$, the campaign is already near saturation — extra budget buys little. The multiplier is not just a mathematical artifact. It is a quantity with direct economic meaning.
+:::
+
+This interpretation motivates the entire theory. Lagrange multipliers are not correction terms appended to make the math work. They are the prices of constraints — the marginal cost of tightening or the marginal benefit of relaxing each one.
+
+### Diminishing returns and the shape of $f$
+
+The equality constraint forces the budget to be spent in full, but the shape of $f$ determines *how* it should be split. Each channel has its own conversion curve — how many additional conversions a peso buys as spending increases. These curves are concave: the first peso on Google Ads produces more conversions than the thousandth.
+
+```{r}
+#| label: diminishing_returns_base
+#| echo: false
+#| output: false
+
+budget_seq <- seq(0, 50, length.out = 300)
+
+google_conv <- function(x) 80 * (1 - exp(-0.10 * x))
+meta_conv   <- function(x) 60 * (1 - exp(-0.14 * x))
+email_conv  <- function(x) 40 * (1 - exp(-0.20 * x))
+
+curves_df <- tibble(
+  budget      = rep(budget_seq, 3),
+  conversions = c(google_conv(budget_seq),
+                  meta_conv(budget_seq),
+                  email_conv(budget_seq)),
+  channel     = rep(c("Google Ads", "Meta", "Email"), each = length(budget_seq))
+)
+
+p_returns <- ggplot(curves_df, aes(x = budget, y = conversions, color = channel)) +
+  geom_line(linewidth = 1) +
+  labs(
+    x     = "Budget (thousands of pesos)",
+    y     = "Expected conversions",
+    color = NULL
+  )
+
+add_labels_returns <- function(pl, dark = FALSE) {
+  pl +
+    annotate("text", x = 46, y = google_conv(50) + 2.5,
+             label = "Google Ads", size = 3.5,
+             color = lc("ref_text", dark = dark)) +
+    annotate("text", x = 46, y = meta_conv(50) + 2.5,
+             label = "Meta", size = 3.5,
+             color = lc("ref_text", dark = dark)) +
+    annotate("text", x = 46, y = email_conv(50) + 2.5,
+             label = "Email", size = 3.5,
+             color = lc("ref_text", dark = dark))
+}
+```
+
+::: {#fig-diminishing-returns}
+
+```{r}
+#| label: diminishing_returns_render
+#| renderings: [light, dark]
+#| echo: false
+
+add_labels_returns(p_returns, FALSE) + scale_laurelin() + theme(legend.position = "none")
+add_labels_returns(p_returns, TRUE)  + scale_laurelin_dark() + theme(legend.position = "none")
+```
+
+Conversion curves for three marketing channels as a function of budget allocated. Each curve is concave — the marginal return of an additional peso decreases as the channel becomes saturated. At the optimum, the slopes of all three curves are equal: this common slope is the shadow price $\lambda$.
 
 :::
 
-## SECTION_2_TITLE
+Formally, let the total conversion function be:
 
-*[Content placeholder.]*
+$$
+f(x_1, x_2, x_3) = 80(1 - e^{-0.10\, x_1}) + 60(1 - e^{-0.14\, x_2}) + 40(1 - e^{-0.20\, x_3})
+$$ {#eq-objective}
 
-## Summary
+The stationarity condition @eq-stationarity says the marginal return of each channel must equal $\lambda$ at the optimum. Since the curves have different shapes, this forces different allocations: the channel with the fastest-decaying marginal return receives less budget.
 
-*[Key takeaways from this chapter — 3-5 bullet points placeholder.]*
+## Primal and dual problems {#sec-primal-dual}
 
-## Exercises
+The Lagrangian construction separates the original problem into two perspectives on the same object.
 
-1. *[Exercise placeholder.]*
-2. *[Exercise placeholder.]*
+The **primal problem** is @eq-marketing-primal as stated: choose $x_1, x_2, x_3$ to maximize $f$ subject to the constraint. The decision variables are the allocations.
+
+The **dual problem** flips the perspective: choose $\lambda$ to minimize the maximum of $\mathcal{L}$ over all $(x_1, x_2, x_3)$. The decision variable is the multiplier. Formally:
+
+$$
+\underset{\lambda}{\text{minimize}} \quad g(\lambda) = \underset{x_1, x_2, x_3}{\max} \; \mathcal{L}(x_1, x_2, x_3, \lambda)
+$$ {#eq-dual}
+
+The function $g(\lambda)$ is the **dual objective**. For any fixed $\lambda$, the inner maximization finds the best unconstrained allocation given that shadow price. The outer minimization over $\lambda$ finds the shadow price that tightens this upper bound as much as possible.
+
+::: {.callout-tip}
+## Geometric picture
+
+Think of the Lagrangian surface $\mathcal{L}(x_1, x_2, x_3, \lambda)$ as a family of unconstrained problems, one per value of $\lambda$. Each member of the family gives an upper bound on the constrained optimum. The dual problem finds the tightest such bound.
+:::
+
+With $x_3 = 50 - x_1 - x_2$ imposed by the budget constraint, the objective becomes a function of two variables. The surface below shows $f(x_1, x_2, 50 - x_1 - x_2)$ over the feasible region.
+
+```{r}
+#| label: lagrangian_surface_base
+#| echo: false
+#| output: false
+
+x1_seq <- seq(0, 50, length.out = 80)
+x2_seq <- seq(0, 50, length.out = 80)
+grid   <- expand.grid(x1 = x1_seq, x2 = x2_seq)
+grid   <- grid[grid$x1 + grid$x2 <= 50, ]
+grid$x3 <- 50 - grid$x1 - grid$x2
+grid$f  <- 80 * (1 - exp(-0.10 * grid$x1)) +
+           60 * (1 - exp(-0.14 * grid$x2)) +
+           40 * (1 - exp(-0.20 * grid$x3))
+
+# z matrix for plot_ly surface (needs a matrix, not long format)
+x1_vals <- seq(0, 50, length.out = 80)
+x2_vals <- seq(0, 50, length.out = 80)
+z_mat   <- outer(x1_vals, x2_vals, function(a, b) {
+  x3 <- 50 - a - b
+  ifelse(x3 < 0, NA_real_,
+         80*(1-exp(-0.10*a)) + 60*(1-exp(-0.14*b)) + 40*(1-exp(-0.20*x3)))
+})
+
+# Numeric optimum via optim()
+obj_neg <- function(x) {
+  x3 <- 50 - x[1] - x[2]
+  if (x3 < 0) return(1e6)
+  -(80*(1-exp(-0.10*x[1])) + 60*(1-exp(-0.14*x[2])) + 40*(1-exp(-0.20*x3)))
+}
+opt     <- optim(c(20, 15), obj_neg, method = "L-BFGS-B",
+                 lower = c(0, 0), upper = c(50, 50))
+x1_opt  <- opt$par[1]
+x2_opt  <- opt$par[2]
+x3_opt  <- 50 - x1_opt - x2_opt
+f_opt   <- -opt$value
+```
+
+::: {#fig-lagrangian-surface}
+
+```{r}
+#| label: lagrangian_surface_render
+#| renderings: [light, dark]
+#| echo: false
+
+# Light rendering
+fig_light <- plot_ly(
+  x = x1_vals, y = x2_vals, z = z_mat,
+  type = "surface",
+  colorscale = list(c(0, lc("blue")), c(1, lc("green"))),
+  showscale = FALSE,
+  opacity = 0.85
+) |>
+  add_trace(
+    x = x1_opt, y = x2_opt, z = f_opt,
+    type = "scatter3d", mode = "markers",
+    marker = list(size = 6, color = lc("red"), symbol = "diamond"),
+    name = "Optimum"
+  ) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "x₁ (Google Ads)"),
+      yaxis = list(title = "x₂ (Meta)"),
+      zaxis = list(title = "Conversions")
+    ),
+    showlegend = FALSE
+  ) |>
+  plotly_laurelin(dark = FALSE)
+
+fig_light
+
+# Dark rendering
+fig_dark <- plot_ly(
+  x = x1_vals, y = x2_vals, z = z_mat,
+  type = "surface",
+  colorscale = list(c(0, lc("blue", dark = TRUE)), c(1, lc("green", dark = TRUE))),
+  showscale = FALSE,
+  opacity = 0.85
+) |>
+  add_trace(
+    x = x1_opt, y = x2_opt, z = f_opt,
+    type = "scatter3d", mode = "markers",
+    marker = list(size = 6, color = lc("red", dark = TRUE), symbol = "diamond"),
+    name = "Optimum"
+  ) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "x₁ (Google Ads)"),
+      yaxis = list(title = "x₂ (Meta)"),
+      zaxis = list(title = "Conversions")
+    ),
+    showlegend = FALSE
+  ) |>
+  plotly_laurelin(dark = TRUE)
+
+fig_dark
+```
+
+Objective surface $f(x_1, x_2, 50 - x_1 - x_2)$ over the feasible region, with the budget constraint $x_3 = 50 - x_1 - x_2$ imposed. The diamond marks the constrained optimum. The surface is strictly concave — the optimum is unique. At that point, the gradient of $f$ is not zero; it points off the constraint surface into infeasible territory. The Lagrangian stationarity condition @eq-stationarity captures optimality on the constraint surface itself.
+
+:::
+
+The surface makes one thing immediate: the unconstrained maximum of $f$ would be at much higher values of $x_1$ and $x_2$ (and correspondingly negative $x_3$, which is infeasible). The constraint bends the problem. The dual construction makes that bending precise.
+
+## Duality and the duality gap {#sec-duality}
+
+The relationship between primal and dual objectives is governed by two results, one universal and one conditional.
+
+**Weak duality** holds always: the dual objective upper-bounds the primal objective.
+
+$$
+g(\lambda) \geq f^* \quad \text{for all } \lambda
+$$ {#eq-weak-duality}
+
+where $f^*$ is the primal optimal value. This follows directly from the definition: for any fixed $\lambda$ and any feasible $(x_1, x_2, x_3)$,
+
+$$
+g(\lambda) = \max_{x} \mathcal{L}(x, \lambda) \geq \mathcal{L}(x^*, \lambda) = f(x^*) - \lambda \cdot 0 = f(x^*)
+$$
+
+The constraint is zero at the primal optimum $x^*$, so the gap between $\mathcal{L}$ and $f$ vanishes there.
+
+**Strong duality** goes further: under the right conditions, there exists a $\lambda^*$ such that $g(\lambda^*) = f^*$. The gap closes completely.
+
+$$
+g(\lambda^*) = f^*
+$$ {#eq-strong-duality}
+
+The condition sufficient for strong duality in our setting is **Slater's condition**: there exists a strictly feasible point, and the objective is concave. Both hold here — the objective @eq-objective is strictly concave (sum of strictly concave functions), and any interior allocation satisfies the budget constraint strictly.
+
+::: {.callout-important}
+## Strong duality under convexity and Slater's condition
+
+If the primal problem is convex (concave objective for maximization, convex feasible region) and Slater's condition holds, then strong duality holds: $g(\lambda^*) = f^*$. The primal and dual optima coincide, and $\lambda^*$ is the shadow price of the binding constraint.
+
+This result is what makes the dual problem useful in practice: solving the dual gives the primal solution at no extra cost.
+:::
+
+```{r}
+#| label: duality_gap_base
+#| echo: false
+#| output: false
+
+# Illustrate using a 1-variable version: maximize h(x) = 30*(1-exp(-0.12*x))
+# subject to x = 20. Lagrangian: L(x,lambda) = h(x) - lambda*(x-20).
+# g(lambda) = max_x [h(x) - lambda*x] + 20*lambda
+# Stationarity: h'(x) = lambda => 3.6*exp(-0.12*x) = lambda
+# x*(lambda) = -log(lambda/3.6)/0.12, valid for lambda in (0, 3.6)
+
+h_fun   <- function(x) 30 * (1 - exp(-0.12 * x))
+h_star  <- h_fun(20)
+
+dual_obj <- function(lam) {
+  if (lam <= 1e-6 || lam >= 3.6) return(NA_real_)
+  x_inner <- -log(lam / 3.6) / 0.12
+  h_fun(x_inner) - lam * x_inner + 20 * lam
+}
+
+lambda_seq  <- seq(0.05, 3.5, length.out = 400)
+lambda_star <- 3.6 * exp(-0.12 * 20)
+
+gap_df <- tibble(
+  lambda = lambda_seq,
+  dual   = purrr::map_dbl(lambda_seq, dual_obj),
+  primal = h_star
+) |> filter(!is.na(dual))
+
+p_gap <- ggplot(gap_df, aes(x = lambda)) +
+  geom_line(aes(y = dual),   linewidth = 1) +
+  geom_hline(aes(yintercept = primal), linetype = "dashed", linewidth = 0.8) +
+  labs(
+    x = expression(lambda ~ "(shadow price)"),
+    y = "Objective value"
+  )
+
+add_labels_gap <- function(pl, dark = FALSE) {
+  pl +
+    geom_vline(xintercept = lambda_star,
+               linetype = "dotted", linewidth = 0.7,
+               color = lc("ref_line", dark = dark)) +
+    annotate("text", x = lambda_star + 0.1, y = h_star - 1.8,
+             label = expression(lambda^"*"), size = 4,
+             color = lc("ref_text", dark = dark)) +
+    annotate("text", x = 0.4, y = h_star + 0.7,
+             label = expression(f^"*" ~ "(primal optimum)"),
+             size = 3.5, hjust = 0,
+             color = lc("ref_text", dark = dark)) +
+    annotate("text", x = 2.0,
+             y = gap_df$dual[which.min(abs(gap_df$lambda - 2.0))] + 1.2,
+             label = expression(g(lambda) ~ "(dual objective)"),
+             size = 3.5,
+             color = lc("ref_text", dark = dark))
+}
+```
+
+::: {#fig-duality-gap}
+
+```{r}
+#| label: duality_gap_render
+#| renderings: [light, dark]
+#| echo: false
+
+add_labels_gap(p_gap, FALSE) + scale_laurelin()
+add_labels_gap(p_gap, TRUE)  + scale_laurelin_dark()
+```
+
+Dual objective $g(\lambda)$ (solid curve) and primal optimum $f^*$ (dashed line) as a function of the shadow price $\lambda$, for a single-constraint version of the marketing problem. Weak duality: $g(\lambda) \geq f^*$ for all $\lambda$. Strong duality: at $\lambda^*$, the gap closes exactly — $g(\lambda^*) = f^*$. The dual problem amounts to finding $\lambda^*$.
+
+:::
+
+Two observations from @fig-duality-gap worth internalizing. First, the dual objective is convex in $\lambda$ — it has a unique minimum even though the primal is a maximization problem. This is not a coincidence: $g(\lambda) = \max_x \mathcal{L}(x, \lambda)$ is a pointwise maximum of linear functions of $\lambda$, which is always convex. Second, the minimum of $g$ is achieved at exactly the shadow price where the equal-marginal-return condition @eq-stationarity holds.
+
+### Extension to multiple inequality constraints
+
+The equality-constraint treatment extends directly. Suppose the team also has minimum spend requirements per channel: at least 5,000 pesos on each to maintain account standing. The constraint set becomes:
+
+$$
+x_1 + x_2 + x_3 = 50, \quad x_1 \geq 5, \quad x_2 \geq 5, \quad x_3 \geq 5
+$$
+
+Each inequality constraint $x_k \geq 5$ gets its own multiplier $\mu_k \geq 0$. The Lagrangian becomes:
+
+$$
+\mathcal{L} = f(x_1, x_2, x_3) - \lambda(x_1 + x_2 + x_3 - 50) + \sum_{k=1}^{3} \mu_k (x_k - 5)
+$$ {#eq-lagrangian-ineq}
+
+The sign convention here is deliberate. For inequality constraints of the form $x_k \geq 5$, the multiplier $\mu_k$ enters with a positive sign and is constrained to be non-negative. A binding constraint ($x_k = 5$) may have $\mu_k > 0$; an inactive constraint ($x_k > 5$) forces $\mu_k = 0$. This is complementary slackness — a condition the next chapter treats in full.
+
+::: {.callout-tip}
+## What carries forward to SVR
+
+The dual structure in @eq-dual appears in every kernel model in this book. In Chapter 12, when we derive the SVR dual, the same construction appears: a Lagrangian with multipliers for each training constraint, a dual objective $g(\boldsymbol{\alpha})$ that is a function of those multipliers, and strong duality guaranteeing that solving the dual gives the primal solution. The shadow price interpretation carries over too — SVR multipliers encode which training points are on the margin.
+:::
+
+## Exercises {#sec-lagrangian-exercises}
+
+**Exercise 4.1.** Consider the problem of maximizing $f(x_1, x_2) = \sqrt{x_1} + \sqrt{x_2}$ subject to $x_1 + x_2 = 1$, $x_1, x_2 \geq 0$.
+
+a. Write the Lagrangian and derive the stationarity conditions.
+b. Show that the optimum is $x_1^* = x_2^* = 0.5$ and find the shadow price $\lambda^*$.
+c. Interpret $\lambda^*$: what does an additional unit of total budget buy at the margin?
+
+**Exercise 4.2.** The function $h(x) = a(1 - e^{-bx})$ models conversions as a function of spend, with $a > 0$ and $b > 0$.
+
+a. Show that $h$ is concave for all $x \geq 0$.
+b. Suppose two channels have parameters $(a_1, b_1)$ and $(a_2, b_2)$. Write the equal-marginal-return condition for the two-channel budget allocation problem with total budget $B$.
+c. Show that if $b_1 > b_2$ (channel 1 saturates faster), then the optimal allocation satisfies $x_1^* < x_2^*$ when $a_1 = a_2$.
+
+**Exercise 4.3.** The dual objective in @eq-dual is claimed to be convex in $\lambda$.
+
+a. Write $g(\lambda) = \max_x \mathcal{L}(x, \lambda)$ and show that it is a pointwise maximum of affine functions of $\lambda$.
+b. Explain why the pointwise maximum of affine functions is convex.
+c. Does strong duality depend on $g$ being convex? Explain why or why not.
+
+**Exercise 4.4** *(Graduate level).* Consider the marketing problem with $n$ channels and total budget $B$. Suppose the conversion function for channel $k$ is $h_k(x_k) = a_k(1 - e^{-b_k x_k})$.
+
+a. Derive the optimal allocation $x_k^*$ as a function of $\lambda^*$ and the channel parameters.
+b. Show that the optimal allocation satisfies $x_k^* = -\frac{1}{b_k} \log\!\left(\frac{\lambda^*}{a_k b_k}\right)$.
+c. The constraint $\sum_k x_k^* = B$ implicitly defines $\lambda^*$. Show that this equation has a unique solution in $\lambda^*$ and describe a bisection procedure to find it.

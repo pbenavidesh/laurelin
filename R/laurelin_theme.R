@@ -22,25 +22,25 @@
 laurelin_pal <- function(dark = FALSE) {
   if (dark) {
     c(
-      green    = "#52B788",   # lighter green  — readable on dark bg
-      blue     = "#74A9D8",   # lighter blue
-      orange   = "#F4A261",   # lighter orange
-      red      = "#E76F51",   # lighter red
-      purple   = "#C77DFF",   # violet
-      teal     = "#48CAE4",   # teal
-      ref_line = "#BBBBBB",   # reference lines (vlines, guidelines)
-      ref_text = "#DDDDDD"    # annotation text, axis labels
+      green = "#52B788", # lighter green  — readable on dark bg
+      blue = "#74A9D8", # lighter blue
+      orange = "#F4A261", # lighter orange
+      red = "#E76F51", # lighter red
+      purple = "#C77DFF", # violet
+      teal = "#48CAE4", # teal
+      ref_line = "#BBBBBB", # reference lines (vlines, guidelines)
+      ref_text = "#DDDDDD" # annotation text, axis labels
     )
   } else {
     c(
-      green    = "#2D6A4F",   # dark forest green
-      blue     = "#4C72B0",   # steel blue
-      orange   = "#DD8452",   # terracotta orange
-      red      = "#C0392B",   # emphasis red
-      purple   = "#7B2D8B",   # deep purple
-      teal     = "#0077B6",   # ocean teal
-      ref_line = "#999999",   # reference lines (vlines, guidelines)
-      ref_text = "#666666"    # annotation text, axis labels
+      green = "#2D6A4F", # dark forest green
+      blue = "#4C72B0", # steel blue
+      orange = "#DD8452", # terracotta orange
+      red = "#C0392B", # emphasis red
+      purple = "#7B2D8B", # deep purple
+      teal = "#0077B6", # ocean teal
+      ref_line = "#999999", # reference lines (vlines, guidelines)
+      ref_text = "#666666" # annotation text, axis labels
     )
   }
 }
@@ -58,40 +58,63 @@ theme_laurelin <- function(base_size = 13) {
   ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(
       # transparent backgrounds — works with renderings: [light, dark]
-      plot.background  = ggplot2::element_rect(fill = "transparent",
-                                               colour = NA),
-      panel.background = ggplot2::element_rect(fill = "transparent",
-                                               colour = NA),
+      plot.background = ggplot2::element_rect(
+        fill = "transparent",
+        colour = NA
+      ),
+      panel.background = ggplot2::element_rect(
+        fill = "transparent",
+        colour = NA
+      ),
       # grid
-      panel.grid.major = ggplot2::element_line(colour = "#E5E5E5",
-                                               linewidth = 0.4),
-      panel.grid.minor = ggplot2::element_line(colour = "#F0F0F0",
-                                               linewidth = 0.2),
+      panel.grid.major = ggplot2::element_line(
+        colour = "#E5E5E5",
+        linewidth = 0.4
+      ),
+      panel.grid.minor = ggplot2::element_line(
+        colour = "#F0F0F0",
+        linewidth = 0.2
+      ),
       # text
-      plot.title       = ggplot2::element_text(colour = "#1A1A1A",
-                                               size   = base_size + 1,
-                                               face   = "bold",
-                                               margin = ggplot2::margin(b = 8)),
-      plot.subtitle    = ggplot2::element_text(colour = "#444444",
-                                               size   = base_size - 1),
-      axis.title       = ggplot2::element_text(colour = "#333333",
-                                               size   = base_size - 1),
-      axis.text        = ggplot2::element_text(colour = "#555555",
-                                               size   = base_size - 2),
-      legend.text      = ggplot2::element_text(colour = "#333333",
-                                               size   = base_size - 2),
-      legend.title     = ggplot2::element_text(colour = "#333333",
-                                               size   = base_size - 1),
-      legend.background = ggplot2::element_rect(fill   = "transparent",
-                                                colour = NA),
-      legend.key        = ggplot2::element_rect(fill   = "transparent",
-                                                colour = NA),
+      plot.title = ggplot2::element_text(
+        colour = "#1A1A1A",
+        size = base_size + 1,
+        face = "bold",
+        margin = ggplot2::margin(b = 8)
+      ),
+      plot.subtitle = ggplot2::element_text(
+        colour = "#444444",
+        size = base_size - 1
+      ),
+      axis.title = ggplot2::element_text(
+        colour = "#333333",
+        size = base_size - 1
+      ),
+      axis.text = ggplot2::element_text(
+        colour = "#555555",
+        size = base_size - 2
+      ),
+      legend.text = ggplot2::element_text(
+        colour = "#333333",
+        size = base_size - 2
+      ),
+      legend.title = ggplot2::element_text(
+        colour = "#333333",
+        size = base_size - 1
+      ),
+      legend.background = ggplot2::element_rect(
+        fill = "transparent",
+        colour = NA
+      ),
+      legend.key = ggplot2::element_rect(fill = "transparent", colour = NA),
       # caption
-      plot.caption     = ggplot2::element_text(colour = "#888888",
-                                               size   = base_size - 3,
-                                               hjust  = 1),
+      plot.caption = ggplot2::element_text(
+        colour = "#888888",
+        size = base_size - 3,
+        hjust = 1
+      ),
       # spacing
-      plot.margin      = ggplot2::margin(8, 8, 8, 8)
+      plot.margin = ggplot2::margin(8, 8, 8, 8)
     )
 }
 
@@ -104,36 +127,59 @@ theme_laurelin <- function(base_size = 13) {
 theme_laurelin_dark <- function(base_size = 13) {
   ggplot2::theme_minimal(base_size = base_size) +
     ggplot2::theme(
-      plot.background  = ggplot2::element_rect(fill = "transparent",
-                                               colour = NA),
-      panel.background = ggplot2::element_rect(fill = "transparent",
-                                               colour = NA),
-      panel.grid.major = ggplot2::element_line(colour = "#3A3A3A",
-                                               linewidth = 0.4),
-      panel.grid.minor = ggplot2::element_line(colour = "#2E2E2E",
-                                               linewidth = 0.2),
-      plot.title       = ggplot2::element_text(colour = "#F0F0F0",
-                                               size   = base_size + 1,
-                                               face   = "bold",
-                                               margin = ggplot2::margin(b = 8)),
-      plot.subtitle    = ggplot2::element_text(colour = "#CCCCCC",
-                                               size   = base_size - 1),
-      axis.title       = ggplot2::element_text(colour = "#DDDDDD",
-                                               size   = base_size - 1),
-      axis.text        = ggplot2::element_text(colour = "#AAAAAA",
-                                               size   = base_size - 2),
-      legend.text      = ggplot2::element_text(colour = "#DDDDDD",
-                                               size   = base_size - 2),
-      legend.title     = ggplot2::element_text(colour = "#DDDDDD",
-                                               size   = base_size - 1),
-      legend.background = ggplot2::element_rect(fill   = "transparent",
-                                                colour = NA),
-      legend.key        = ggplot2::element_rect(fill   = "transparent",
-                                                colour = NA),
-      plot.caption     = ggplot2::element_text(colour = "#777777",
-                                               size   = base_size - 3,
-                                               hjust  = 1),
-      plot.margin      = ggplot2::margin(8, 8, 8, 8)
+      plot.background = ggplot2::element_rect(
+        fill = "transparent",
+        colour = NA
+      ),
+      panel.background = ggplot2::element_rect(
+        fill = "transparent",
+        colour = NA
+      ),
+      panel.grid.major = ggplot2::element_line(
+        colour = "#3A3A3A",
+        linewidth = 0.4
+      ),
+      panel.grid.minor = ggplot2::element_line(
+        colour = "#2E2E2E",
+        linewidth = 0.2
+      ),
+      plot.title = ggplot2::element_text(
+        colour = "#F0F0F0",
+        size = base_size + 1,
+        face = "bold",
+        margin = ggplot2::margin(b = 8)
+      ),
+      plot.subtitle = ggplot2::element_text(
+        colour = "#CCCCCC",
+        size = base_size - 1
+      ),
+      axis.title = ggplot2::element_text(
+        colour = "#DDDDDD",
+        size = base_size - 1
+      ),
+      axis.text = ggplot2::element_text(
+        colour = "#AAAAAA",
+        size = base_size - 2
+      ),
+      legend.text = ggplot2::element_text(
+        colour = "#DDDDDD",
+        size = base_size - 2
+      ),
+      legend.title = ggplot2::element_text(
+        colour = "#DDDDDD",
+        size = base_size - 1
+      ),
+      legend.background = ggplot2::element_rect(
+        fill = "transparent",
+        colour = NA
+      ),
+      legend.key = ggplot2::element_rect(fill = "transparent", colour = NA),
+      plot.caption = ggplot2::element_text(
+        colour = "#777777",
+        size = base_size - 3,
+        hjust = 1
+      ),
+      plot.margin = ggplot2::margin(8, 8, 8, 8)
     )
 }
 
@@ -142,15 +188,13 @@ theme_laurelin_dark <- function(base_size = 13) {
 #' Discrete colour scale for laurelin (light mode)
 #' @param ... Arguments passed to \code{ggplot2::scale_colour_manual}.
 scale_colour_laurelin <- function(...) {
-  ggplot2::scale_colour_manual(values = unname(laurelin_pal(dark = FALSE)),
-                               ...)
+  ggplot2::scale_colour_manual(values = unname(laurelin_pal(dark = FALSE)), ...)
 }
 
 #' Discrete colour scale for laurelin (dark mode)
 #' @param ... Arguments passed to \code{ggplot2::scale_colour_manual}.
 scale_colour_laurelin_dark <- function(...) {
-  ggplot2::scale_colour_manual(values = unname(laurelin_pal(dark = TRUE)),
-                               ...)
+  ggplot2::scale_colour_manual(values = unname(laurelin_pal(dark = TRUE)), ...)
 }
 
 #' Discrete fill scale for laurelin (light mode)
@@ -214,8 +258,59 @@ scale_laurelin_dark <- function(...) {
 lc <- function(name, dark = FALSE) {
   pal <- laurelin_pal(dark = dark)
   if (!name %in% names(pal)) {
-    stop("Unknown colour name. Use one of: ",
-         paste(names(pal), collapse = ", "))
+    stop(
+      "Unknown colour name. Use one of: ",
+      paste(names(pal), collapse = ", ")
+    )
   }
   unname(pal[name])
+}
+
+# ── Plotly theming ────────────────────────────────────────────────────────────
+
+#' Apply laurelin theme to a plotly figure
+#'
+#' Mirrors the pattern of gg_to_plotly_narsil() from narsil_theme.R.
+#' Use in renderings: [light, dark] chunks:
+#'
+#'   fig |> plotly_laurelin(dark = FALSE)   # light rendering
+#'   fig |> plotly_laurelin(dark = TRUE)    # dark rendering
+#'
+#' @param p A plotly figure object.
+#' @param dark Logical. Apply dark-mode colours?
+#' @return The plotly figure with layout applied.
+plotly_laurelin <- function(p, dark = FALSE) {
+  bg <- if (dark) "#222222" else "#ffffff"
+  bg_panel <- if (dark) "#2a2a2a" else "#f8f8f8"
+  fg <- if (dark) "#dddddd" else "#333333"
+  grid_col <- if (dark) "#3a3a3a" else "#e5e5e5"
+
+  plotly::layout(
+    p,
+    paper_bgcolor = bg,
+    plot_bgcolor = bg_panel,
+    font = list(color = fg, family = "sans-serif"),
+    xaxis = list(
+      gridcolor = grid_col,
+      linecolor = grid_col,
+      zerolinecolor = grid_col,
+      tickfont = list(color = fg),
+      titlefont = list(color = fg)
+    ),
+    yaxis = list(
+      gridcolor = grid_col,
+      linecolor = grid_col,
+      zerolinecolor = grid_col,
+      tickfont = list(color = fg),
+      titlefont = list(color = fg)
+    ),
+    zaxis = list(
+      gridcolor = grid_col,
+      linecolor = grid_col,
+      zerolinecolor = grid_col,
+      tickfont = list(color = fg),
+      titlefont = list(color = fg)
+    ),
+    legend = list(font = list(color = fg))
+  )
 }
