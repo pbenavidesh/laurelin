@@ -350,19 +350,23 @@ gap_df <- tibble(
   primal = h_star
 ) |> filter(!is.na(dual))
 
+# Base plot: skeleton only — no geom_line or geom_hline here,
+# so line colours can be set explicitly per rendering in add_labels_gap()
 p_gap <- ggplot(gap_df, aes(x = lambda)) +
-  geom_line(aes(y = dual),   linewidth = 1) +
-  geom_hline(aes(yintercept = primal), linetype = "dashed", linewidth = 0.8) +
   labs(
     x = expression(lambda ~ "(shadow price)"),
     y = "Objective value"
   )
 
 add_labels_gap <- function(pl, dark = FALSE) {
+  line_col <- if (dark) "#DDDDDD" else "black"
   pl +
-    geom_vline(xintercept = lambda_star,
-               linetype = "dotted", linewidth = 0.7,
-               color = lc("ref_line", dark = dark)) +
+    geom_line(aes(y = dual), data = gap_df,
+              linewidth = 1, color = line_col) +
+    geom_hline(yintercept = h_star, linetype = "dashed",
+               linewidth = 0.8, color = line_col) +
+    geom_vline(xintercept = lambda_star, linetype = "dotted",
+               linewidth = 0.7, color = lc("ref_line", dark = dark)) +
     annotate("text", x = lambda_star + 0.1, y = h_star - 1.8,
              label = expression(lambda^"*"), size = 4,
              color = lc("ref_text", dark = dark)) +
@@ -373,8 +377,7 @@ add_labels_gap <- function(pl, dark = FALSE) {
     annotate("text", x = 2.0,
              y = gap_df$dual[which.min(abs(gap_df$lambda - 2.0))] + 1.2,
              label = expression(g(lambda) ~ "(dual objective)"),
-             size = 3.5,
-             color = lc("ref_text", dark = dark))
+             size = 3.5, color = lc("ref_text", dark = dark))
 }
 ```
 
