@@ -634,12 +634,15 @@ writing any plot code.
 #### Type 1 — Illustrative figures (geometry, regions, concept diagrams)
 
 Plots that visualise a mathematical concept (feasible regions, contour
-maps, gradient arrows, kernel geometry). The reader is not meant to
-study or replicate the plotting code — the code is an implementation
-detail. Rules:
+maps, gradient arrows, kernel geometry, Lagrangian surfaces, duality gap).
+The reader is not meant to study or replicate the plotting code — the code
+is an implementation detail. Rules:
 
 - **R only** — no Python tab, no tabset.
-- All chunks `#| echo: false` and `#| output: false` as appropriate.
+- **Both base and render chunks use `#| echo: false`.** The plotting
+  code is never shown to the reader. This applies even in chapters that
+  introduce optimization or code concepts — if the figure illustrates a
+  mathematical idea rather than a skill, hide all code.
 - The `{#fig-xxx}` div wraps the render chunk directly.
 - No empty placeholder chunks inside the div.
 
@@ -762,6 +765,13 @@ to produce two versions of each plot — one per theme.
 
 **This applies to both R and Python chunks.** `renderings` is a Quarto
 option, not a knitr option — it works identically for `{r}` and `{python}`.
+
+**Plotly works with `renderings: [light, dark]`** — interactive 3D plots
+via `plotly` support the two-rendering pattern. Use `plot_ly()` with
+`layout(paper_bgcolor = ..., plot_bgcolor = ...)` for the light render,
+and different background/text colours for the dark render. The `plotly`
+package must be added to `renv.lock` via `renv::record("plotly")` and
+listed in the Required packages callout when used in a chapter.
 
 #### Pattern: two-chunk split per figure
 
