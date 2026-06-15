@@ -20,7 +20,7 @@
 | Preface (`index.qmd`) | ✅ Complete — author voice, first person |
 | `_quarto.yml` | ✅ Complete — includes margin refs, code-annotations: select |
 | Running datasets | ✅ `data/vic_elec.csv`, `data/california_housing.csv` |
-| `R/laurelin_theme.R` | ✅ Installed — light/dark themes, palette, lc() accessor |
+| `R/laurelin_theme.R` | ✅ Installed — light/dark themes, palette, lc() accessor, plotly_laurelin() |
 | `python/laurelin_plot.py` | ✅ Installed — lc(), apply_light(), apply_dark(), reset_style() |
 
 ---
@@ -71,8 +71,9 @@
   - Both types: render chunk uses `scale_laurelin()` / `scale_laurelin_dark()`.
     Colors via `lc(name, dark = dark)` — never hardcoded hex in geoms.
   - `annotate("text")` always gets `color = lc("ref_text", dark = dark)`.
-  - `theme_laurelin()` and `theme_laurelin_dark()` both use
-    `plot.background = transparent` — page CSS provides the background color.
+  - `theme_laurelin()` uses `plot.background = transparent` (SVG output, inherits page CSS).
+    `theme_laurelin_dark()` uses solid fills (`#222222`/`#2a2a2a`) — PNG output
+    (forced when plotly is present) does not inherit page CSS; transparent renders white.
 - **code-annotations:** `select` globally in `_quarto.yml`. Only use on
   Type 2 (pedagogical) base chunks where code is visible. Never add
   annotation lists after render chunks or echo: false chunks.
@@ -183,7 +184,7 @@ until Ch. 4 and Ch. 5 are written — expected, non-blocking.
 
 ---
 
-### Ch. 4 — `04-lagrangian-duality.qmd` — 🔲 Stub
+### Ch. 4 — `04-lagrangian-duality.qmd` — 🟠 Draft complete
 
 **Title:** The Lagrangian and Duality
 **Anchor:** Digital marketing campaign — distribute budget across
@@ -201,16 +202,18 @@ of budget (shadow price).
 - Numerical solution methods → Ch. 6
 **Sections:**
 ```
-[Opening hook]
-## The Lagrangian function
-## Weak duality
-## Strong duality and the duality gap
-## Shadow prices and economic interpretation
-## Extension to inequality constraints
+[Opening hook — single budget constraint, marketing campaign]
+## Constraints and the feasibility problem
+## The Lagrangian function and shadow prices
+## Primal and dual problems
+## Duality and the duality gap
 ## Exercises
 ```
-**Code:** Visualize diminishing returns curves, Lagrangian surface,
-primal vs dual objective (R + Python).
+**Code:** Three figures, all Type 1 (R only, echo: false):
+Fig. 4.1 — diminishing returns curves (ggplot2, light/dark).
+Fig. 4.2 — Lagrangian surface (plotly 3D interactive, light/dark via plotly_laurelin()).
+Fig. 4.3 — duality gap diagram (ggplot2, light/dark).
+First chapter to use plotly — requires plotly in renv.lock and requirements.txt.
 **Concepts installed:** Lagrangian, Lagrange multipliers, weak/strong
 duality, shadow price.
 **Introduces running examples:** NO
@@ -560,4 +563,4 @@ Convergence curves, wall time, accuracy. Closes book arc back to Ch. 1.
 
 ## Active work
 
-- [ ] Ch. 4 — The Lagrangian and Duality: agree structure, then write
+- [ ] Ch. 5 — KKT Conditions: agree structure, then write
